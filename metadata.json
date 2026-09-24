@@ -1,0 +1,6 @@
+{
+  "name": "Vicky IndiHome Pusat",
+  "description": "Website Resmi Sales Executive IndiHome Vicky - Layanan Pasang Baru Internet IndiHome Cepat, Mudah, dan Bergaransi Resmi Telkom Indonesia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
