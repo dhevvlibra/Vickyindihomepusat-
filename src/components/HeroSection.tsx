@@ -6,7 +6,9 @@ import {
   ArrowDown, 
   PhoneCall, 
   CheckCircle2,
-  Wifi
+  Wifi,
+  Flame,
+  Sparkles
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
 
@@ -15,10 +17,12 @@ const HERO_BG_IMAGE = 'https://cdn.phototourl.com/member/2026-09-24-f023d285-c35
 interface HeroSectionProps {
   onSelectPackage: (packageId: string) => void;
   onOpenRegister: (packageId?: string) => void;
+  onOpenPromoHighlight?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenRegister,
+  onOpenPromoHighlight,
 }) => {
   const [scrollY, setScrollY] = useState(0);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
@@ -93,12 +97,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-6">
           
-          {/* Sales Partner Authority Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300 backdrop-blur-md shadow-lg shadow-black/40">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <ShieldCheck className="w-4 h-4 text-red-500" />
-            <span>Mitra Sales Resmi IndiHome by Telkomsel:</span>
-            <strong className="text-white font-semibold">Mas Vicky</strong>
+          {/* Badges Row */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            {/* Sales Partner Authority Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300 backdrop-blur-md shadow-lg shadow-black/40">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <ShieldCheck className="w-4 h-4 text-red-500" />
+              <span>Mitra Sales Resmi IndiHome by Telkomsel:</span>
+              <strong className="text-white font-semibold">Mas Vicky</strong>
+            </div>
+
+            {/* Promo 148K Highlight Pill */}
+            {onOpenPromoHighlight && (
+              <button
+                type="button"
+                onClick={onOpenPromoHighlight}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 border border-yellow-400/60 text-xs font-bold text-white shadow-lg shadow-red-950/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              >
+                <Flame className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300 animate-bounce" />
+                <span>Promo 148K (WiFi + 30GB • GRATIS PSB Rp 0)</span>
+                <ChevronRight className="w-3.5 h-3.5 text-yellow-300" />
+              </button>
+            )}
           </div>
 
           {/* Headline */}

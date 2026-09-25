@@ -16,6 +16,7 @@ import { MyRegistrationsModal } from './components/MyRegistrationsModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { SalesPhotoModal } from './components/SalesPhotoModal';
 import { GlobalClickEffect } from './components/GlobalClickEffect';
+import { PromoHighlightModal, PromoFloatingTrigger } from './components/PromoHighlightModal';
 import { CustomerRegistration } from './types';
 import { getSavedRegistrations } from './utils/helpers';
 
@@ -27,10 +28,27 @@ export default function App() {
   const [activeReceipt, setActiveReceipt] = useState<CustomerRegistration | null>(null);
   const [isMyRegsOpen, setIsMyRegsOpen] = useState(false);
   const [isSalesPhotoOpen, setIsSalesPhotoOpen] = useState(false);
+  const [isPromoHighlightOpen, setIsPromoHighlightOpen] = useState(false);
   const [savedRegistrations, setSavedRegistrations] = useState<CustomerRegistration[]>([]);
 
   useEffect(() => {
     setSavedRegistrations(getSavedRegistrations());
+
+    // Auto show 148K promo highlight modal when visitor enters the website
+    try {
+      const isDismissed = sessionStorage.getItem('vicky_promo_148k_dismissed');
+      if (!isDismissed) {
+        const timer = setTimeout(() => {
+          setIsPromoHighlightOpen(true);
+        }, 750);
+        return () => clearTimeout(timer);
+      }
+    } catch {
+      const timer = setTimeout(() => {
+        setIsPromoHighlightOpen(true);
+      }, 750);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // When user clicks 'Pilih Paket' or 'Daftar'
@@ -88,6 +106,16 @@ export default function App() {
     }
   };
 
+  const handleClaimPromo = (pkgId: string) => {
+    setIsPromoHighlightOpen(false);
+    handleOpenRegister(pkgId);
+  };
+
+  const handleViewAllPackagesFromPromo = () => {
+    setIsPromoHighlightOpen(false);
+    handleNavigate('#katalog-paket');
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       {/* Global Interactive Click Ripple & Spring Animation */}
@@ -98,6 +126,7 @@ export default function App() {
         onOpenRegister={() => handleOpenRegister(selectedPackageId)}
         onOpenMyRegistrations={() => setIsMyRegsOpen(true)}
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
+        onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
         onNavigateHome={handleBackToHome}
         onNavigate={handleNavigate}
         savedCount={savedRegistrations.length}
@@ -119,10 +148,14 @@ export default function App() {
           <HeroSection
             onSelectPackage={handleSelectPackageFromHero}
             onOpenRegister={handleOpenRegister}
+            onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
           />
 
           {/* Promo Flash Banner */}
-          <PromoBanner onOpenRegister={() => handleOpenRegister()} />
+          <PromoBanner 
+            onOpenRegister={() => handleOpenRegister()} 
+            onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
+          />
 
           {/* Master-Detail Interactive Package Showcase */}
           <InteractivePackageShowcase
@@ -189,6 +222,19 @@ export default function App() {
           setIsReceiptOpen(true);
         }}
       />
+
+      {/* Automatic & Interactive Promo Highlight Pop-up (Paket 148K) */}
+      <PromoHighlightModal
+        isOpen={isPromoHighlightOpen}
+        onClose={() => setIsPromoHighlightOpen(false)}
+        onClaimPromo={handleClaimPromo}
+        onViewAllPackages={handleViewAllPackagesFromPromo}
+      />
+
+      {/* Floating Promo 148K Trigger Pill on bottom-left (active when popup closed and on home view) */}
+      {!isPromoHighlightOpen && currentView === 'home' && (
+        <PromoFloatingTrigger onOpen={() => setIsPromoHighlightOpen(true)} />
+      )}
     </div>
   );
 }

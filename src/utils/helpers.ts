@@ -48,6 +48,11 @@ export function createWhatsAppConsultUrl(topic: string = 'Konsultasi Pasang Baru
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
+export function createWhatsAppCustomUrl(message: string): string {
+  const phone = SALES_AGENT_INFO.whatsappNumber;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
 export function createWhatsAppCoverageUrl(address: string, city?: string): string {
   const phone = SALES_AGENT_INFO.whatsappNumber;
   const addressText = address.trim() || 'Alamat belum diisi';

@@ -15,7 +15,8 @@ import {
   Smartphone,
   CheckCircle2,
   TrendingDown,
-  Gift
+  Gift,
+  ShieldCheck
 } from 'lucide-react';
 import { PACKAGES } from '../data/packages';
 import { InternetPackage } from '../types';
@@ -295,8 +296,11 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                           </div>
                           
                           {pkg.id.includes('20') ? (
-                            <div className="py-1 px-2 text-[11px] font-bold text-blue-800 bg-blue-100/70 rounded-lg text-center">
-                              Termasuk Kuota Bersama 30 GB (Rp 148.000)
+                            <div className="py-1.5 px-2 text-[11px] font-bold text-blue-900 bg-blue-100/90 rounded-lg flex items-center justify-between">
+                              <span>Kuota 30 GB (Rp 148.000)</span>
+                              <span className="text-[9px] bg-emerald-600 text-white font-black px-1.5 py-0.5 rounded shadow-xs">
+                                GRATIS PSB (Rp 0)
+                              </span>
                             </div>
                           ) : (
                             /* 30GB vs 50GB quick toggle */
@@ -449,8 +453,8 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                         <Smartphone className="w-4 h-4 text-blue-400" />
                         <span>Kuota Nomor HP Keluarga:</span>
                       </span>
-                      <span className="text-[10px] bg-emerald-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
-                        Paling Hemat
+                      <span className="text-[10px] bg-emerald-500 text-white font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                        BEBAS PSB (Rp 0)
                       </span>
                     </div>
 
@@ -464,6 +468,11 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                           Rp 148.000<span className="text-[10px] text-slate-400 font-normal">/bln</span>
                         </span>
                       </div>
+                    </div>
+
+                    <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span><strong>Spesial Paket 148K:</strong> Bebas Biaya Pasang Baru (PSB Rp 0 / GRATIS!). Hemat Rp 120.000.</span>
                     </div>
 
                     <p className="text-[11px] text-slate-300 leading-tight">

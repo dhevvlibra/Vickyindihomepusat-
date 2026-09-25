@@ -1,11 +1,12 @@
 import React from 'react';
-import { Tag, Clock, Gift, Percent, Wifi, Sparkles } from 'lucide-react';
+import { Tag, Clock, Gift, Percent, Wifi, Sparkles, Flame, ChevronRight } from 'lucide-react';
 
 interface PromoBannerProps {
   onOpenRegister: () => void;
+  onOpenPromoHighlight?: () => void;
 }
 
-export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister }) => {
+export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister, onOpenPromoHighlight }) => {
   return (
     <section id="promo" className="relative -mt-6 z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white p-4 sm:p-8 shadow-xl shadow-red-950/10 border border-red-500/40">
@@ -13,9 +14,23 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister }) => {
           
           {/* Promo Header & Details */}
           <div className="lg:col-span-8 space-y-2.5 sm:space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-300" />
-              <span>Promo Spesial Pasang Baru Bulan Ini</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-300" />
+                <span>Promo Spesial Pasang Baru Bulan Ini</span>
+              </div>
+
+              {onOpenPromoHighlight && (
+                <button
+                  type="button"
+                  onClick={onOpenPromoHighlight}
+                  className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-yellow-400 text-red-950 font-black text-[10px] sm:text-xs uppercase tracking-wide hover:bg-yellow-300 active:scale-95 transition-all cursor-pointer shadow-xs"
+                >
+                  <Flame className="w-3 h-3 fill-red-950" />
+                  <span>Highlight: Paket 148K (Bebas PSB Rp 0!)</span>
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              )}
             </div>
 
             {/* Price Highlight: Coretan Rp 120.000 -> Rp 89.000 */}
@@ -36,7 +51,7 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister }) => {
             </h2>
 
             <p className="text-red-100 text-xs sm:text-sm leading-relaxed max-w-2xl">
-              Daftar online melalui Mas Vicky hari ini untuk mengunci tarif biaya pasang baru hanya Rp 89.000 (tarif normal Rp 120.000). Tagihan resmi Telkom tanpa biaya calo dan tanpa bayar tunai di awal.
+              Daftar online melalui Mas Vicky hari ini untuk mengunci tarif biaya pasang baru hanya Rp 89.000 (tarif normal Rp 120.000). Termasuk untuk paket promo Telkomsel One 148K hemat lengkap. Tagihan resmi Telkom tanpa biaya calo.
             </p>
 
             {/* 4 Feature Badges */}
@@ -69,7 +84,7 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister }) => {
           </div>
 
           {/* Action Box: Proportionate button */}
-          <div className="lg:col-span-4 flex flex-col justify-center pt-1 lg:pt-0">
+          <div className="lg:col-span-4 flex flex-col justify-center gap-2 pt-1 lg:pt-0">
             <button
               type="button"
               onClick={() => onOpenRegister()}
@@ -77,7 +92,19 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister }) => {
             >
               Klaim Promo Rp 89.000 Sekarang
             </button>
-            <p className="text-center text-[10px] sm:text-[11px] text-red-200 mt-1.5">
+
+            {onOpenPromoHighlight && (
+              <button
+                type="button"
+                onClick={onOpenPromoHighlight}
+                className="w-full py-2.5 px-4 rounded-xl sm:rounded-2xl bg-black/20 hover:bg-black/35 text-white font-bold text-xs text-center border border-white/20 transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <Flame className="w-3.5 h-3.5 text-yellow-300 fill-yellow-300" />
+                <span>Lihat Detail Paket 148K (PSB Rp 0)</span>
+              </button>
+            )}
+
+            <p className="text-center text-[10px] sm:text-[11px] text-red-200 mt-0.5">
               Slot promo terbatas untuk wilayah tercover
             </p>
           </div>

@@ -28,8 +28,8 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
     priceNote: 'Belum termasuk PPN 11%',
     idealFor: 'Pilihan paling hemat & terjangkau: WiFi rumah 20 Mbps stabil + Kuota HP Keluarga 30 GB dalam satu tagihan.',
     deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
-    isBestSeller: false,
-    tag: 'Paling Terjangkau (148 Ribu)',
+    isBestSeller: true,
+    tag: '🔥 PROMO HIGHLIGHT • GRATIS PSB (Rp 0)',
     includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
     options: {
       '30 GB': {
@@ -37,10 +37,11 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
         formattedPrice: 'Rp 148.000',
         kuotaKeluarga: '30 GB',
         ctaMessage:
-          'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB (Rp 148.000/bln belum PPN). Mohon info ketersediaan jaringan di alamat saya.',
+          'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB (Rp 148.000/bln belum PPN, GRATIS Biaya Pasang Baru / PSB Rp 0). Mohon info ketersediaan jaringan di alamat saya.',
       },
     },
     perks: [
+      'GRATIS Biaya Pasang Baru (PSB Rp 0, Bebas Biaya Pemasangan!)',
       'Paket Paling Hemat hanya Rp 148.000/bulan!',
       'Bonus Kuota Bersama HP Keluarga 30 GB per bulan',
       'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
@@ -366,16 +367,17 @@ export const PACKAGES_DATA: PackageItem[] = [
     includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
     idealFor: 'Paling terjangkau: WiFi rumah 20 Mbps stabil + Kuota HP Keluarga 30 GB/bulan dalam 1 tagihan hemat.',
     deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
-    isBestSeller: false,
-    tag: 'Paling Terjangkau (148 Ribu)',
+    isBestSeller: true,
+    tag: '🔥 PROMO HIGHLIGHT • GRATIS PSB (Rp 0)',
     perks: [
+      'GRATIS Biaya Pasang Baru (PSB Rp 0, Bebas Biaya Pemasangan!)',
       'Tarif Super Hemat hanya Rp 148.000/bulan (belum PPN)',
       'Bonus Kuota Bersama Keluarga 30 GB/bulan untuk nomor Telkomsel',
       'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
       'Internet rumah fiber optik stabil tanpa batas kuota',
     ],
     ctaMessage:
-      'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB seharga Rp 148.000/bln belum PPN. Mohon info ketersediaan di alamat saya.',
+      'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB seharga Rp 148.000/bln belum PPN (GRATIS Biaya Pasang Baru / PSB Rp 0). Mohon info ketersediaan di alamat saya.',
   },
   {
     id: 'tone-75-30gb',

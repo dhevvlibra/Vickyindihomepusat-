@@ -6,7 +6,8 @@ import {
   MessageCircle, 
   ChevronRight,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Flame
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
 import { createWhatsAppConsultUrl } from '../utils/helpers';
@@ -17,6 +18,7 @@ interface NavbarProps {
   onOpenSalesPhoto?: () => void;
   onNavigateHome?: () => void;
   onNavigate?: (targetId: string) => void;
+  onOpenPromoHighlight?: () => void;
   savedCount: number;
 }
 
@@ -26,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSalesPhoto,
   onNavigateHome,
   onNavigate,
+  onOpenPromoHighlight,
   savedCount,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -93,19 +96,34 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="bg-gradient-to-r from-red-600 via-red-600 to-rose-700 text-white text-xs py-1.5 px-4 font-medium select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-white text-red-600 uppercase tracking-wide shadow-xs">
-              Flash Promo
-            </span>
-            <span className="truncate">
-              Promo Biaya Pasang Baru Rp 89.000{' '}
-              <span className="line-through opacity-75">Rp 120.000</span> (Hemat Rp 31.000)
-            </span>
+            <button
+              type="button"
+              onClick={() => onOpenPromoHighlight?.()}
+              className="inline-flex items-center gap-1.5 hover:opacity-95 cursor-pointer group text-left"
+              title="Klik untuk membuka Promo Highlight 148K"
+            >
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-yellow-400 text-red-950 uppercase tracking-wide shadow-xs group-hover:scale-105 transition-transform">
+                <Flame className="w-3 h-3 fill-red-950 text-red-950" />
+                Promo 148K
+              </span>
+              <span className="truncate">
+                WiFi + 30GB Cuma <strong className="text-yellow-300 font-extrabold underline decoration-yellow-400/60">Rp 148.000/bln</strong> • <span className="text-emerald-300 font-extrabold">GRATIS PSB (Rp 0!)</span>
+              </span>
+            </button>
           </div>
 
           <div className="hidden sm:flex items-center gap-3 text-xs text-red-100">
-            <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => onOpenPromoHighlight?.()}
+              className="hover:text-yellow-300 transition-colors font-bold flex items-center gap-1 cursor-pointer"
+            >
+              <span>Lihat Detail Promo</span>
+              <ChevronRight className="w-3 h-3" />
+            </button>
+            <div className="flex items-center gap-1.5 border-l border-red-500/50 pl-3">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Mas Vicky Online • Fast Response</span>
+              <span>Mas Vicky Online</span>
             </div>
           </div>
         </div>
@@ -187,7 +205,23 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Action CTAs: Clean & focused */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2.5">
+            {/* Promo 148K Highlight Quick Trigger */}
+            <button
+              type="button"
+              onClick={() => {
+                triggerClickFeedback('promo-148-nav');
+                onOpenPromoHighlight?.();
+              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 font-extrabold text-xs shadow-xs active:scale-90 transition-all cursor-pointer ${
+                clickedItem === 'promo-148-nav' ? 'animate-nav-click' : ''
+              }`}
+              title="Buka Promo Highlight Paket 148K"
+            >
+              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500 animate-pulse" />
+              <span>Promo 148K (Bebas PSB)</span>
+            </button>
+
             {savedCount > 0 && (
               <button
                 type="button"
@@ -364,6 +398,37 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </button>
                 );
               })}
+            </div>
+
+            {/* Promo 148K Highlight Card in Mobile Drawer */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  triggerClickFeedback('mobile-promo-148');
+                  setMobileMenuOpen(false);
+                  onOpenPromoHighlight?.();
+                }}
+                className="w-full p-3 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white flex items-center justify-between text-left shadow-md shadow-red-950/20 active:scale-95 transition-all cursor-pointer border border-red-500/50"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-yellow-400 text-red-950 flex items-center justify-center shrink-0 shadow-xs">
+                    <Flame className="w-4 h-4 fill-red-950 text-red-950 animate-bounce" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 leading-none">
+                      <span className="text-[10px] font-black uppercase text-yellow-300 tracking-wider">
+                        PROMO HIGHLIGHT
+                      </span>
+                      <span className="text-[10px] text-emerald-300 font-bold">• GRATIS PSB Rp 0</span>
+                    </div>
+                    <div className="text-xs font-black text-white mt-1 leading-snug">
+                      WiFi + 30GB Cuma <span className="text-yellow-300">Rp 148.000/bln</span> (Bebas Biaya Pasang)
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-white/90" />
+              </button>
             </div>
 
             {/* Action buttons */}
