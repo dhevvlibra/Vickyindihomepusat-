@@ -13,11 +13,11 @@ export const TestimonialsSection: React.FC = () => {
             <span>Kepuasan Pelanggan Nyata</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
             Apa Kata Mereka yang Sudah Pasang?
           </h2>
 
-          <p className="text-slate-600 text-base">
+          <p className="text-slate-600 text-xs sm:text-base leading-relaxed px-2">
             Lebih dari 2.400+ rumah dan tempat usaha telah terpasang dengan lancar melalui pendampingan Sales Resmi Vicky IndiHome Pusat.
           </p>
         </div>

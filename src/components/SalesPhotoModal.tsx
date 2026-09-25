@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { X, ShieldCheck, MessageCircle, Phone, ExternalLink, CheckCircle2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, ShieldCheck, MessageCircle, ZoomIn, ZoomOut } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
 import { createWhatsAppConsultUrl } from '../utils/helpers';
 
@@ -9,6 +9,8 @@ interface SalesPhotoModalProps {
 }
 
 export const SalesPhotoModal: React.FC<SalesPhotoModalProps> = ({ isOpen, onClose }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -17,6 +19,7 @@ export const SalesPhotoModal: React.FC<SalesPhotoModalProps> = ({ isOpen, onClos
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
+      setIsZoomed(false);
     }
 
     return () => {
@@ -29,44 +32,68 @@ export const SalesPhotoModal: React.FC<SalesPhotoModalProps> = ({ isOpen, onClos
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-smooth-backdrop cursor-pointer"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Foto Profil Sales Resmi"
     >
       <div 
-        className="relative max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 transform animate-in zoom-in-95 duration-200"
+        className="relative max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 transform animate-smooth-pop cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
           type="button"
-          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-xs transition-colors shadow-md"
+          className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-xs transition-transform hover:scale-110 active:scale-95 shadow-md cursor-pointer"
           aria-label="Tutup"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Large Photo Display */}
-        <div className="relative bg-slate-900 aspect-4/5 sm:aspect-square w-full overflow-hidden group">
+        {/* Large Photo Display with Smooth Click-to-Zoom */}
+        <div 
+          onClick={() => setIsZoomed(!isZoomed)}
+          className={`relative bg-slate-950 aspect-4/5 sm:aspect-square w-full overflow-hidden group select-none transition-all duration-300 ${
+            isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'
+          }`}
+          title={isZoomed ? 'Klik untuk memperkecil' : 'Klik untuk memperbesar / zoom'}
+        >
           <img
             src={SALES_AGENT_INFO.photoUrl}
             alt="Foto Resmi Mas Vicky - Sales IndiHome"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-top"
+            className={`w-full h-full object-cover object-top transition-transform duration-300 ease-out ${
+              isZoomed ? 'scale-135' : 'scale-100 group-hover:scale-105'
+            }`}
           />
+
+          {/* Interactive Zoom Indicator Pill */}
+          <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-black/50 hover:bg-black/70 text-white text-[10px] font-bold backdrop-blur-xs flex items-center gap-1 shadow-sm transition-all">
+            {isZoomed ? (
+              <>
+                <ZoomOut className="w-3.5 h-3.5 text-amber-300" />
+                <span>Klik untuk perkecil</span>
+              </>
+            ) : (
+              <>
+                <ZoomIn className="w-3.5 h-3.5 text-yellow-300" />
+                <span>Klik foto untuk zoom</span>
+              </>
+            )}
+          </div>
+
           {/* Subtle gradient vignette at bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent pointer-events-none" />
           
           <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white pointer-events-none">
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/90 backdrop-blur-xs flex items-center gap-1.5 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               Online Siap Melayani
             </span>
-            <span className="text-[11px] text-slate-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-xs">
-              ID Resmi: TELKOM-VK99
+            <span className="text-[11px] text-slate-200 bg-black/60 px-2.5 py-0.5 rounded-md backdrop-blur-xs font-mono">
+              ID: TELKOM-VK99
             </span>
           </div>
         </div>
@@ -103,7 +130,7 @@ export const SalesPhotoModal: React.FC<SalesPhotoModalProps> = ({ isOpen, onClos
               href={createWhatsAppConsultUrl('Halo Mas Vicky, saya ingin tanya paket dan pasang baru')}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 transition-all"
+              className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 transition-all cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Hubungi via WhatsApp</span>
@@ -112,7 +139,7 @@ export const SalesPhotoModal: React.FC<SalesPhotoModalProps> = ({ isOpen, onClos
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-2.5 text-slate-600 hover:text-slate-900 text-xs font-semibold transition-colors"
+              className="w-full py-2.5 text-slate-600 hover:text-slate-900 active:scale-95 text-xs font-semibold transition-colors cursor-pointer"
             >
               Tutup Pratinjau
             </button>

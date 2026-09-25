@@ -20,6 +20,34 @@ export const SALES_AGENT_INFO = {
 // -------------------------------------------------------------
 export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
   {
+    id: 'tone-20',
+    name: 'Telkomsel One 20 Mbps',
+    speedMbps: 20,
+    upspeedMbps: 0,
+    upspeedDuration: '',
+    priceNote: 'Belum termasuk PPN 11%',
+    idealFor: 'Pilihan paling hemat & terjangkau: WiFi rumah 20 Mbps stabil + Kuota HP Keluarga 30 GB dalam satu tagihan.',
+    deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
+    isBestSeller: false,
+    tag: 'Paling Terjangkau (148 Ribu)',
+    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    options: {
+      '30 GB': {
+        monthlyPrice: 148000,
+        formattedPrice: 'Rp 148.000',
+        kuotaKeluarga: '30 GB',
+        ctaMessage:
+          'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB (Rp 148.000/bln belum PPN). Mohon info ketersediaan jaringan di alamat saya.',
+      },
+    },
+    perks: [
+      'Paket Paling Hemat hanya Rp 148.000/bulan!',
+      'Bonus Kuota Bersama HP Keluarga 30 GB per bulan',
+      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Internet rumah fiber optik stabil tanpa batas kuota',
+    ],
+  },
+  {
     id: 'tone-75',
     name: 'Telkomsel One 75 Mbps',
     speedMbps: 75,
@@ -182,6 +210,31 @@ export const PACKAGES_DATA: PackageItem[] = [
       'Halo, saya berminat daftar Paket Internet Only + Streaming 100 Mbps (upspeed 300 Mbps 6 bln) seharga Rp 270.000/bln belum PPN. Mohon dibantu pendaftarannya.',
   },
   {
+    id: 'stream-150',
+    name: 'Paket Internet Streaming 150 Mbps',
+    speedMbps: 150,
+    upspeedMbps: 500,
+    upspeedDuration: '3 Bulan Pertama',
+    category: 'internet-streaming',
+    categoryLabel: 'Internet Only + Streaming',
+    monthlyPrice: 300000,
+    formattedPrice: 'Rp 300.000',
+    priceNote: 'Belum termasuk PPN 11%',
+    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    idealFor: 'Super kencang: streaming 4K tanpa buffering, gaming online & unduh file besar sekeluarga.',
+    deviceRecommendation: 'Optimal untuk 10 - 18 perangkat terhubung',
+    isBestSeller: false,
+    tag: 'Upspeed 500 Mbps (3 Bln)',
+    perks: [
+      'Upspeed Promo: Kecepatan melonjak ke 500 Mbps selama 3 bulan pertama!',
+      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Koneksi 100% Fiber Optic murni stabil dan unlimited',
+      'Pengawalan teknisi resmi Telkom hingga tuntas',
+    ],
+    ctaMessage:
+      'Halo, saya tertarik pasang Paket Internet Only + Streaming 150 Mbps (upspeed 500 Mbps 3 bln) seharga Rp 300.000/bln belum PPN. Mohon cek jangkauan jaringan di alamat saya.',
+  },
+  {
     id: 'stream-200',
     name: 'Paket Internet Streaming 200 Mbps',
     speedMbps: 200,
@@ -205,6 +258,31 @@ export const PACKAGES_DATA: PackageItem[] = [
     ],
     ctaMessage:
       'Halo, saya mau pasang Paket Internet Only + Streaming 200 Mbps (upspeed 500 Mbps 1 tahun) seharga Rp 350.000/bln belum PPN.',
+  },
+  {
+    id: 'stream-300',
+    name: 'Paket Internet Streaming 300 Mbps',
+    speedMbps: 300,
+    upspeedMbps: 500,
+    upspeedDuration: '6 Bulan Penuh',
+    category: 'internet-streaming',
+    categoryLabel: 'Internet Only + Streaming',
+    monthlyPrice: 500000,
+    formattedPrice: 'Rp 500.000',
+    priceNote: 'Belum termasuk PPN 11%',
+    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    idealFor: 'Paket paling tinggi: performa ultra maksimal untuk pro gamer, content creator, bisnis & kantor rumahan.',
+    deviceRecommendation: 'Optimal untuk 20 - 30+ perangkat terhubung',
+    isBestSeller: false,
+    tag: 'Paket Tertinggi (300 up to 500)',
+    perks: [
+      'Upspeed Promo: Kecepatan melonjak ke 500 Mbps selama 6 bulan penuh!',
+      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Kapasitas bandwidth raksasa untuk puluhan perangkat & smart home',
+      'Prioritas pengawalan VIP teknisi resmi Telkom Indonesia',
+    ],
+    ctaMessage:
+      'Halo, saya mau ambil Paket Internet Streaming tertinggi 300 Mbps (upspeed 500 Mbps 6 bln) seharga Rp 500.000/bln belum PPN. Mohon dibantu pendaftaran.',
   },
 
   // 2. INTERNET + GAME (GameQoo, MLBB, Free Fire, Point Blank, Ayodance, Ragnarok)
@@ -275,6 +353,30 @@ export const PACKAGES_DATA: PackageItem[] = [
   },
 
   // 4. TELKOMSEL ONE DYNAMIC (WiFi + Kuota HP Keluarga + Streaming Vision+, Prime Video, Viu, MaxStream)
+  {
+    id: 'tone-20-30gb',
+    name: 'Telkomsel One 20 Mbps (+30GB)',
+    speedMbps: 20,
+    category: 'telkomsel-one',
+    categoryLabel: 'Telkomsel One Dynamic',
+    monthlyPrice: 148000,
+    formattedPrice: 'Rp 148.000',
+    priceNote: 'Belum termasuk PPN 11%',
+    kuotaKeluarga: '30 GB',
+    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    idealFor: 'Paling terjangkau: WiFi rumah 20 Mbps stabil + Kuota HP Keluarga 30 GB/bulan dalam 1 tagihan hemat.',
+    deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
+    isBestSeller: false,
+    tag: 'Paling Terjangkau (148 Ribu)',
+    perks: [
+      'Tarif Super Hemat hanya Rp 148.000/bulan (belum PPN)',
+      'Bonus Kuota Bersama Keluarga 30 GB/bulan untuk nomor Telkomsel',
+      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Internet rumah fiber optik stabil tanpa batas kuota',
+    ],
+    ctaMessage:
+      'Halo, saya mau daftar Telkomsel One 20 Mbps + Kuota Keluarga 30 GB seharga Rp 148.000/bln belum PPN. Mohon info ketersediaan di alamat saya.',
+  },
   {
     id: 'tone-75-30gb',
     name: 'Telkomsel One Dynamic 75 Mbps (+30GB)',
@@ -466,8 +568,8 @@ export const PACKAGES: InternetPackage[] = PACKAGES_DATA.map((item) => {
 
 export const PROMO_HIGHLIGHTS = [
   {
-    title: 'Diskon Biaya Pasang Baru (PSB)',
-    desc: 'Dapatkan potongan biaya pasang baru resmi hingga 70% melalui sales resmi Vicky.',
+    title: 'Biaya Pasang Baru Rp 89.000',
+    desc: 'Promo spesial pendaftaran baru hemat biaya pasang dari normal Rp 120.000 menjadi Rp 89.000.',
     icon: 'Percent',
   },
   {
@@ -547,7 +649,7 @@ export const FAQS: FaqItem[] = [
   },
   {
     question: 'Berapa biaya pasang baru (PSB) IndiHome?',
-    answer: 'Biaya Pasang Baru (PSB) resmi normal adalah Rp 500.000, namun saat ini tersedia promo diskon hingga 70% menjadi hanya Rp 150.000 s/d Rp 250.000 (tergantung paket dan promo wilayah). Biaya pasang ini tidak dibayarkan tunai ke sales, melainkan masuk ke tagihan bulan pertama resmi dari Telkom.',
+    answer: 'Biaya Pasang Baru (PSB) standar adalah Rp 120.000, namun saat ini sedang tersedia promo spesial menjadi hanya Rp 89.000. Biaya pasang ini tidak dibayarkan tunai ke sales atau teknisi di awal, melainkan langsung masuk ke tagihan bulan pertama resmi dari Telkom Indonesia.',
   },
   {
     question: 'Berapa lama proses pemasangan hingga internet aktif?',

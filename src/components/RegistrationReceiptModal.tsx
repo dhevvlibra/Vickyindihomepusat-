@@ -42,9 +42,9 @@ export const RegistrationReceiptModal: React.FC<RegistrationReceiptModalProps> =
   const waUrl = createWhatsAppRegistrationUrl(registration, pkg);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-smooth-backdrop">
       <div 
-        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8"
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 transform animate-smooth-pop"
         role="dialog"
         aria-modal="true"
         aria-labelledby="receipt-title"

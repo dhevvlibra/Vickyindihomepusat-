@@ -1,144 +1,115 @@
 import React, { useState } from 'react';
-import { MapPin, CheckCircle, Search, Sparkles, Building2 } from 'lucide-react';
-import { INDONESIAN_CITIES, SALES_AGENT_INFO } from '../data/packages';
+import { MapPin, MessageCircle, Sparkles, Send, ShieldCheck, Zap } from 'lucide-react';
+import { SALES_AGENT_INFO } from '../data/packages';
+import { createWhatsAppCoverageUrl } from '../utils/helpers';
 
 interface CoverageCheckProps {
-  onOpenRegister: () => void;
+  onOpenRegister?: () => void;
 }
 
-export const CoverageCheck: React.FC<CoverageCheckProps> = ({ onOpenRegister }) => {
-  const [selectedCity, setSelectedCity] = useState(INDONESIAN_CITIES[0]);
+export const CoverageCheck: React.FC<CoverageCheckProps> = () => {
   const [addressInput, setAddressInput] = useState('');
-  const [isChecking, setIsChecking] = useState(false);
-  const [checkResult, setCheckResult] = useState<{
-    status: 'ready' | 'success';
-    city: string;
-    address: string;
-  } | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCheck = (e: React.FormEvent) => {
+  const handleOpenWhatsApp = (addressToUse: string) => {
+    const trimmed = addressToUse.trim();
+    if (!trimmed) {
+      setErrorMessage('Silakan ketik alamat detail lokasi Anda terlebih dahulu.');
+      return;
+    }
+    setErrorMessage('');
+    const waUrl = createWhatsAppCoverageUrl(trimmed);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!addressInput.trim()) return;
-
-    setIsChecking(true);
-    // Realistic short delay checking animation
-    setTimeout(() => {
-      setIsChecking(false);
-      setCheckResult({
-        status: 'success',
-        city: selectedCity,
-        address: addressInput,
-      });
-    }, 700);
+    handleOpenWhatsApp(addressInput);
   };
 
   return (
     <section id="cek-jangkauan" className="py-16 sm:py-24 bg-slate-50 border-b border-slate-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center space-y-3 mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider">
-            <MapPin className="w-3.5 h-3.5" />
+        {/* Section Header */}
+        <div className="text-center space-y-2.5 sm:space-y-3 mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+            <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span>Pengecekan Jaringan Fiber Optik</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
             Cek Ketersediaan Jaringan di Lokasi Anda
           </h2>
 
-          <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            IndiHome by Telkomsel telah menjangkau lebih dari 500 kota di seluruh Indonesia. Masukkan alamat Anda untuk memverifikasi kesiapan jaringan fiber optik.
+          <p className="text-slate-600 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed px-2">
+            Pastikan ketersediaan port tiang ODP di alamat Anda. Masukkan alamat detail Anda di bawah ini dan klik <strong className="text-slate-800">Cek Area</strong> untuk langsung terhubung ke WhatsApp Mas Vicky (Sales Resmi Telkom: {SALES_AGENT_INFO.whatsappDisplay}).
           </p>
         </div>
 
-        {/* Search Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
-          
-          <form onSubmit={handleCheck} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
-              
-              {/* City Selection */}
-              <div className="sm:col-span-4">
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-slate-500" />
-                  <span>Pilih Kota / Kabupaten:</span>
-                </label>
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full py-2.5 px-3 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-red-500"
-                >
-                  {INDONESIAN_CITIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        {/* Interactive Search Card */}
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-xs space-y-4 sm:space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-3 sm:space-y-4">
+            <div>
+              <label className="block text-xs sm:text-sm font-bold text-slate-900 mb-1.5 flex flex-wrap items-center justify-between gap-1">
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                  <span>Masukkan Alamat Detail Anda:</span>
+                </span>
+                <span className="text-[10px] sm:text-[11px] font-normal text-slate-500">
+                  (Nama Jalan, RT/RW, Kel/Kec, Patokan, dll)
+                </span>
+              </label>
 
-              {/* Address Input */}
-              <div className="sm:col-span-8">
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-slate-500" />
-                  <span>Nama Jalan / Perumahan / Patokan:</span>
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Contoh: Jl. Flamboyan Blok B No. 12 / Dekat Masjid Al-Ikhlas"
-                    value={addressInput}
-                    onChange={(e) => setAddressInput(e.target.value)}
-                    className="flex-1 py-2.5 px-3 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-red-500"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isChecking}
-                    className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all flex items-center gap-1.5 shrink-0"
-                  >
-                    {isChecking ? (
-                      <span className="inline-block animate-spin">⏳</span>
-                    ) : (
-                      <Search className="w-4 h-4" />
-                    )}
-                    <span>{isChecking ? 'Mengecek...' : 'Cek Area'}</span>
-                  </button>
-                </div>
-              </div>
+              <textarea
+                rows={3}
+                required
+                value={addressInput}
+                onChange={(e) => {
+                  setAddressInput(e.target.value);
+                  if (errorMessage) setErrorMessage('');
+                }}
+                placeholder="Contoh: Jl. Mawar No. 14, RT 03/05, Kel. Sukamaju, Kec. Cilodong, Kota Depok (Patokan dekat Masjid Al-Ikhlas / Shareloc Google Maps)"
+                className="w-full p-3 sm:p-4 bg-slate-50 border border-slate-300 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all resize-none shadow-2xs leading-relaxed"
+              />
 
+              {errorMessage && (
+                <p className="mt-1.5 text-xs text-red-600 font-semibold flex items-center gap-1">
+                  <span>⚠️</span>
+                  <span>{errorMessage}</span>
+                </p>
+              )}
+            </div>
+
+            {/* Main Action Button: Cek Area -> WhatsApp */}
+            <div className="pt-1">
+              <button
+                type="submit"
+                className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white shrink-0" />
+                <span>Cek Area ke WhatsApp</span>
+                <span className="hidden sm:inline">({SALES_AGENT_INFO.whatsappDisplay})</span>
+                <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-200 shrink-0" />
+              </button>
             </div>
           </form>
 
-          {/* Instant Feedback Result Box */}
-          {checkResult && (
-            <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200 text-left space-y-3 animate-in fade-in duration-300">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
-                  <CheckCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-sm sm:text-base font-extrabold text-emerald-950">
-                    Kabar Baik! Area Anda Tercover Jaringan IndiHome Fiber
-                  </h4>
-                  <p className="text-xs text-emerald-900 mt-0.5 leading-relaxed">
-                    Jaringan serat optik aktif terdeteksi di wilayah <strong>{checkResult.city}</strong> ({checkResult.address}). Pemasangan dapat langsung dijadwalkan oleh teknisi resmi.
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={onOpenRegister}
-                  className="w-full sm:w-auto py-2.5 px-5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs sm:text-sm font-bold rounded-xl shadow-xs transition-colors"
-                >
-                  Lanjut Isi Data Pendaftaran
-                </button>
-              </div>
+          {/* Value Badges */}
+          <div className="pt-3 sm:pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-xs text-slate-600">
+            <div className="flex items-center gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200/60">
+              <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <span className="text-[11px] sm:text-xs">Respon Cepat 5-10 Menit</span>
             </div>
-          )}
-
+            <div className="flex items-center gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200/60">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span className="text-[11px] sm:text-xs">Cek Tiang ODP Resmi Telkom</span>
+            </div>
+            <div className="flex items-center gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200/60">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span className="text-[11px] sm:text-xs">100% Gratis Tanpa Biaya</span>
+            </div>
+          </div>
         </div>
 
       </div>

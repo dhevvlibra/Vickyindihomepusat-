@@ -46,12 +46,15 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
       if (score >= 90) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-150-50gb');
         reason = 'Telkomsel One 150 Mbps (Upspeed ke 300 Mbps) + Kuota HP Keluarga 50 GB untuk performa maksimal seisi rumah.';
-      } else if (score >= 55) {
+      } else if (score >= 65) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-100-50gb');
         reason = 'Telkomsel One 100 Mbps (Upspeed ke 200 Mbps) + Kuota HP 50 GB. Sangat hemat, satu tagihan internet rumah + HP!';
-      } else {
+      } else if (score >= 40) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-75-50gb');
         reason = 'Telkomsel One 75 Mbps (Upspeed ke 150 Mbps) + Kuota HP 50 GB. Paling cuan, selisih 10rb langsung dapet kuota keluarga!';
+      } else {
+        matchedPkg = PACKAGES.find((p) => p.id === 'tone-20-30gb');
+        reason = 'Telkomsel One 20 Mbps + Kuota HP Keluarga 30 GB hanya Rp 148.000/bln. Paling hemat untuk kebutuhan internet rumah ringan dan kuota HP sekeluarga!';
       }
     }
     // 2. If user specifically needs Movie / Smart TV Bioskop
@@ -64,17 +67,27 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
       matchedPkg = PACKAGES.find((p) => p.id === 'game-75');
       reason = 'Paket Internet + Game 75 Mbps (Upspeed ke 200 Mbps) dilengkapi jalur prioritas routing server game rendah latensi (anti-lag) dan benefit GameQoo, MLBB, Free Fire dll.';
     }
-    // 4. Very high bandwidth demand (> 95 points)
-    else if (score >= 95) {
-      matchedPkg = PACKAGES.find((p) => p.id === 'stream-200') || PACKAGES.find((p) => p.id === 'tone-150-50gb');
-      reason = 'Kapasitas monster 200 Mbps (Upspeed promo ke 500 Mbps selama 1 tahun) untuk puluhan perangkat aktif tanpa hambatan.';
+    // 4. Ultra high bandwidth demand (>= 110 points) -> 300 Mbps up to 500 Mbps Rp 500k
+    else if (score >= 110) {
+      matchedPkg = PACKAGES.find((p) => p.id === 'stream-300');
+      reason = 'Paket performa tertinggi 300 Mbps (Upspeed lonjak ke 500 Mbps) seharga Rp 500.000/bln untuk kebutuhan ultra profesional, content creator, heavy multitasking, dan smart home besar.';
     }
-    // 5. Medium-High demand (60 - 94 points)
-    else if (score >= 60) {
+    // 5. Very high bandwidth demand (90 - 109 points) -> 200 Mbps up to 500 Mbps Rp 350k
+    else if (score >= 90) {
+      matchedPkg = PACKAGES.find((p) => p.id === 'stream-200');
+      reason = 'Kapasitas monster 200 Mbps (Upspeed promo ke 500 Mbps selama 1 tahun) seharga Rp 350.000/bln untuk puluhan perangkat aktif tanpa hambatan.';
+    }
+    // 6. High demand (70 - 89 points) -> 150 Mbps up to 500 Mbps Rp 300k
+    else if (score >= 70) {
+      matchedPkg = PACKAGES.find((p) => p.id === 'stream-150');
+      reason = 'Paket super kencang 150 Mbps (Upspeed promo lonjak ke 500 Mbps 3 bulan) seharga Rp 300.000/bln dengan benefit streaming komplit Vision+, Prime Video, Viu & MaxStream.';
+    }
+    // 7. Medium demand (50 - 69 points) -> 100 Mbps up to 300 Mbps Rp 270k
+    else if (score >= 50) {
       matchedPkg = PACKAGES.find((p) => p.id === 'stream-100');
-      reason = 'Kecepatan 100 Mbps (Upspeed promo ke 300 Mbps selama 6 bulan) sangat ideal untuk streaming 4K simultan dan unduh file raksasa.';
+      reason = 'Kecepatan 100 Mbps (Upspeed promo ke 300 Mbps selama 6 bulan) seharga Rp 270.000/bln, sangat ideal untuk streaming 4K simultan dan kerja multitasking.';
     }
-    // 6. Basic & Medium demand (< 60 points)
+    // 8. Basic & Medium demand (< 50 points) -> 75 Mbps up to 200 Mbps Rp 240k
     else {
       matchedPkg = PACKAGES.find((p) => p.id === 'stream-75');
       reason = 'Pilihan paling favorit 75 Mbps (Upspeed promo ke 200 Mbps selama 3 bulan) seharga Rp 240.000/bln, lancar streaming, kerja & sekolah online.';
@@ -223,17 +236,17 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
               <button
                 type="button"
                 onClick={() => setWantsKuotaKeluarga(!wantsKuotaKeluarga)}
-                className={`w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all ${
+                className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start sm:items-center justify-between gap-2.5 transition-all cursor-pointer ${
                   wantsKuotaKeluarga
                     ? 'bg-red-50 border-red-300 text-red-950'
                     : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Sparkles className={`w-5 h-5 ${wantsKuotaKeluarga ? 'text-red-600' : 'text-slate-400'}`} />
+                <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
+                  <Sparkles className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 mt-0.5 sm:mt-0 ${wantsKuotaKeluarga ? 'text-red-600' : 'text-slate-400'}`} />
                   <div>
                     <span className="block text-xs sm:text-sm font-bold">Gabung Kuota Bersama HP Keluarga (Telkomsel One)</span>
-                    <span className="block text-[11px] text-slate-500">
+                    <span className="block text-[10px] sm:text-[11px] text-slate-500">
                       Internet WiFi rumah + Kuota 30-50 GB sekeluarga dalam 1 tagihan hemat
                     </span>
                   </div>
@@ -247,17 +260,17 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
               <button
                 type="button"
                 onClick={() => setNeedsTvBox(!needsTvBox)}
-                className={`w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all ${
+                className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start sm:items-center justify-between gap-2.5 transition-all cursor-pointer ${
                   needsTvBox
                     ? 'bg-red-50 border-red-300 text-red-950'
                     : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Tv className={`w-5 h-5 ${needsTvBox ? 'text-red-600' : 'text-slate-400'}`} />
+                <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
+                  <Tv className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 mt-0.5 sm:mt-0 ${needsTvBox ? 'text-red-600' : 'text-slate-400'}`} />
                   <div>
                     <span className="block text-xs sm:text-sm font-bold">Paket Movie Lengkap (Bioskop di Rumah)</span>
-                    <span className="block text-[11px] text-slate-500 mb-1.5">
+                    <span className="block text-[10px] sm:text-[11px] text-slate-500 mb-1.5">
                       Termasuk akun resmi tayangan streaming komplit:
                     </span>
                     <StreamingBenefitBadges apps={['Netflix', 'Disney+', 'Vidio', 'Prime Video', 'Vision+']} size="sm" variant="light" showLabel={true} />
@@ -289,14 +302,37 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
 
               {/* Speed Target */}
               <div>
-                <div className="flex items-center gap-2 text-3xl font-black text-white">
-                  <Zap className="w-7 h-7 text-amber-400 fill-amber-400" />
-                  <span>{recommendation.pkg.speedLabel}</span>
-                </div>
-                <h3 className="text-xl font-extrabold text-slate-100 mt-1">
+                {recommendation.pkg.upspeedMbps ? (
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-extrabold text-amber-300 flex items-center gap-1 uppercase tracking-wider">
+                        <Zap className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        Kecepatan Promo (Upspeed):
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-black text-[10px] uppercase">
+                        EXTRA SPEED
+                      </span>
+                    </div>
+                    <div className="flex items-baseline gap-2 text-3xl sm:text-4xl font-black text-amber-400">
+                      <span>{recommendation.pkg.upspeedMbps} Mbps</span>
+                      <span className="text-xs text-slate-400 font-normal line-through">
+                        (Dasar: {recommendation.pkg.speedLabel})
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-amber-200">
+                      ⚡ Kecepatan ekstra aktif selama <strong>{recommendation.pkg.upspeedDuration}</strong>!
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-3xl font-black text-white">
+                    <Zap className="w-7 h-7 text-amber-400 fill-amber-400" />
+                    <span>{recommendation.pkg.speedLabel}</span>
+                  </div>
+                )}
+                <h3 className="text-xl font-extrabold text-slate-100 mt-2">
                   {recommendation.pkg.name}
                 </h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
+                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                   {recommendation.reason}
                 </p>
               </div>
@@ -355,7 +391,7 @@ export const SpeedCalculator: React.FC<SpeedCalculatorProps> = ({ onOpenRegister
               <button
                 type="button"
                 onClick={() => onOpenRegister(recommendation.pkg.id)}
-                className="w-full py-4 px-6 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-black text-sm shadow-lg shadow-red-600/30 transition-all flex items-center justify-center gap-2 group"
+                className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-red-600 hover:bg-red-500 text-white font-black text-xs sm:text-sm shadow-md shadow-red-600/30 transition-all flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <span>Pilih Paket {recommendation.pkg.speedLabel} Ini</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

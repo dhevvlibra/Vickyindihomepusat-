@@ -48,9 +48,19 @@ export function createWhatsAppConsultUrl(topic: string = 'Konsultasi Pasang Baru
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
-export function createWhatsAppCoverageUrl(address: string, city: string): string {
+export function createWhatsAppCoverageUrl(address: string, city?: string): string {
   const phone = SALES_AGENT_INFO.whatsappNumber;
-  const message = `Halo Mas Vicky (Sales Resmi IndiHome).\n\nSaya ingin cek jangkauan jaringan Fiber Optik / ODP Telkom di lokasi saya:\n• Kota/Kabupaten: ${city || '-'}\n• Alamat Lengkap: ${address || '-'}\n\nApakah sudah tercover dan ada slot ODP kosong untuk pasang baru? Terima kasih!`;
+  const addressText = address.trim() || 'Alamat belum diisi';
+  const cityLine = city ? `\n• Kota/Kabupaten: ${city}` : '';
+  const message = [
+    `*HALO MAS VICKY (SALES RESMI TELKOM / INDIHOME)*`,
+    `Saya ingin cek ketersediaan jaringan Fiber Optik & slot tiang ODP di alamat saya:`,
+    ``,
+    `📍 *Alamat Detail / Shareloc:*`,
+    `${addressText}${cityLine}`,
+    ``,
+    `Mohon dibantu cek ketersediaan jaringan dan slot port ODP terdekat ya mas. Terima kasih! 🙏`,
+  ].join('\n');
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 

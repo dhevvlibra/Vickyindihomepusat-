@@ -41,10 +41,12 @@ export const PackageCatalog: React.FC<PackageCatalogProps> = ({
 
   const speeds = [
     { label: 'Semua Speed', value: 'all' },
+    { label: '20 Mbps', value: 20 },
     { label: '75 Mbps', value: 75 },
     { label: '100 Mbps', value: 100 },
     { label: '150 Mbps', value: 150 },
     { label: '200 Mbps', value: 200 },
+    { label: '300 Mbps', value: 300 },
   ];
 
   const filteredPackages = useMemo(() => {
@@ -274,7 +276,7 @@ export const PackageCatalog: React.FC<PackageCatalogProps> = ({
         <div className="mt-12 p-4 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-900 text-xs flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong>Catatan Transparan:</strong> Biaya langganan bulanan belum termasuk PPN 11%. Promo biaya pasang baru (PSB) diskon s/d 70% akan ditagihkan pada tagihan bulan pertama resmi dari Telkom (tidak bayar tunai ke sales/teknisi di awal).
+            <strong>Catatan Transparan:</strong> Biaya langganan bulanan belum termasuk PPN 11%. Promo biaya pasang baru (PSB) Rp 89.000 (dari tarif Rp 120.000) akan ditagihkan pada tagihan bulan pertama resmi dari Telkom (tidak bayar tunai ke sales/teknisi di awal).
           </p>
         </div>
 

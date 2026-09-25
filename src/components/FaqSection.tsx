@@ -19,11 +19,11 @@ export const FaqSection: React.FC = () => {
             <span>Pertanyaan yang Sering Diajukan</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
             FAQ Seputar Pasang Baru IndiHome
           </h2>
 
-          <p className="text-slate-600 text-base">
+          <p className="text-slate-600 text-xs sm:text-base leading-relaxed px-2">
             Informasi lengkap dan transparan mengenai syarat, alur pemasangan, serta pembayaran tagihan resmi.
           </p>
         </div>

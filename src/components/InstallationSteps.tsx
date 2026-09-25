@@ -82,11 +82,11 @@ export const InstallationSteps: React.FC<InstallationStepsProps> = ({ onOpenRegi
             <span>Alur Praktis Tanpa Ribet</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             4 Langkah Mudah Pasang Baru IndiHome
           </h2>
 
-          <p className="text-slate-600 text-base">
+          <p className="text-slate-600 text-xs sm:text-base leading-relaxed px-2">
             Proses transparan dan dikawal langsung oleh Sales Resmi <strong className="text-slate-900">Vicky</strong> dari verifikasi hingga kabel menyala di rumah Anda.
           </p>
         </div>

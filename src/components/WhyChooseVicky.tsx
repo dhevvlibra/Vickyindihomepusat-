@@ -41,17 +41,17 @@ export const WhyChooseVicky: React.FC<WhyChooseVickyProps> = ({ onOpenSalesPhoto
     <section className="py-16 sm:py-24 bg-slate-50 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
           
           {/* Agent Profile & Credential Card */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 shadow-sm overflow-hidden">
+            <div className="relative rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-8 shadow-xs overflow-hidden">
               
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-3.5 sm:gap-4 mb-4 sm:mb-6">
                 <button
                   type="button"
                   onClick={onOpenSalesPhoto}
-                  className="relative group cursor-pointer focus:outline-hidden shrink-0"
+                  className="relative group cursor-pointer focus:outline-hidden shrink-0 active:scale-90 transition-transform duration-200"
                   title="Klik untuk memperbesar foto sales resmi"
                   aria-label="Perbesar Foto Profil Sales Resmi"
                 >
@@ -59,22 +59,22 @@ export const WhyChooseVicky: React.FC<WhyChooseVickyProps> = ({ onOpenSalesPhoto
                     src={SALES_AGENT_INFO.photoUrl}
                     alt={SALES_AGENT_INFO.name}
                     referrerPolicy="no-referrer"
-                    className="w-18 h-18 rounded-2xl object-cover object-top ring-2 ring-red-600 shadow-md shadow-red-500/20 group-hover:scale-105 group-hover:ring-red-500 transition-all"
+                    className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl object-cover object-top ring-2 ring-red-600 shadow-md shadow-red-500/20 group-hover:scale-105 group-hover:ring-red-500 transition-all"
                   />
-                  <span className="absolute inset-0 rounded-2xl bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity text-white text-[10px] font-bold">
-                    <ZoomIn className="w-5 h-5 drop-shadow-md" />
+                  <span className="absolute inset-0 rounded-2xl bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity text-white text-[10px] font-bold backdrop-blur-2xs">
+                    <ZoomIn className="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-md animate-bounce" />
                     <span>Perbesar</span>
                   </span>
                 </button>
                 <div>
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-red-600 uppercase tracking-wide">
-                    <ShieldCheck className="w-4 h-4" />
+                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-red-600 uppercase tracking-wide">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Verified Sales Executive</span>
                   </div>
-                  <h3 className="text-xl font-extrabold text-slate-900">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900">
                     {SALES_AGENT_INFO.name}
                   </h3>
-                  <p className="text-xs text-slate-500 font-medium">Sales Resmi Telkom Regional</p>
+                  <p className="text-[11px] sm:text-xs text-slate-500 font-medium">Sales Resmi Telkom Regional</p>
                 </div>
               </div>
 
@@ -117,10 +117,10 @@ export const WhyChooseVicky: React.FC<WhyChooseVickyProps> = ({ onOpenSalesPhoto
                 <HeartHandshake className="w-3.5 h-3.5" />
                 <span>Pelayanan Personal Terbaik</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
                 Kenapa Lebih Nyaman Pasang Lewat Vicky IndiHome Pusat?
               </h2>
-              <p className="text-slate-600 text-base mt-2">
+              <p className="text-slate-600 text-xs sm:text-base mt-2 leading-relaxed">
                 Kami memahami kebutuhan Anda akan koneksi internet yang cepat tanpa ribet birokrasi. Bersama sales resmi, proses pengajuan Anda dikawal khusus dari awal hingga selesai.
               </p>
             </div>

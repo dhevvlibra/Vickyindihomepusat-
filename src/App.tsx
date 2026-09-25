@@ -15,6 +15,7 @@ import { RegistrationReceiptModal } from './components/RegistrationReceiptModal'
 import { MyRegistrationsModal } from './components/MyRegistrationsModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { SalesPhotoModal } from './components/SalesPhotoModal';
+import { GlobalClickEffect } from './components/GlobalClickEffect';
 import { CustomerRegistration } from './types';
 import { getSavedRegistrations } from './utils/helpers';
 
@@ -69,13 +70,36 @@ export default function App() {
     }, 50);
   };
 
+  const handleNavigate = (targetId: string) => {
+    const cleanId = targetId.replace('#', '');
+    if (currentView !== 'home') {
+      setCurrentView('home');
+      setTimeout(() => {
+        const el = document.getElementById(cleanId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 70);
+    } else {
+      const el = document.getElementById(cleanId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+      {/* Global Interactive Click Ripple & Spring Animation */}
+      <GlobalClickEffect />
+
       {/* Top Navbar */}
       <Navbar
         onOpenRegister={() => handleOpenRegister(selectedPackageId)}
         onOpenMyRegistrations={() => setIsMyRegsOpen(true)}
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
+        onNavigateHome={handleBackToHome}
+        onNavigate={handleNavigate}
         savedCount={savedRegistrations.length}
       />
 

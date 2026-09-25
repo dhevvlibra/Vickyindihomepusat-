@@ -47,18 +47,21 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
   });
 
   const categories = [
-    { id: 'all', name: 'Semua Kategori', icon: Layers, count: '11 Pilihan' },
-    { id: 'internet-streaming', name: 'Internet Only + Streaming', icon: Wifi, count: '3 Kecepatan' },
-    { id: 'telkomsel-one', name: 'Telkomsel One (WiFi + Kuota HP)', icon: Smartphone, count: '6 Pilihan' },
-    { id: 'gaming', name: 'Internet + Game', icon: Gamepad2, count: '1 Pilihan' },
-    { id: 'movie', name: 'Internet + Movie Complete', icon: Tv, count: '1 Pilihan' },
+    { id: 'all', name: 'Semua Kategori', icon: Layers, count: `${PACKAGES.length} Pilihan` },
+    { id: 'internet-streaming', name: 'Internet Only + Streaming', icon: Wifi, count: `${PACKAGES.filter(p => p.category === 'internet-streaming').length} Kecepatan` },
+    { id: 'telkomsel-one', name: 'Telkomsel One (WiFi + Kuota HP)', icon: Smartphone, count: `${PACKAGES.filter(p => p.category === 'telkomsel-one').length} Pilihan` },
+    { id: 'gaming', name: 'Internet + Game', icon: Gamepad2, count: `${PACKAGES.filter(p => p.category === 'gaming').length} Pilihan` },
+    { id: 'movie', name: 'Internet + Movie Complete', icon: Tv, count: `${PACKAGES.filter(p => p.category === 'movie').length} Pilihan` },
   ];
 
   // Helper to switch quota for a Telkomsel One tier
-  const handleToggleTelkomselOneQuota = (speed: '75' | '100' | '150', quota: '30 GB' | '50 GB') => {
+  const handleToggleTelkomselOneQuota = (speed: '20' | '75' | '100' | '150', quota: '30 GB' | '50 GB') => {
     setSelectedTierQuota(prev => ({ ...prev, [speed]: quota }));
     const targetPkgId = `tone-${speed}-${quota === '30 GB' ? '30gb' : '50gb'}`;
-    setActivePackageId(targetPkgId);
+    const found = PACKAGES.find(p => p.id === targetPkgId);
+    if (found) {
+      setActivePackageId(targetPkgId);
+    }
   };
 
   // Filter packages by Category and Quota
@@ -85,8 +88,9 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
   // Telkomsel One 30GB vs 50GB comparison helper
   const isTelkomselOneActive = activePackage.category === 'telkomsel-one';
   let tOneSpeed = '75';
-  if (activePackage.id.includes('100')) tOneSpeed = '100';
-  if (activePackage.id.includes('150')) tOneSpeed = '150';
+  if (activePackage.id.includes('20')) tOneSpeed = '20';
+  else if (activePackage.id.includes('100')) tOneSpeed = '100';
+  else if (activePackage.id.includes('150')) tOneSpeed = '150';
 
   const pair30GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-30gb`);
   const pair50GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-50gb`);
@@ -111,8 +115,8 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
           </p>
         </div>
 
-        {/* 1. Category Filter Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-6 max-w-5xl mx-auto">
+        {/* 1. Category Filter Buttons (Horizontal track on mobile, wrapped on desktop) */}
+        <div className="flex sm:flex-wrap items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 max-w-5xl mx-auto overflow-x-auto pb-2 px-1 sm:justify-center -mx-2 sm:mx-auto">
           {categories.map((cat) => {
             const Icon = cat.icon;
             const isSelected = selectedCategory === cat.id;
@@ -125,16 +129,16 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                   const firstOfCat = PACKAGES.find((p) => cat.id === 'all' || p.category === cat.id);
                   if (firstOfCat) setActivePackageId(firstOfCat.id);
                 }}
-                className={`group inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-150 cursor-pointer ${
+                className={`group inline-flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-150 shrink-0 cursor-pointer ${
                   isSelected
-                    ? 'bg-red-600 text-white shadow-md shadow-red-600/25 ring-2 ring-red-600 ring-offset-2'
+                    ? 'bg-red-600 text-white shadow-md shadow-red-600/25 ring-2 ring-red-600 ring-offset-1'
                     : 'bg-white text-slate-700 hover:text-slate-950 hover:bg-slate-100 border border-slate-300 shadow-2xs'
                 }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500 group-hover:text-red-600'}`} />
-                <span>{cat.name}</span>
+                <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500 group-hover:text-red-600'}`} />
+                <span className="whitespace-nowrap">{cat.name}</span>
                 <span
-                  className={`text-[10px] font-black px-1.5 py-0.5 rounded-full ${
+                  className={`text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 sm:py-0.5 rounded-full ${
                     isSelected
                       ? 'bg-red-700 text-white'
                       : 'bg-slate-200 text-slate-600 group-hover:bg-red-50 group-hover:text-red-600'
@@ -149,16 +153,16 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
 
         {/* 2. Sub-Filter for Telkomsel One Quota (30 GB vs 50 GB) */}
         {(selectedCategory === 'telkomsel-one' || selectedCategory === 'all') && (
-          <div className="mb-8 p-3 rounded-2xl bg-white border border-blue-200 shadow-sm max-w-xl mx-auto flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-700 pl-2">
-              <Smartphone className="w-4 h-4 text-blue-600" />
+          <div className="mb-6 p-2.5 sm:p-3 rounded-2xl bg-white border border-blue-200 shadow-xs max-w-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 pl-1 sm:pl-2">
+              <Smartphone className="w-3.5 h-3.5 text-blue-600 shrink-0" />
               <span>Filter Kuota Telkomsel One:</span>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => setSelectedQuotaFilter('all')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   selectedQuotaFilter === 'all'
                     ? 'bg-slate-900 text-white shadow-xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -173,13 +177,13 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                   const pkg30 = PACKAGES.find(p => p.category === 'telkomsel-one' && p.kuotaKeluarga === '30 GB');
                   if (pkg30) setActivePackageId(pkg30.id);
                 }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                   selectedQuotaFilter === '30 GB'
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
                 }`}
               >
-                📱 Kuota 30 GB
+                📱 30 GB
               </button>
               <button
                 type="button"
@@ -188,13 +192,13 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                   const pkg50 = PACKAGES.find(p => p.category === 'telkomsel-one' && p.kuotaKeluarga === '50 GB');
                   if (pkg50) setActivePackageId(pkg50.id);
                 }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1 ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1 ${
                   selectedQuotaFilter === '50 GB'
                     ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-200'
                     : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-300'
                 }`}
               >
-                <span>📱 Kuota 50 GB</span>
+                <span>📱 50 GB</span>
                 <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-1 rounded-sm uppercase">Cuan</span>
               </button>
             </div>
@@ -261,10 +265,22 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                         <h4 className="text-base font-black text-slate-900 leading-tight">
                           {pkg.name}
                         </h4>
-                        <div className="px-2 py-1 rounded-lg bg-slate-100 text-slate-900 font-black text-xs shrink-0 flex items-center gap-1">
-                          <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                          <span>{pkg.speedLabel}</span>
-                        </div>
+                        {pkg.upspeedMbps ? (
+                          <div className="flex flex-col items-end shrink-0">
+                            <div className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs sm:text-sm shadow-md shadow-amber-500/25 flex items-center gap-1 ring-1 ring-amber-400">
+                              <Zap className="w-3.5 h-3.5 fill-white text-white" />
+                              <span>{pkg.upspeedMbps} Mbps</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 font-medium mt-0.5">
+                              Dasar: <span className="line-through">{pkg.speedLabel}</span>
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="px-2 py-1 rounded-lg bg-slate-100 text-slate-900 font-black text-xs shrink-0 flex items-center gap-1">
+                            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                            <span>{pkg.speedLabel}</span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Telkomsel One Interactive Quota Switcher directly on card */}
@@ -278,48 +294,73 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                             <span className="text-blue-700 font-extrabold">{pkg.kuotaKeluarga}</span>
                           </div>
                           
-                          {/* 30GB vs 50GB quick toggle */}
-                          <div className="grid grid-cols-2 gap-1.5 pt-0.5">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
-                                handleToggleTelkomselOneQuota(speedKey as any, '30 GB');
-                              }}
-                              className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer ${
-                                pkg.kuotaKeluarga === '30 GB'
-                                  ? 'bg-blue-600 text-white shadow-xs'
-                                  : 'bg-white text-slate-700 hover:bg-blue-100 border border-slate-200'
-                              }`}
-                            >
-                              30 GB
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
-                                handleToggleTelkomselOneQuota(speedKey as any, '50 GB');
-                              }}
-                              className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer relative ${
-                                pkg.kuotaKeluarga === '50 GB'
-                                  ? 'bg-emerald-600 text-white shadow-xs'
-                                  : 'bg-white text-slate-700 hover:bg-emerald-50 border border-slate-200'
-                              }`}
-                            >
-                              <span>50 GB</span>
-                              <span className="ml-1 text-[9px] text-amber-300 font-black">+10rb</span>
-                            </button>
-                          </div>
+                          {pkg.id.includes('20') ? (
+                            <div className="py-1 px-2 text-[11px] font-bold text-blue-800 bg-blue-100/70 rounded-lg text-center">
+                              Termasuk Kuota Bersama 30 GB (Rp 148.000)
+                            </div>
+                          ) : (
+                            /* 30GB vs 50GB quick toggle */
+                            <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
+                                  handleToggleTelkomselOneQuota(speedKey as any, '30 GB');
+                                }}
+                                className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer ${
+                                  pkg.kuotaKeluarga === '30 GB'
+                                    ? 'bg-blue-600 text-white shadow-xs'
+                                    : 'bg-white text-slate-700 hover:bg-blue-100 border border-slate-200'
+                                }`}
+                              >
+                                30 GB
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
+                                  handleToggleTelkomselOneQuota(speedKey as any, '50 GB');
+                                }}
+                                className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer relative ${
+                                  pkg.kuotaKeluarga === '50 GB'
+                                    ? 'bg-emerald-600 text-white shadow-xs'
+                                    : 'bg-white text-slate-700 hover:bg-emerald-50 border border-slate-200'
+                                }`}
+                              >
+                                <span>50 GB</span>
+                                <span className="ml-1 text-[9px] text-amber-300 font-black">+10rb</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
                       )}
 
-                      {/* Upspeed badge */}
+                      {/* Prominent Upspeed Callout Banner */}
                       {pkg.upspeedMbps && (
-                        <div className="mt-2.5 inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200">
-                          <Zap className="w-3 h-3 text-amber-600" />
-                          <span>Upspeed ke {pkg.upspeedMbps} Mbps ({pkg.upspeedDuration})</span>
+                        <div className="mt-3 p-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border-2 border-amber-400/70 shadow-xs flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black shadow-xs shrink-0">
+                              <Zap className="w-4 h-4 fill-white" />
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-1.5 leading-none">
+                                <span className="text-xs sm:text-sm font-black text-amber-950">
+                                  ⚡ {pkg.upspeedMbps} Mbps
+                                </span>
+                                <span className="text-[10px] text-slate-400 line-through font-medium">
+                                  ({pkg.speedLabel})
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-amber-800 font-bold block mt-0.5">
+                                Ekstra Lonjakan {pkg.upspeedDuration}
+                              </span>
+                            </div>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-full bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider shadow-xs shrink-0">
+                            UPSPEED
+                          </span>
                         </div>
                       )}
 
@@ -401,77 +442,119 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
 
               {/* SPECIAL TELKOMSEL ONE QUOTA SELECTOR & COMPARISON BOX */}
               {isTelkomselOneActive && (
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-850 to-slate-900 border-2 border-blue-500/40 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-blue-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <Smartphone className="w-4 h-4 text-blue-400" />
-                      <span>Pilihan Kuota Nomor HP Keluarga:</span>
-                    </span>
-                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
-                      Beda Cuma 10rb!
-                    </span>
-                  </div>
-
-                  {/* Clear Visual Comparison Buttons between 30GB and 50GB */}
-                  <div className="grid grid-cols-2 gap-2.5">
-                    {/* 30 GB Option */}
-                    <button
-                      type="button"
-                      onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '30 GB')}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
-                        activePackage.kuotaKeluarga === '30 GB'
-                          ? 'bg-blue-600/30 border-blue-400 ring-2 ring-blue-400/50 shadow-md'
-                          : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
-                      }`}
-                    >
-                      {activePackage.kuotaKeluarga === '30 GB' && (
-                        <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-400" />
-                      )}
-                      <span className="text-xs font-bold text-slate-300 block">Kuota 30 GB</span>
-                      <span className="text-base font-black text-white block mt-0.5">
-                        {pair30GB ? formatRupiah(pair30GB.pricePromo) : 'Rp 280.000'}
+                tOneSpeed === '20' ? (
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-850 to-slate-900 border-2 border-blue-500/40 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-blue-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <Smartphone className="w-4 h-4 text-blue-400" />
+                        <span>Kuota Nomor HP Keluarga:</span>
                       </span>
-                      <span className="text-[10px] text-slate-400 font-normal">/bulan (belum PPN)</span>
-                    </button>
+                      <span className="text-[10px] bg-emerald-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
+                        Paling Hemat
+                      </span>
+                    </div>
 
-                    {/* 50 GB Option (Recommended / Cuan) */}
-                    <button
-                      type="button"
-                      onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '50 GB')}
-                      className={`p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
-                        activePackage.kuotaKeluarga === '50 GB'
-                          ? 'bg-emerald-600/30 border-emerald-400 ring-2 ring-emerald-400/50 shadow-md'
-                          : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
-                      }`}
-                    >
-                      <div className="absolute -top-2 right-2 px-1.5 py-0.2 bg-amber-400 text-slate-950 font-black text-[9px] rounded-sm uppercase tracking-wide">
-                        Rekomendasi
+                    <div className="p-3 rounded-xl bg-blue-600/30 border border-blue-400 ring-2 ring-blue-400/50 shadow-md">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-xs font-bold text-slate-300 block">Kuota Bersama Keluarga 30 GB</span>
+                          <span className="text-[10px] text-blue-200 mt-0.5 block">Untuk nomor Telkomsel keluarga sebulan penuh</span>
+                        </div>
+                        <span className="text-base font-black text-white">
+                          Rp 148.000<span className="text-[10px] text-slate-400 font-normal">/bln</span>
+                        </span>
                       </div>
-                      <span className="text-xs font-bold text-emerald-300 block">Kuota 50 GB (+20 GB!)</span>
-                      <span className="text-base font-black text-white block mt-0.5">
-                        {pair50GB ? formatRupiah(pair50GB.pricePromo) : 'Rp 290.000'}
-                      </span>
-                      <span className="text-[10px] text-emerald-300 font-bold">
-                        Selisih Cuma Rp 10.000/bln
-                      </span>
-                    </button>
-                  </div>
+                    </div>
 
-                  <p className="text-[11px] text-slate-300 leading-tight">
-                    💡 <em>Kuota ini bisa dibagikan langsung ke beberapa nomor Telkomsel anggota keluarga dalam 1 tagihan bersama.</em>
-                  </p>
-                </div>
+                    <p className="text-[11px] text-slate-300 leading-tight">
+                      💡 <em>Kuota ini bisa dibagikan langsung ke beberapa nomor Telkomsel anggota keluarga dalam 1 tagihan bersama.</em>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-850 to-slate-900 border-2 border-blue-500/40 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-blue-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <Smartphone className="w-4 h-4 text-blue-400" />
+                        <span>Pilihan Kuota Nomor HP Keluarga:</span>
+                      </span>
+                      <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
+                        Beda Cuma 10rb!
+                      </span>
+                    </div>
+
+                    {/* Clear Visual Comparison Buttons between 30GB and 50GB */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
+                      {/* 30 GB Option */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '30 GB')}
+                        className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
+                          activePackage.kuotaKeluarga === '30 GB'
+                            ? 'bg-blue-600/30 border-blue-400 ring-2 ring-blue-400/50 shadow-md'
+                            : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
+                        }`}
+                      >
+                        {activePackage.kuotaKeluarga === '30 GB' && (
+                          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-400" />
+                        )}
+                        <span className="text-xs font-bold text-slate-300 block">Kuota 30 GB</span>
+                        <span className="text-sm sm:text-base font-black text-white block mt-0.5">
+                          {pair30GB ? formatRupiah(pair30GB.pricePromo) : 'Rp 280.000'}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-normal">/bulan (belum PPN)</span>
+                      </button>
+
+                      {/* 50 GB Option (Recommended / Cuan) */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '50 GB')}
+                        className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
+                          activePackage.kuotaKeluarga === '50 GB'
+                            ? 'bg-emerald-600/30 border-emerald-400 ring-2 ring-emerald-400/50 shadow-md'
+                            : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
+                        }`}
+                      >
+                        <div className="absolute -top-2 right-2 px-1.5 py-0.2 bg-amber-400 text-slate-950 font-black text-[9px] rounded-sm uppercase tracking-wide">
+                          Rekomendasi
+                        </div>
+                        <span className="text-xs font-bold text-emerald-300 block">Kuota 50 GB (+20 GB!)</span>
+                        <span className="text-sm sm:text-base font-black text-white block mt-0.5">
+                          {pair50GB ? formatRupiah(pair50GB.pricePromo) : 'Rp 290.000'}
+                        </span>
+                        <span className="text-[10px] text-emerald-300 font-bold">
+                          Selisih Cuma Rp 10.000/bln
+                        </span>
+                      </button>
+                    </div>
+
+                    <p className="text-[11px] text-slate-300 leading-tight">
+                      💡 <em>Kuota ini bisa dibagikan langsung ke beberapa nomor Telkomsel anggota keluarga dalam 1 tagihan bersama.</em>
+                    </p>
+                  </div>
+                )
               )}
 
-              {/* Metric Highlights Box */}
+              {/* Metric Highlights Box: Upspeed as Hero Metric */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-                  <span className="text-[11px] text-slate-400 block mb-0.5">Kecepatan Standar</span>
-                  <div className="flex items-center gap-1.5 text-xl font-black text-white">
-                    <Zap className="w-5 h-5 text-amber-400 fill-amber-400" />
-                    <span>{activePackage.speedLabel}</span>
+                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-950/60 via-slate-800 to-slate-800 border-2 border-amber-500/60 shadow-lg relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">
+                    {activePackage.upspeedMbps ? 'Upspeed Aktif' : 'Fiber Speed'}
                   </div>
-                  <span className="text-[10px] text-emerald-400 font-semibold">100% Fiber Optic</span>
+                  <span className="text-[11px] text-amber-300 font-bold block mb-0.5">
+                    {activePackage.upspeedMbps ? 'Kecepatan Lonjakan' : 'Kecepatan Internet'}
+                  </span>
+                  <div className="flex items-baseline gap-1 text-2xl sm:text-3xl font-black text-amber-400">
+                    <Zap className="w-6 h-6 text-amber-400 fill-amber-400 shrink-0" />
+                    <span>{activePackage.upspeedMbps ? `${activePackage.upspeedMbps} Mbps` : activePackage.speedLabel}</span>
+                  </div>
+                  {activePackage.upspeedMbps ? (
+                    <div className="mt-1 text-[10px] text-slate-300 flex items-center justify-between">
+                      <span>Tarif dasar: <span className="line-through">{activePackage.speedLabel}</span></span>
+                      <span className="font-bold text-amber-300">{activePackage.upspeedDuration}</span>
+                    </div>
+                  ) : (
+                    <span className="text-[10px] text-emerald-400 font-semibold">100% Fiber Optic Murni</span>
+                  )}
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80">
@@ -486,14 +569,20 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
 
               {/* Upspeed Promotion Banner */}
               {activePackage.upspeedMbps && (
-                <div className="p-3 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between">
-                  <span className="font-bold flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
-                    Ekstra Upspeed Promo:
-                  </span>
-                  <span className="font-black text-sm text-white">
-                    {activePackage.upspeedMbps} Mbps ({activePackage.upspeedDuration})
-                  </span>
+                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-amber-500/20 border-2 border-amber-400/50 text-amber-200 text-xs flex items-center justify-between shadow-md">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black shrink-0 shadow-sm">
+                      <Zap className="w-4 h-4 fill-slate-950 text-slate-950" />
+                    </div>
+                    <div>
+                      <span className="font-extrabold text-white text-xs block">
+                        Ekstra Lonjakan Kecepatan {activePackage.upspeedMbps} Mbps!
+                      </span>
+                      <span className="text-[11px] text-amber-300">
+                        Internet jauh lebih kencang tanpa biaya tambahan selama {activePackage.upspeedDuration}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -559,10 +648,10 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                     onSelectPackage(activePackage);
                     onOpenRegister(activePackage.id);
                   }}
-                  className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-red-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Lanjut Registrasi Paket Ini</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
                 <p className="text-[11px] text-center text-slate-400 mt-2">
                   Anda akan masuk ke konfirmasi rincian paket sebelum mengisi formulir pemasangan.
@@ -613,11 +702,21 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                       </td>
                       <td className="p-4">{p.categoryLabel}</td>
                       <td className="p-4">
-                        <span className="font-extrabold text-red-600">{p.speedLabel}</span>
-                        {p.upspeedMbps && (
-                          <span className="block text-[11px] text-amber-700 font-bold">
-                            ⚡ Upspeed {p.upspeedMbps} Mbps ({p.upspeedDuration})
-                          </span>
+                        {p.upspeedMbps ? (
+                          <div>
+                            <div className="flex items-center gap-1 text-amber-600 font-black text-base sm:text-lg">
+                              <Zap className="w-4 h-4 fill-amber-500 text-amber-500 shrink-0" />
+                              <span>{p.upspeedMbps} Mbps</span>
+                              <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 ml-1">
+                                UPSPEED
+                              </span>
+                            </div>
+                            <span className="block text-[11px] text-slate-400 font-medium mt-0.5">
+                              Dasar: <span className="line-through">{p.speedLabel}</span> ({p.upspeedDuration})
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="font-extrabold text-red-600">{p.speedLabel}</span>
                         )}
                       </td>
                       <td className="p-4">

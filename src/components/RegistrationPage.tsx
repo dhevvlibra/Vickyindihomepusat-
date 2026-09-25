@@ -160,25 +160,28 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
         </div>
 
         {/* Multi-step Breadcrumbs / Stepper */}
-        <div className="bg-slate-800/80 rounded-2xl p-3 sm:p-4 border border-slate-700/80 backdrop-blur-md">
+        <div className="bg-slate-800/80 rounded-2xl p-2.5 sm:p-4 border border-slate-700/80 backdrop-blur-md">
           <div className="flex items-center justify-between max-w-xl mx-auto">
             {/* Step 1 Indicator */}
             <div 
               onClick={() => setStep('review')}
-              className={`flex items-center gap-2.5 cursor-pointer ${
+              className={`flex items-center gap-2 cursor-pointer shrink-0 ${
                 step === 'review' ? 'text-red-400 font-bold' : 'text-slate-400 font-medium'
               }`}
             >
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold ${
+              <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-extrabold ${
                 step === 'review' ? 'bg-red-600 text-white' : 'bg-emerald-500 text-slate-950'
               }`}>
-                {step === 'form' ? <Check className="w-4 h-4 stroke-[3]" /> : '1'}
+                {step === 'form' ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : '1'}
               </div>
-              <span className="text-xs sm:text-sm">1. Pastikan Informasi Paket</span>
+              <span className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">1. Pastikan Paket</span>
+                <span className="sm:hidden">1. Paket</span>
+              </span>
             </div>
 
             {/* Step Divider */}
-            <div className={`flex-1 h-0.5 mx-3 sm:mx-6 ${step === 'form' ? 'bg-emerald-500' : 'bg-slate-700'}`} />
+            <div className={`flex-1 h-0.5 mx-2 sm:mx-6 min-w-[16px] ${step === 'form' ? 'bg-emerald-500' : 'bg-slate-700'}`} />
 
             {/* Step 2 Indicator */}
             <div 
@@ -186,16 +189,19 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                 // Allowed to switch directly if already on form
                 if (step === 'review') setStep('form');
               }}
-              className={`flex items-center gap-2.5 cursor-pointer ${
+              className={`flex items-center gap-2 cursor-pointer shrink-0 ${
                 step === 'form' ? 'text-red-400 font-bold' : 'text-slate-400 font-medium'
               }`}
             >
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold ${
+              <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-extrabold ${
                 step === 'form' ? 'bg-red-600 text-white' : 'bg-slate-700 text-slate-300'
               }`}>
                 2
               </div>
-              <span className="text-xs sm:text-sm">2. Formulir Pasang Baru</span>
+              <span className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">2. Formulir Pasang</span>
+                <span className="sm:hidden">2. Form</span>
+              </span>
             </div>
           </div>
         </div>
@@ -304,26 +310,38 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                       Spesifikasi & Kecepatan Jaringan
                     </span>
 
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-400">
-                        <Zap className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <span className="text-xs text-slate-400">Kecepatan Standar:</span>
-                        <div className="text-2xl font-black text-white">{currentPkg.speedLabel}</div>
-                      </div>
-                    </div>
-
-                    {/* Upspeed Promotion badge if available */}
-                    {currentPkg.upspeedMbps && (
-                      <div className="p-3 rounded-xl bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/40 text-xs">
-                        <div className="font-extrabold text-amber-400 flex items-center gap-1.5 mb-1">
-                          <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
-                          <span>Promo Ekstra Upspeed {currentPkg.upspeedMbps} Mbps!</span>
+                    {currentPkg.upspeedMbps ? (
+                      <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/50 via-slate-800 to-slate-800 border-2 border-amber-500/60 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-amber-300 font-extrabold flex items-center gap-1.5 uppercase tracking-wider">
+                            <Zap className="w-4 h-4 fill-amber-400 text-amber-400" />
+                            Kecepatan Promo (Upspeed):
+                          </span>
+                          <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 shadow-xs">
+                            PROMO AKTIF
+                          </span>
+                        </div>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-3xl sm:text-4xl font-black text-amber-400">
+                            {currentPkg.upspeedMbps} Mbps
+                          </span>
+                          <span className="text-xs text-slate-400 font-semibold line-through">
+                            Normal: {currentPkg.speedLabel}
+                          </span>
                         </div>
                         <p className="text-[11px] text-slate-300">
-                          Kecepatan Anda melonjak drastis hingga {currentPkg.upspeedMbps} Mbps selama <strong>{currentPkg.upspeedDuration}</strong> tanpa biaya tambahan.
+                          Kecepatan melonjak hingga <strong>{currentPkg.upspeedMbps} Mbps</strong> selama <strong>{currentPkg.upspeedDuration}</strong> tanpa biaya tambahan.
                         </p>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-red-600/20 border border-red-500/30 flex items-center justify-center text-red-400">
+                          <Zap className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <span className="text-xs text-slate-400">Kecepatan Standar:</span>
+                          <div className="text-2xl font-black text-white">{currentPkg.speedLabel}</div>
+                        </div>
                       </div>
                     )}
 
@@ -437,11 +455,11 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                 </div>
 
                 {/* Next Button: Proceed to Form */}
-                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={onBackToHome}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-semibold text-xs sm:text-sm border border-slate-700 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2.5 sm:py-3 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-semibold text-xs sm:text-sm border border-slate-700 transition-colors cursor-pointer"
                   >
                     Pilih Paket Lainnya
                   </button>
@@ -449,10 +467,10 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                   <button
                     type="button"
                     onClick={() => setStep('form')}
-                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group"
+                    className="w-full sm:w-auto px-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-600 via-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer"
                   >
-                    <span>Informasi Sudah Sesuai, Lanjut ke Form</span>
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <span>Lanjut ke Formulir Pasang</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
 
@@ -501,9 +519,15 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                     )}
                   </span>
                   {currentPkg.upspeedMbps && (
-                    <span className="text-[11px] text-amber-300 font-semibold block mt-0.5">
-                      ⚡ Ekstra Upspeed {currentPkg.upspeedMbps} Mbps ({currentPkg.upspeedDuration})
-                    </span>
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="text-xs font-black text-amber-400 bg-amber-950/60 border border-amber-500/40 px-2 py-0.5 rounded-md flex items-center gap-1">
+                        <Zap className="w-3.5 h-3.5 fill-amber-400" />
+                        ⚡ {currentPkg.upspeedMbps} Mbps ({currentPkg.upspeedDuration})
+                      </span>
+                      <span className="text-[11px] text-slate-400 line-through">
+                        {currentPkg.speedLabel}
+                      </span>
+                    </div>
                   )}
                   {currentPkg.ottBonus && currentPkg.ottBonus.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-slate-800">
@@ -706,21 +730,21 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
                 <button
                   type="submit"
-                  className="w-full sm:flex-1 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-emerald-600/25 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                  className="w-full sm:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                   <span>Kirim Formulir via WhatsApp Sales</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleSubmitOnline}
-                  className="w-full sm:w-auto py-4 px-6 rounded-2xl bg-slate-800 hover:bg-slate-750 text-slate-200 font-bold text-xs sm:text-sm border border-slate-700 transition-colors flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto py-3 sm:py-3.5 px-4 sm:px-5 rounded-xl sm:rounded-2xl bg-slate-800 hover:bg-slate-750 text-slate-200 font-bold text-xs sm:text-sm border border-slate-700 transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <Send className="w-4 h-4 text-red-400" />
+                  <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 shrink-0" />
                   <span>Daftar via Web Saja</span>
                 </button>
               </div>

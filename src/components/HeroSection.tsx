@@ -102,36 +102,43 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15] drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-[1.2] drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
             Internet Rumah Serat Optik <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-500 to-rose-400">100% Cepat</span> Tanpa Antre
           </h1>
 
           {/* Sub-headline */}
-          <p className="text-slate-100 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          <p className="text-slate-100 text-xs sm:text-base leading-relaxed max-w-2xl mx-auto font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] px-2">
             Portal pendaftaran pasang baru IndiHome by Telkomsel resmi. Nikmati jaringan fiber berkecepatan tinggi dengan garansi pengawalan teknisi langsung ke rumah Anda.
           </p>
 
           {/* 3 Value Pillars */}
-          <div className="grid grid-cols-3 gap-3 max-w-xl mx-auto pt-2">
-            <div className="p-3.5 rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-red-400 font-extrabold text-base sm:text-lg">70% OFF</span>
-              <span className="text-[11px] text-slate-400">Diskon Biaya Pasang</span>
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-xl mx-auto pt-1 sm:pt-2">
+            <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-red-500/30 text-center backdrop-blur-md shadow-lg">
+              <span className="block text-[9px] sm:text-[11px] line-through text-slate-400 font-medium">
+                Rp 120.000
+              </span>
+              <span className="block text-red-400 font-extrabold text-xs sm:text-base -mt-0.5">
+                Rp 89.000
+              </span>
+              <span className="text-[9px] sm:text-[11px] text-slate-300 font-medium block">
+                Biaya Pasang
+              </span>
             </div>
-            <div className="p-3.5 rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-emerald-400 font-extrabold text-base sm:text-lg">100% Fiber</span>
-              <span className="text-[11px] text-slate-400">Optik Tanpa Batas</span>
+            <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
+              <span className="block text-emerald-400 font-extrabold text-xs sm:text-base">100% Fiber</span>
+              <span className="text-[9px] sm:text-[11px] text-slate-400">Optik Unlimited</span>
             </div>
-            <div className="p-3.5 rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-white font-extrabold text-base sm:text-lg">1x24 Jam</span>
-              <span className="text-[11px] text-slate-400">Teknisi Resmi Tiba</span>
+            <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
+              <span className="block text-white font-extrabold text-xs sm:text-base">1x24 Jam</span>
+              <span className="text-[9px] sm:text-[11px] text-slate-400">Teknisi Tiba</span>
             </div>
           </div>
 
           {/* Single Clean Primary Action Group */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 w-full max-w-md sm:max-w-none mx-auto">
             <a
               href="#katalog-paket"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl sm:rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Lihat Pilihan Paket</span>
               <ChevronRight className="w-4 h-4" />
@@ -140,7 +147,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <button
               type="button"
               onClick={() => onOpenRegister()}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-bold text-sm sm:text-base shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl sm:rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-bold text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <PhoneCall className="w-4 h-4 text-red-600" />
               <span>Daftar Pasang Baru</span>
@@ -148,26 +155,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <a
               href="#kalkulator"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-850 text-slate-200 font-semibold text-sm border border-slate-750 transition-colors backdrop-blur-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-850 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-750 transition-colors backdrop-blur-md"
             >
-              <Activity className="w-4 h-4 text-red-400" />
-              <span>Hitung Kebutuhan Speed</span>
+              <Activity className="w-3.5 h-3.5 text-red-400" />
+              <span>Hitung Speed</span>
             </a>
           </div>
 
           {/* Guarantee Badges */}
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-2.5 sm:gap-6 text-[11px] sm:text-xs text-slate-300">
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Pendaftaran Resmi Telkom</span>
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Pendaftaran Resmi</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Tanpa Uang Muka (DP Rp 0)</span>
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Tanpa DP (Rp 0)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>2.450+ Pelanggan Terpasang</span>
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>2.450+ Terpasang</span>
             </div>
           </div>
 
