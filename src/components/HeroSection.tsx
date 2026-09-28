@@ -18,11 +18,13 @@ interface HeroSectionProps {
   onSelectPackage: (packageId: string) => void;
   onOpenRegister: (packageId?: string) => void;
   onOpenPromoHighlight?: () => void;
+  onOpenCalculator?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenRegister,
   onOpenPromoHighlight,
+  onOpenCalculator,
 }) => {
   const [scrollY, setScrollY] = useState(0);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
@@ -173,13 +175,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>Daftar Pasang Baru</span>
             </button>
 
-            <a
-              href="#kalkulator"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-850 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-750 transition-colors backdrop-blur-md"
+            <button
+              type="button"
+              onClick={() => onOpenCalculator?.()}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-850 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-750 transition-all hover:scale-[1.02] active:scale-[0.98] backdrop-blur-md cursor-pointer"
             >
               <Activity className="w-3.5 h-3.5 text-red-400" />
               <span>Hitung Speed</span>
-            </a>
+            </button>
           </div>
 
           {/* Guarantee Badges */}

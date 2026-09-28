@@ -16,7 +16,8 @@ import {
   CheckCircle2,
   TrendingDown,
   Gift,
-  ShieldCheck
+  ShieldCheck,
+  Radio
 } from 'lucide-react';
 import { PACKAGES } from '../data/packages';
 import { InternetPackage } from '../types';
@@ -51,6 +52,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
     { id: 'all', name: 'Semua Kategori', icon: Layers, count: `${PACKAGES.length} Pilihan` },
     { id: 'internet-streaming', name: 'Internet Only + Streaming', icon: Wifi, count: `${PACKAGES.filter(p => p.category === 'internet-streaming').length} Kecepatan` },
     { id: 'telkomsel-one', name: 'Telkomsel One (WiFi + Kuota HP)', icon: Smartphone, count: `${PACKAGES.filter(p => p.category === 'telkomsel-one').length} Pilihan` },
+    { id: 'eznet', name: 'EZnet Wireless (103rb)', icon: Radio, count: `${PACKAGES.filter(p => p.category === 'eznet').length} Pilihan` },
     { id: 'gaming', name: 'Internet + Game', icon: Gamepad2, count: `${PACKAGES.filter(p => p.category === 'gaming').length} Pilihan` },
     { id: 'movie', name: 'Internet + Movie Complete', icon: Tv, count: `${PACKAGES.filter(p => p.category === 'movie').length} Pilihan` },
   ];
@@ -341,6 +343,19 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                         </div>
                       )}
 
+                      {/* EZnet Wireless Specific Callout */}
+                      {pkg.category === 'eznet' && (
+                        <div className="mt-3 p-2 bg-amber-50 border border-amber-200/90 rounded-xl space-y-1">
+                          <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
+                            <Radio className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                            <span>Khusus Area Tertentu (Wireless)</span>
+                          </div>
+                          <p className="text-[10px] text-amber-700 leading-tight">
+                            Internet rumah nirkabel 20 Mbps hemat tanpa kabel fiber. S&K jangkauan berlaku.
+                          </p>
+                        </div>
+                      )}
+
                       {/* Prominent Upspeed Callout Banner */}
                       {pkg.upspeedMbps && (
                         <div className="mt-3 p-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border-2 border-amber-400/70 shadow-xs flex items-center justify-between">
@@ -541,6 +556,30 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                     </p>
                   </div>
                 )
+              )}
+
+              {/* EZnet Wireless Specific Area Information Panel */}
+              {activePackage.category === 'eznet' && (
+                <div className="p-4 rounded-2xl bg-amber-950/60 border-2 border-amber-500/50 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                      <Radio className="w-4 h-4 text-amber-400" />
+                      <span>Keterangan EZnet Wireless:</span>
+                    </span>
+                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
+                      KHUSUS AREA TERTENTU
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-200 leading-relaxed">
+                    Paket <strong>EZnet Wireless 20 Mbps seharga Rp 103.000/bulan</strong> (belum PPN) merupakan paket internet nirkabel khusus yang hanya dapat dipasang di area tertentu yang telah tercover jaringan sinyal EZnet Telkomsel.
+                  </p>
+
+                  <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>Mas Vicky siap memverifikasi titik koordinat lokasi Anda untuk memastikan area tercover.</span>
+                  </div>
+                </div>
               )}
 
               {/* Metric Highlights Box: Upspeed as Hero Metric */}

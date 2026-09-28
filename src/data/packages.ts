@@ -4,8 +4,10 @@ export const SALES_AGENT_INFO = {
   name: 'Vicky',
   role: 'Senior Sales Executive & Partner Resmi IndiHome',
   domainName: 'vickyindihomepusat',
-  whatsappNumber: '6281234567890',
-  whatsappDisplay: '0812-3456-7890',
+  whatsappNumber: '6282115291198',
+  whatsappDisplay: '0821-1529-1198',
+  whatsappNumberSecondary: '6289681888682',
+  whatsappDisplaySecondary: '0896-8188-8682',
   telegramHandle: '@vickyindihome',
   email: 'vicky.sales@indihomepusat.com',
   workingHours: 'Setiap Hari: 07.30 - 22.00 WIB',
@@ -159,6 +161,31 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
 // 2. ALL PACKAGES CATALOG (Real Data Sesuai Permintaan User)
 // -------------------------------------------------------------
 export const PACKAGES_DATA: PackageItem[] = [
+  // 0. EZNET WIRELESS (Khusus Area Tertentu)
+  {
+    id: 'eznet-wireless-20',
+    name: 'EZnet Wireless 20 Mbps',
+    speedMbps: 20,
+    category: 'eznet',
+    categoryLabel: 'EZnet Wireless',
+    monthlyPrice: 103000,
+    formattedPrice: 'Rp 103.000',
+    priceNote: 'Belum termasuk PPN 11% • Khusus Area Tertentu',
+    idealFor: 'Paling terjangkau: Internet nirkabel EZnet Wireless 20 Mbps praktis hemat, khusus tersedia untuk area jangkauan tertentu.',
+    deviceRecommendation: 'Optimal untuk 2 - 4 perangkat terhubung',
+    isBestSeller: false,
+    tag: '🔥 KHUSUS AREA TERTENTU (103 Ribu)',
+    perks: [
+      'Tarif Super Hemat hanya Rp 103.000/bulan (belum PPN)',
+      'Kecepatan 20 Mbps praktis untuk kebutuhan internet rumah harian',
+      'Khusus tersedia untuk area jangkauan tertentu (S&K berlaku)',
+      'Solusi internet rumah nirkabel tanpa perlu tarikan kabel fiber optik',
+      'Bebas biaya calo & bayar tagihan resmi setelah aktif',
+    ],
+    ctaMessage:
+      'Halo Mas Vicky, saya mau daftar Paket EZnet Wireless 20 Mbps seharga Rp 103.000/bln belum PPN. Mohon bantu cek apakah lokasi alamat saya masuk area tertentu yang tercover ya mas.',
+  },
+
   // 1. INTERNET ONLY + STREAMING (Vision+, Prime Video, Viu, MaxStream)
   {
     id: 'stream-75',

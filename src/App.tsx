@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { PromoBanner } from './components/PromoBanner';
 import { InteractivePackageShowcase } from './components/InteractivePackageShowcase';
-import { SpeedCalculator } from './components/SpeedCalculator';
+import { SpeedCalculatorPage } from './components/SpeedCalculatorPage';
 import { CoverageCheck } from './components/CoverageCheck';
 import { InstallationSteps } from './components/InstallationSteps';
 import { WhyChooseVicky } from './components/WhyChooseVicky';
@@ -21,8 +21,8 @@ import { CustomerRegistration } from './types';
 import { getSavedRegistrations } from './utils/helpers';
 
 export default function App() {
-  // Navigation view: 'home' or 'register'
-  const [currentView, setCurrentView] = useState<'home' | 'register'>('home');
+  // Navigation view: 'home' | 'register' | 'calculator'
+  const [currentView, setCurrentView] = useState<'home' | 'register' | 'calculator'>('home');
   const [selectedPackageId, setSelectedPackageId] = useState<string | undefined>();
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<CustomerRegistration | null>(null);
@@ -59,6 +59,11 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenCalculator = () => {
+    setCurrentView('calculator');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleBackToHome = () => {
     setCurrentView('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -89,6 +94,10 @@ export default function App() {
   };
 
   const handleNavigate = (targetId: string) => {
+    if (targetId === 'calculator' || targetId === '#kalkulator') {
+      handleOpenCalculator();
+      return;
+    }
     const cleanId = targetId.replace('#', '');
     if (currentView !== 'home') {
       setCurrentView('home');
@@ -127,6 +136,8 @@ export default function App() {
         onOpenMyRegistrations={() => setIsMyRegsOpen(true)}
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
         onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
+        onOpenCalculator={handleOpenCalculator}
+        currentView={currentView}
         onNavigateHome={handleBackToHome}
         onNavigate={handleNavigate}
         savedCount={savedRegistrations.length}
@@ -141,14 +152,23 @@ export default function App() {
             onSuccess={handleRegistrationSuccess}
           />
         </main>
+      ) : currentView === 'calculator' ? (
+        /* VIEW 2: DEDICATED SPEED CALCULATOR PAGE */
+        <main className="flex-1">
+          <SpeedCalculatorPage
+            onBackToHome={handleBackToHome}
+            onOpenRegister={handleOpenRegister}
+          />
+        </main>
       ) : (
-        /* VIEW 2: MAIN HOMEPAGE / CATALOG */
+        /* VIEW 3: MAIN HOMEPAGE / CATALOG */
         <main className="flex-1">
           {/* Hero Section with 3D Parallax router background */}
           <HeroSection
             onSelectPackage={handleSelectPackageFromHero}
             onOpenRegister={handleOpenRegister}
             onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
+            onOpenCalculator={handleOpenCalculator}
           />
 
           {/* Promo Flash Banner */}
@@ -162,9 +182,6 @@ export default function App() {
             onSelectPackage={(pkg) => handleOpenRegister(pkg.id)}
             onOpenRegister={handleOpenRegister}
           />
-
-          {/* Interactive Speed Requirement Calculator */}
-          <SpeedCalculator onOpenRegister={handleOpenRegister} />
 
           {/* Coverage & ODP Checker */}
           <CoverageCheck onOpenRegister={() => handleOpenRegister()} />
@@ -184,7 +201,10 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <Footer onOpenRegister={() => handleOpenRegister()} />
+      <Footer 
+        onOpenRegister={() => handleOpenRegister()} 
+        onOpenCalculator={handleOpenCalculator}
+      />
 
       {/* Floating WhatsApp Quick Contact Button */}
       <FloatingWhatsApp 

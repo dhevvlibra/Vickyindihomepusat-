@@ -19,6 +19,8 @@ interface NavbarProps {
   onNavigateHome?: () => void;
   onNavigate?: (targetId: string) => void;
   onOpenPromoHighlight?: () => void;
+  onOpenCalculator?: () => void;
+  currentView?: 'home' | 'register' | 'calculator';
   savedCount: number;
 }
 
@@ -29,19 +31,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigateHome,
   onNavigate,
   onOpenPromoHighlight,
+  onOpenCalculator,
+  currentView = 'home',
   savedCount,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState<string>('#katalog-paket');
+  const [activeLink, setActiveLink] = useState<string>(
+    currentView === 'calculator' ? 'calculator' : '#katalog-paket'
+  );
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 
   const navLinks = [
     { name: 'Katalog Paket', href: '#katalog-paket' },
-    { name: 'Kalkulator Speed', href: '#kalkulator' },
+    { name: 'Kalkulator Speed', href: 'calculator' },
     { name: 'Cek Jangkauan ODP', href: '#cek-jangkauan' },
     { name: 'Alur Pasang', href: '#cara-pasang' },
     { name: 'FAQ', href: '#faq' },
   ];
+
+  // Sync activeLink with currentView
+  useEffect(() => {
+    if (currentView === 'calculator') {
+      setActiveLink('calculator');
+    } else if (currentView === 'register') {
+      setActiveLink('');
+    } else if (activeLink === 'calculator') {
+      setActiveLink('#katalog-paket');
+    }
+  }, [currentView]);
 
   // Prevent background scrolling when mobile overlay is active
   useEffect(() => {
@@ -67,6 +84,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     triggerClickFeedback(href);
     setActiveLink(href);
     setMobileMenuOpen(false);
+
+    if (href === 'calculator' || href === '#kalkulator') {
+      if (onOpenCalculator) {
+        onOpenCalculator();
+      } else if (onNavigate) {
+        onNavigate('calculator');
+      }
+      return;
+    }
 
     if (onNavigate) {
       onNavigate(href);

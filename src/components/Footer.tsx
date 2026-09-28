@@ -4,9 +4,10 @@ import { SALES_AGENT_INFO } from '../data/packages';
 
 interface FooterProps {
   onOpenRegister: () => void;
+  onOpenCalculator?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenRegister }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator }) => {
   return (
     <footer className="bg-slate-950 text-slate-400 text-xs pt-16 pb-24 sm:pb-16 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,9 +83,22 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister }) => {
                 </a>
               </li>
               <li>
-                <a href="#kalkulator" className="hover:text-white transition-colors">
-                  Kalkulator Kebutuhan Speed
-                </a>
+                {onOpenCalculator ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onOpenCalculator();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="hover:text-white transition-colors text-left cursor-pointer"
+                  >
+                    Kalkulator Kebutuhan Speed
+                  </button>
+                ) : (
+                  <a href="#kalkulator" className="hover:text-white transition-colors">
+                    Kalkulator Kebutuhan Speed
+                  </a>
+                )}
               </li>
               <li>
                 <a href="#cek-jangkauan" className="hover:text-white transition-colors">
