@@ -17,7 +17,7 @@ import {
   TrendingDown,
   Gift,
   ShieldCheck,
-  Radio
+  Cable
 } from 'lucide-react';
 import { PACKAGES } from '../data/packages';
 import { InternetPackage } from '../types';
@@ -52,7 +52,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
     { id: 'all', name: 'Semua Kategori', icon: Layers, count: `${PACKAGES.length} Pilihan` },
     { id: 'internet-streaming', name: 'Internet Only + Streaming', icon: Wifi, count: `${PACKAGES.filter(p => p.category === 'internet-streaming').length} Kecepatan` },
     { id: 'telkomsel-one', name: 'Telkomsel One (WiFi + Kuota HP)', icon: Smartphone, count: `${PACKAGES.filter(p => p.category === 'telkomsel-one').length} Pilihan` },
-    { id: 'eznet', name: 'EZnet Wireless (103rb)', icon: Radio, count: `${PACKAGES.filter(p => p.category === 'eznet').length} Pilihan` },
+    { id: 'eznet', name: 'EZnet Promo Terbatas', icon: Cable, count: `${PACKAGES.filter(p => p.category === 'eznet').length} Pilihan` },
     { id: 'gaming', name: 'Internet + Game', icon: Gamepad2, count: `${PACKAGES.filter(p => p.category === 'gaming').length} Pilihan` },
     { id: 'movie', name: 'Internet + Movie Complete', icon: Tv, count: `${PACKAGES.filter(p => p.category === 'movie').length} Pilihan` },
   ];
@@ -343,15 +343,15 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                         </div>
                       )}
 
-                      {/* EZnet Wireless Specific Callout */}
+                      {/* EZnet Promo Terbatas Specific Callout */}
                       {pkg.category === 'eznet' && (
                         <div className="mt-3 p-2 bg-amber-50 border border-amber-200/90 rounded-xl space-y-1">
                           <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
-                            <Radio className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                            <span>Khusus Area Tertentu (Wireless)</span>
+                            <Cable className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                            <span>Khusus Area Tertentu (Jaringan Kabel)</span>
                           </div>
                           <p className="text-[10px] text-amber-700 leading-tight">
-                            Internet rumah nirkabel 20 Mbps hemat tanpa kabel fiber. S&K jangkauan berlaku.
+                            Internet rumah kabel 20 Mbps super hemat. S&K jangkauan berlaku.
                           </p>
                         </div>
                       )}
@@ -487,7 +487,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
 
                     <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
                       <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span><strong>Spesial Paket 148K:</strong> Bebas Biaya Pasang Baru (PSB Rp 0 / GRATIS!). Hemat Rp 120.000.</span>
+                      <span><strong>Spesial Paket 148K:</strong> Bebas Biaya Pasang Baru (PSB Rp 0 / GRATIS!). Hemat Rp 250.000.</span>
                     </div>
 
                     <p className="text-[11px] text-slate-300 leading-tight">
@@ -558,13 +558,13 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                 )
               )}
 
-              {/* EZnet Wireless Specific Area Information Panel */}
+              {/* EZnet Promo Terbatas Specific Area Information Panel */}
               {activePackage.category === 'eznet' && (
                 <div className="p-4 rounded-2xl bg-amber-950/60 border-2 border-amber-500/50 space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <Radio className="w-4 h-4 text-amber-400" />
-                      <span>Keterangan EZnet Wireless:</span>
+                      <Cable className="w-4 h-4 text-amber-400" />
+                      <span>Keterangan EZnet (Promo Terbatas):</span>
                     </span>
                     <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
                       KHUSUS AREA TERTENTU
@@ -572,12 +572,12 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                   </div>
 
                   <p className="text-xs text-slate-200 leading-relaxed">
-                    Paket <strong>EZnet Wireless 20 Mbps seharga Rp 103.000/bulan</strong> (belum PPN) merupakan paket internet nirkabel khusus yang hanya dapat dipasang di area tertentu yang telah tercover jaringan sinyal EZnet Telkomsel.
+                    Paket <strong>EZnet 20 Mbps seharga Rp 103.000/bulan</strong> (belum PPN) merupakan paket internet berbasis kabel resmi Telkomsel yang tersedia dengan kuota promo terbatas untuk area/wilayah tertentu saja.
                   </p>
 
                   <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Mas Vicky siap memverifikasi titik koordinat lokasi Anda untuk memastikan area tercover.</span>
+                    <span>Mas Vicky siap mengecek ketersediaan jaringan kabel di alamat rumah Anda.</span>
                   </div>
                 </div>
               )}

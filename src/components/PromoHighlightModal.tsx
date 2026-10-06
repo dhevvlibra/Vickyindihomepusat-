@@ -81,9 +81,6 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
   };
 
   const streamingApps = [
-    { name: 'Vision+', key: 'Vision+' },
-    { name: 'Prime Video', key: 'Prime Video' },
-    { name: 'Viu', key: 'Viu' },
     { name: 'MAXstream', key: 'MaxStream' },
   ];
 
@@ -173,7 +170,7 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
             <div className="hidden sm:block text-right border-l border-white/20 pl-4 shrink-0">
               <span className="block text-[10px] uppercase font-bold tracking-wider text-yellow-300">Biaya Pasang (PSB)</span>
               <div className="flex items-baseline justify-end gap-1.5 mt-0.5">
-                <span className="text-xs text-red-300 line-through">Rp 120.000</span>
+                <span className="text-xs text-red-300 line-through">Rp 250.000</span>
                 <span className="text-lg sm:text-xl font-black text-yellow-300">Rp 0 (GRATIS)</span>
               </div>
               <span className="inline-block mt-0.5 px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wide">
@@ -226,10 +223,10 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-extrabold text-slate-900">
-                  Bonus 4 Langganan OTT
+                  Bonus Streaming MAXstream
                 </h4>
                 <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 leading-snug">
-                  Vision+, Prime Video, Viu, & MAXstream langsung aktif tanpa biaya tambahan.
+                  Akses hiburan tayangan MAXstream langsung aktif tanpa biaya tambahan.
                 </p>
               </div>
             </div>
@@ -245,7 +242,7 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
                   <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-600 text-white">BEBAS PSB</span>
                 </h4>
                 <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 leading-snug">
-                  Khusus paket 148K sama sekali tidak ada biaya pasang (hemat Rp 120.000) & tanpa DP Rp 0 di awal!
+                  Khusus paket 148K sama sekali tidak ada biaya pasang (hemat Rp 250.000) & tanpa DP Rp 0 di awal!
                 </p>
               </div>
             </div>
@@ -286,7 +283,7 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
           <div className="sm:hidden p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-between text-xs">
             <span className="text-emerald-950 font-bold">Biaya Pasang Baru (PSB):</span>
             <div className="flex items-center gap-1.5">
-              <span className="line-through text-slate-400 text-[10px]">Rp 120.000</span>
+              <span className="line-through text-slate-400 text-[10px]">Rp 250.000</span>
               <span className="font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">Rp 0 (GRATIS!)</span>
             </div>
           </div>

@@ -238,10 +238,10 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                     onChange={(e) => setSelectedPkgId(e.target.value)}
                     className="py-2 px-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   >
-                    <optgroup label="--- EZnet Wireless (Khusus Area Tertentu) ---">
+                    <optgroup label="--- EZnet Promo Terbatas (Khusus Area Tertentu) ---">
                       {PACKAGES.filter((p) => p.category === 'eznet').map((pkg) => (
                         <option key={pkg.id} value={pkg.id}>
-                          {pkg.name} ({formatRupiah(pkg.pricePromo)}/bln - Area Tertentu)
+                          {pkg.name} ({formatRupiah(pkg.pricePromo)}/bln - Promo Terbatas)
                         </option>
                       ))}
                     </optgroup>
@@ -315,10 +315,10 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                       <div className="mt-3 p-3.5 rounded-xl bg-amber-500/20 border-2 border-amber-500/50 text-xs text-amber-200 space-y-1">
                         <div className="flex items-center gap-1.5 font-bold text-amber-300">
                           <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-                          <span>Khusus Untuk Area Tertentu:</span>
+                          <span>Khusus Area Tertentu (Jaringan Kabel):</span>
                         </div>
                         <p className="text-[11px] text-amber-100/90 leading-relaxed">
-                          Paket EZnet Wireless 20 Mbps Rp 103.000/bln hanya berlaku di area tertentu yang telah terjangkau sinyal nirkabel EZnet Telkomsel. Sales Mas Vicky akan membantu pengecekan lokasi rumah Anda.
+                          Paket EZnet 20 Mbps Rp 103.000/bln hanya berlaku di area tertentu yang telah terjangkau jaringan kabel EZnet Telkomsel. Sales Mas Vicky akan membantu pengecekan lokasi rumah Anda.
                         </p>
                       </div>
                     )}

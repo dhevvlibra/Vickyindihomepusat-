@@ -137,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-xl mx-auto pt-1 sm:pt-2">
             <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-red-500/30 text-center backdrop-blur-md shadow-lg">
               <span className="block text-[9px] sm:text-[11px] line-through text-slate-400 font-medium">
-                Rp 120.000
+                Rp 250.000
               </span>
               <span className="block text-red-400 font-extrabold text-xs sm:text-base -mt-0.5">
                 Rp 89.000

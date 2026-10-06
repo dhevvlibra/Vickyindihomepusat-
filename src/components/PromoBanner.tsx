@@ -33,16 +33,16 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister, onOpen
               )}
             </div>
 
-            {/* Price Highlight: Coretan Rp 120.000 -> Rp 89.000 */}
+            {/* Price Highlight: Coretan Rp 250.000 -> Rp 89.000 */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1">
               <span className="text-base sm:text-2xl line-through text-red-200/90 font-bold">
-                Rp 120.000
+                Rp 250.000
               </span>
               <span className="text-2xl sm:text-5xl font-black text-yellow-300 tracking-tight drop-shadow-md">
                 Rp 89.000
               </span>
               <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-yellow-400 text-red-950 font-black text-[10px] sm:text-xs uppercase tracking-wide shadow-xs">
-                HEMAT RP 31.000
+                HEMAT RP 161.000
               </span>
             </div>
 
@@ -51,14 +51,14 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({ onOpenRegister, onOpen
             </h2>
 
             <p className="text-red-100 text-xs sm:text-sm leading-relaxed max-w-2xl">
-              Daftar online melalui Mas Vicky hari ini untuk mengunci tarif biaya pasang baru hanya Rp 89.000 (tarif normal Rp 120.000). Termasuk untuk paket promo Telkomsel One 148K hemat lengkap. Tagihan resmi Telkom tanpa biaya calo.
+              Daftar online melalui Mas Vicky hari ini untuk mengunci tarif biaya pasang baru hanya Rp 89.000 (tarif normal Rp 250.000). Termasuk untuk paket promo Telkomsel One 148K hemat lengkap. Tagihan resmi Telkom tanpa biaya calo.
             </p>
 
             {/* 4 Feature Badges */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 sm:pt-2">
               <div className="bg-yellow-400 text-red-950 rounded-xl p-2 sm:p-2.5 text-center shadow-md ring-2 ring-yellow-300/50">
                 <Percent className="w-3.5 h-3.5 text-red-900 mx-auto mb-0.5 sm:mb-1" />
-                <p className="text-[9px] line-through text-red-800 font-semibold">Rp 120.000</p>
+                <p className="text-[9px] line-through text-red-800 font-semibold">Rp 250.000</p>
                 <p className="text-[11px] sm:text-xs font-black text-red-950">PSB Rp 89.000</p>
                 <p className="text-[9px] text-red-900 font-medium">Hemat Pasang</p>
               </div>

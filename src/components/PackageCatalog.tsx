@@ -276,7 +276,7 @@ export const PackageCatalog: React.FC<PackageCatalogProps> = ({
         <div className="mt-12 p-4 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-900 text-xs flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong>Catatan Transparan:</strong> Biaya langganan bulanan belum termasuk PPN 11%. Promo biaya pasang baru (PSB) Rp 89.000 (dari tarif Rp 120.000) akan ditagihkan pada tagihan bulan pertama resmi dari Telkom (tidak bayar tunai ke sales/teknisi di awal).
+            <strong>Catatan Transparan:</strong> Biaya langganan bulanan belum termasuk PPN 11%. Promo biaya pasang baru (PSB) Rp 89.000 (dari tarif normal Rp 250.000) akan ditagihkan pada tagihan bulan pertama resmi dari Telkom (tidak bayar tunai ke sales/teknisi di awal).
           </p>
         </div>
 

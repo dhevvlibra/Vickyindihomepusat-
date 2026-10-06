@@ -32,7 +32,7 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
     deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
     isBestSeller: true,
     tag: '🔥 PROMO HIGHLIGHT • GRATIS PSB (Rp 0)',
-    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    includedApps: ['MaxStream'],
     options: {
       '30 GB': {
         monthlyPrice: 148000,
@@ -46,7 +46,7 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
       'GRATIS Biaya Pasang Baru (PSB Rp 0, Bebas Biaya Pemasangan!)',
       'Paket Paling Hemat hanya Rp 148.000/bulan!',
       'Bonus Kuota Bersama HP Keluarga 30 GB per bulan',
-      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Bonus Langganan Streaming: MAXstream',
       'Internet rumah fiber optik stabil tanpa batas kuota',
     ],
   },
@@ -161,29 +161,29 @@ export const TELKOMSEL_ONE_TIERS: TelkomselOneTier[] = [
 // 2. ALL PACKAGES CATALOG (Real Data Sesuai Permintaan User)
 // -------------------------------------------------------------
 export const PACKAGES_DATA: PackageItem[] = [
-  // 0. EZNET WIRELESS (Khusus Area Tertentu)
+  // 0. EZNET PROMO TERBATAS (Jaringan Kabel Khusus Area Tertentu)
   {
-    id: 'eznet-wireless-20',
-    name: 'EZnet Wireless 20 Mbps',
+    id: 'eznet-20',
+    name: 'EZnet 20 Mbps',
     speedMbps: 20,
     category: 'eznet',
-    categoryLabel: 'EZnet Wireless',
+    categoryLabel: 'EZnet Promo Terbatas',
     monthlyPrice: 103000,
     formattedPrice: 'Rp 103.000',
     priceNote: 'Belum termasuk PPN 11% • Khusus Area Tertentu',
-    idealFor: 'Paling terjangkau: Internet nirkabel EZnet Wireless 20 Mbps praktis hemat, khusus tersedia untuk area jangkauan tertentu.',
+    idealFor: 'Paling terjangkau: Internet kabel EZnet 20 Mbps hemat dan stabil, khusus tersedia untuk area jangkauan tertentu.',
     deviceRecommendation: 'Optimal untuk 2 - 4 perangkat terhubung',
     isBestSeller: false,
-    tag: '🔥 KHUSUS AREA TERTENTU (103 Ribu)',
+    tag: '🔥 PROMO TERBATAS (103 Ribu)',
     perks: [
       'Tarif Super Hemat hanya Rp 103.000/bulan (belum PPN)',
-      'Kecepatan 20 Mbps praktis untuk kebutuhan internet rumah harian',
-      'Khusus tersedia untuk area jangkauan tertentu (S&K berlaku)',
-      'Solusi internet rumah nirkabel tanpa perlu tarikan kabel fiber optik',
+      'Kecepatan 20 Mbps stabil dengan instalasi kabel ke rumah',
+      'Khusus tersedia untuk area jangkauan tertentu (promo terbatas)',
+      'Koneksi kabel resmi Telkomsel untuk internet rumah sehari-hari',
       'Bebas biaya calo & bayar tagihan resmi setelah aktif',
     ],
     ctaMessage:
-      'Halo Mas Vicky, saya mau daftar Paket EZnet Wireless 20 Mbps seharga Rp 103.000/bln belum PPN. Mohon bantu cek apakah lokasi alamat saya masuk area tertentu yang tercover ya mas.',
+      'Halo Mas Vicky, saya mau daftar Paket EZnet 20 Mbps seharga Rp 103.000/bln belum PPN (promo terbatas area tertentu). Mohon bantu cek ketersediaan jaringan kabel di alamat saya ya mas.',
   },
 
   // 1. INTERNET ONLY + STREAMING (Vision+, Prime Video, Viu, MaxStream)
@@ -391,7 +391,7 @@ export const PACKAGES_DATA: PackageItem[] = [
     formattedPrice: 'Rp 148.000',
     priceNote: 'Belum termasuk PPN 11%',
     kuotaKeluarga: '30 GB',
-    includedApps: ['Vision+', 'Prime Video', 'Viu', 'MaxStream'],
+    includedApps: ['MaxStream'],
     idealFor: 'Paling terjangkau: WiFi rumah 20 Mbps stabil + Kuota HP Keluarga 30 GB/bulan dalam 1 tagihan hemat.',
     deviceRecommendation: 'Optimal untuk 2 - 4 perangkat di rumah + HP keluarga',
     isBestSeller: true,
@@ -400,7 +400,7 @@ export const PACKAGES_DATA: PackageItem[] = [
       'GRATIS Biaya Pasang Baru (PSB Rp 0, Bebas Biaya Pemasangan!)',
       'Tarif Super Hemat hanya Rp 148.000/bulan (belum PPN)',
       'Bonus Kuota Bersama Keluarga 30 GB/bulan untuk nomor Telkomsel',
-      'Bonus Langganan Streaming: Vision+, Prime Video, Viu, & MaxStream',
+      'Bonus Langganan Streaming: MAXstream',
       'Internet rumah fiber optik stabil tanpa batas kuota',
     ],
     ctaMessage:
@@ -598,7 +598,7 @@ export const PACKAGES: InternetPackage[] = PACKAGES_DATA.map((item) => {
 export const PROMO_HIGHLIGHTS = [
   {
     title: 'Biaya Pasang Baru Rp 89.000',
-    desc: 'Promo spesial pendaftaran baru hemat biaya pasang dari normal Rp 120.000 menjadi Rp 89.000.',
+    desc: 'Promo spesial pendaftaran baru hemat biaya pasang dari normal Rp 250.000 menjadi Rp 89.000.',
     icon: 'Percent',
   },
   {
@@ -678,7 +678,7 @@ export const FAQS: FaqItem[] = [
   },
   {
     question: 'Berapa biaya pasang baru (PSB) IndiHome?',
-    answer: 'Biaya Pasang Baru (PSB) standar adalah Rp 120.000, namun saat ini sedang tersedia promo spesial menjadi hanya Rp 89.000. Biaya pasang ini tidak dibayarkan tunai ke sales atau teknisi di awal, melainkan langsung masuk ke tagihan bulan pertama resmi dari Telkom Indonesia.',
+    answer: 'Biaya Pasang Baru (PSB) standar adalah Rp 250.000, namun saat ini sedang tersedia promo spesial menjadi hanya Rp 89.000. Biaya pasang ini tidak dibayarkan tunai ke sales atau teknisi di awal, melainkan langsung masuk ke tagihan bulan pertama resmi dari Telkom Indonesia.',
   },
   {
     question: 'Berapa lama proses pemasangan hingga internet aktif?',

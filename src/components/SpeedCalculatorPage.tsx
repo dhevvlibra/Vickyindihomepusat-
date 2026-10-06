@@ -513,8 +513,8 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
             </div>
 
             <div className="p-3 rounded-xl bg-slate-900 border border-amber-500/30">
-              <strong className="text-amber-300 block mb-0.5">📡 EZnet Wireless 20 Mbps (103rb)</strong>
-              <span className="text-[11px] text-slate-400">Pilihan super hemat internet nirkabel Rp 103rb/bln, khusus untuk area tertentu.</span>
+              <strong className="text-amber-300 block mb-0.5">🔌 EZnet 20 Mbps (103rb)</strong>
+              <span className="text-[11px] text-slate-400">Pilihan super hemat internet kabel Rp 103rb/bln, khusus untuk area tertentu.</span>
             </div>
           </div>
         </div>
