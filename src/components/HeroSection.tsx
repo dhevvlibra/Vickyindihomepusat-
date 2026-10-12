@@ -140,7 +140,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 Rp 250.000
               </span>
               <span className="block text-red-400 font-extrabold text-xs sm:text-base -mt-0.5">
-                Rp 89.000
+                Rp 99.000
               </span>
               <span className="text-[9px] sm:text-[11px] text-slate-300 font-medium block">
                 Biaya Pasang

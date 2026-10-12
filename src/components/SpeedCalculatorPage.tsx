@@ -55,13 +55,19 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
 
     // 1. If user specifically wants Kuota Bersama HP Keluarga (Telkomsel One Dynamic)
     if (wantsKuotaKeluarga) {
-      if (score >= 90) {
+      if (score >= 110) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'tone-300-50gb');
+        reason = 'Telkomsel One 300 Mbps (Upspeed ke 500 Mbps) + Kuota HP Keluarga 50 GB seharga Rp 525.000/bln untuk performa maksimal seisi rumah dan kantor.';
+      } else if (score >= 90) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'tone-200-50gb');
+        reason = 'Telkomsel One 200 Mbps (Upspeed ke 500 Mbps 1 tahun) + Kuota HP 50 GB seharga Rp 375.000/bln untuk puluhan perangkat aktif.';
+      } else if (score >= 70) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-150-50gb');
         reason = 'Telkomsel One 150 Mbps (Upspeed ke 300 Mbps) + Kuota HP Keluarga 50 GB untuk performa maksimal seisi rumah.';
-      } else if (score >= 65) {
+      } else if (score >= 50) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-100-50gb');
         reason = 'Telkomsel One 100 Mbps (Upspeed ke 200 Mbps) + Kuota HP 50 GB. Sangat hemat, satu tagihan internet rumah + HP!';
-      } else if (score >= 40) {
+      } else if (score >= 35) {
         matchedPkg = PACKAGES.find((p) => p.id === 'tone-75-50gb');
         reason = 'Telkomsel One 75 Mbps (Upspeed ke 150 Mbps) + Kuota HP 50 GB. Paling cuan, selisih 10rb langsung dapet kuota keluarga!';
       } else {
@@ -71,18 +77,34 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
     }
     // 2. If user specifically needs Movie / Smart TV Bioskop
     else if (needsTvBox) {
-      matchedPkg = PACKAGES.find((p) => p.id === 'movie-75');
-      reason = 'Paket Internet + Movie Complete 75 Mbps (Upspeed ke 200 Mbps) sudah komplit langganan Netflix, Vidio, Disney+, Prime Video & Vision+ langsung aktif di TV.';
+      if (score >= 90) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'movie-200');
+        reason = 'Paket Internet + Movie Complete 200 Mbps (Upspeed ke 500 Mbps 1 tahun) seharga Rp 460.000/bln lengkap langganan Netflix, Vidio, Disney+, Prime Video & Vision+.';
+      } else if (score >= 60) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'movie-100');
+        reason = 'Paket Internet + Movie Complete 100 Mbps (Upspeed ke 300 Mbps) seharga Rp 380.000/bln lengkap langganan Netflix, Vidio, Disney+, Prime Video & Vision+.';
+      } else {
+        matchedPkg = PACKAGES.find((p) => p.id === 'movie-75');
+        reason = 'Paket Internet + Movie Complete 75 Mbps (Upspeed ke 200 Mbps) seharga Rp 350.000/bln sudah komplit langganan Netflix, Vidio, Disney+, Prime Video & Vision+ langsung aktif di TV.';
+      }
     } 
     // 3. If user specifically emphasizes online gaming
-    else if (hasGaming && score < 70) {
-      matchedPkg = PACKAGES.find((p) => p.id === 'game-75');
-      reason = 'Paket Internet + Game 75 Mbps (Upspeed ke 200 Mbps) dilengkapi jalur prioritas routing server game rendah latensi (anti-lag) dan benefit GameQoo, MLBB, Free Fire dll.';
+    else if (hasGaming) {
+      if (score >= 90) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'game-200');
+        reason = 'Paket Internet + Game 200 Mbps (Upspeed ke 500 Mbps 1 tahun) seharga Rp 400.000/bln dengan jalur prioritas routing server game rendah latensi (anti-lag).';
+      } else if (score >= 60) {
+        matchedPkg = PACKAGES.find((p) => p.id === 'game-100');
+        reason = 'Paket Internet + Game 100 Mbps (Upspeed ke 300 Mbps) seharga Rp 320.000/bln dengan jalur prioritas routing server game rendah latensi (anti-lag).';
+      } else {
+        matchedPkg = PACKAGES.find((p) => p.id === 'game-75');
+        reason = 'Paket Internet + Game 75 Mbps (Upspeed ke 200 Mbps) seharga Rp 290.000/bln dilengkapi jalur prioritas routing server game rendah latensi (anti-lag) dan benefit GameQoo, MLBB, Free Fire dll.';
+      }
     }
     // 4. Ultra high bandwidth demand (>= 110 points) -> 300 Mbps up to 500 Mbps Rp 500k
     else if (score >= 110) {
       matchedPkg = PACKAGES.find((p) => p.id === 'stream-300');
-      reason = 'Paket performa tertinggi 300 Mbps (Upspeed lonjak ke 500 Mbps) seharga Rp 500.000/bln untuk kebutuhan ultra profesional, content creator, heavy multitasking, dan smart home besar.';
+      reason = 'Paket performa tertinggi 300 Mbps (Upspeed lonjak ke 500 Mbps) seharga Rp 500.000/bln sudah termasuk bonus langganan Netflix, Vision+, Prime Video, Viu & Maxstream untuk kebutuhan ultra profesional.';
     }
     // 5. Very high bandwidth demand (90 - 109 points) -> 200 Mbps up to 500 Mbps Rp 350k
     else if (score >= 90) {

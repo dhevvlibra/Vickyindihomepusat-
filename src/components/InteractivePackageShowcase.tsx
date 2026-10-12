@@ -42,10 +42,14 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
   // tone-75 -> '30 GB' or '50 GB'
   // tone-100 -> '30 GB' or '50 GB'
   // tone-150 -> '30 GB' or '50 GB'
+  // tone-200 -> '30 GB' or '50 GB'
+  // tone-300 -> '30 GB' or '50 GB'
   const [selectedTierQuota, setSelectedTierQuota] = useState<Record<string, '30 GB' | '50 GB'>>({
     '75': '50 GB',   // default to 50 GB because user said "Mending yang 50gb wkwk selisih cuma 10rb"
     '100': '50 GB',
     '150': '50 GB',
+    '200': '50 GB',
+    '300': '50 GB',
   });
 
   const categories = [
@@ -58,7 +62,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
   ];
 
   // Helper to switch quota for a Telkomsel One tier
-  const handleToggleTelkomselOneQuota = (speed: '20' | '75' | '100' | '150', quota: '30 GB' | '50 GB') => {
+  const handleToggleTelkomselOneQuota = (speed: '20' | '75' | '100' | '150' | '200' | '300', quota: '30 GB' | '50 GB') => {
     setSelectedTierQuota(prev => ({ ...prev, [speed]: quota }));
     const targetPkgId = `tone-${speed}-${quota === '30 GB' ? '30gb' : '50gb'}`;
     const found = PACKAGES.find(p => p.id === targetPkgId);
@@ -91,9 +95,12 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
   // Telkomsel One 30GB vs 50GB comparison helper
   const isTelkomselOneActive = activePackage.category === 'telkomsel-one';
   let tOneSpeed = '75';
-  if (activePackage.id.includes('20')) tOneSpeed = '20';
-  else if (activePackage.id.includes('100')) tOneSpeed = '100';
+  if (activePackage.id.includes('300')) tOneSpeed = '300';
+  else if (activePackage.id.includes('200')) tOneSpeed = '200';
   else if (activePackage.id.includes('150')) tOneSpeed = '150';
+  else if (activePackage.id.includes('100')) tOneSpeed = '100';
+  else if (activePackage.id.includes('75')) tOneSpeed = '75';
+  else if (activePackage.id.includes('20')) tOneSpeed = '20';
 
   const pair30GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-30gb`);
   const pair50GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-50gb`);
@@ -311,7 +318,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
+                                  const speedKey = pkg.id.includes('300') ? '300' : pkg.id.includes('200') ? '200' : pkg.id.includes('150') ? '150' : pkg.id.includes('100') ? '100' : '75';
                                   handleToggleTelkomselOneQuota(speedKey as any, '30 GB');
                                 }}
                                 className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer ${
@@ -326,7 +333,7 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  const speedKey = pkg.id.includes('75') ? '75' : pkg.id.includes('100') ? '100' : '150';
+                                  const speedKey = pkg.id.includes('300') ? '300' : pkg.id.includes('200') ? '200' : pkg.id.includes('150') ? '150' : pkg.id.includes('100') ? '100' : '75';
                                   handleToggleTelkomselOneQuota(speedKey as any, '50 GB');
                                 }}
                                 className={`py-1 px-1.5 text-[11px] font-extrabold rounded-lg transition-all text-center cursor-pointer relative ${
