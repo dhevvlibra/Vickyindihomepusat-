@@ -105,3 +105,51 @@ export interface Testimonial {
   date: string;
   verified: boolean;
 }
+
+export interface BlogSection {
+  id?: string;
+  title: string;
+  content: string;
+  highlightBox?: {
+    title: string;
+    text: string;
+    type?: 'info' | 'warning' | 'tip' | 'promo';
+  };
+  table?: {
+    headers: string[];
+    rows: string[][];
+  };
+  bulletPoints?: string[];
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: 'Panduan' | 'Promo' | 'Tips WiFi' | 'Rekomendasi' | 'Teknologi';
+  author: {
+    name: string;
+    role: string;
+    avatar?: string;
+  };
+  publishDate: string;
+  readTime: string;
+  featuredImage?: string;
+  isFeatured?: boolean;
+  keywords: string[];
+  recommendedPackageId?: string;
+  recommendedPackageName?: string;
+  content: {
+    tableOfContents?: { id: string; title: string }[];
+    intro: string;
+    sections: BlogSection[];
+    faq?: {
+      question: string;
+      answer: string;
+    }[];
+    conclusion: string;
+    ctaNote?: string;
+  };
+}
+

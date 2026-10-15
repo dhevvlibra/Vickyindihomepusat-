@@ -20,7 +20,8 @@ interface NavbarProps {
   onNavigate?: (targetId: string) => void;
   onOpenPromoHighlight?: () => void;
   onOpenCalculator?: () => void;
-  currentView?: 'home' | 'register' | 'calculator';
+  onOpenBlog?: (slug?: string) => void;
+  currentView?: 'home' | 'register' | 'calculator' | 'blog';
   savedCount: number;
 }
 
@@ -32,18 +33,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   onOpenPromoHighlight,
   onOpenCalculator,
+  onOpenBlog,
   currentView = 'home',
   savedCount,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState<string>(
-    currentView === 'calculator' ? 'calculator' : '#katalog-paket'
+    currentView === 'calculator' ? 'calculator' : currentView === 'blog' ? 'blog' : '#katalog-paket'
   );
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 
   const navLinks = [
     { name: 'Katalog Paket', href: '#katalog-paket' },
     { name: 'Kalkulator Speed', href: 'calculator' },
+    { name: 'Blog & Edukasi', href: 'blog' },
     { name: 'Cek Jangkauan ODP', href: '#cek-jangkauan' },
     { name: 'Alur Pasang', href: '#cara-pasang' },
     { name: 'FAQ', href: '#faq' },
@@ -53,9 +56,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   useEffect(() => {
     if (currentView === 'calculator') {
       setActiveLink('calculator');
+    } else if (currentView === 'blog') {
+      setActiveLink('blog');
     } else if (currentView === 'register') {
       setActiveLink('');
-    } else if (activeLink === 'calculator') {
+    } else if (activeLink === 'calculator' || activeLink === 'blog') {
       setActiveLink('#katalog-paket');
     }
   }, [currentView]);
@@ -90,6 +95,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         onOpenCalculator();
       } else if (onNavigate) {
         onNavigate('calculator');
+      }
+      return;
+    }
+
+    if (href === 'blog' || href === '#blog') {
+      if (onOpenBlog) {
+        onOpenBlog();
+      } else if (onNavigate) {
+        onNavigate('blog');
       }
       return;
     }

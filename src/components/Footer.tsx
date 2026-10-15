@@ -5,9 +5,10 @@ import { SALES_AGENT_INFO } from '../data/packages';
 interface FooterProps {
   onOpenRegister: () => void;
   onOpenCalculator?: () => void;
+  onOpenBlog?: (slug?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator, onOpenBlog }) => {
   return (
     <footer className="bg-slate-950 text-slate-400 text-xs pt-16 pb-24 sm:pb-16 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,27 +46,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator
             <ul className="space-y-2">
               <li>
                 <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  1P Internet Only (30 - 200 Mbps)
+                  1P Internet Only (75 - 300 Mbps)
                 </a>
               </li>
               <li>
                 <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  2P Internet + TV Kabel Android 4K
-                </a>
-              </li>
-              <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  2P Internet + Bebas Nelpon Rumah
-                </a>
-              </li>
-              <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  3P Komplit Triple Play
+                  Telkomsel One Dynamic (WiFi + HP)
                 </a>
               </li>
               <li>
                 <a href="#katalog-paket" className="hover:text-white transition-colors">
                   Paket Gamer Pro (Low Latency)
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-paket" className="hover:text-white transition-colors">
+                  Paket Internet + Streaming Movie
+                </a>
+              </li>
+              <li>
+                <a href="#katalog-paket" className="hover:text-white transition-colors">
+                  Paket EZnet 20 Mbps Promo Terbatas
                 </a>
               </li>
             </ul>
@@ -74,51 +75,75 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator
           {/* Quick Info & Navigation */}
           <div className="space-y-3">
             <h4 className="text-white text-xs font-bold uppercase tracking-wider">
-              Navigasi Halaman
+              Blog & Edukasi SEO
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#promo" className="hover:text-white transition-colors">
-                  Promo Biaya Pasang 70%
-                </a>
-              </li>
-              <li>
-                {onOpenCalculator ? (
+                {onOpenBlog ? (
                   <button
                     type="button"
-                    onClick={() => {
-                      onOpenCalculator();
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={() => onOpenBlog('biaya-pasang-baru-indihome-2026')}
                     className="hover:text-white transition-colors text-left cursor-pointer"
                   >
-                    Kalkulator Kebutuhan Speed
+                    Biaya Pasang Baru 2026 (Promo 99K)
                   </button>
                 ) : (
-                  <a href="#kalkulator" className="hover:text-white transition-colors">
-                    Kalkulator Kebutuhan Speed
-                  </a>
+                  <span className="text-slate-400">Biaya Pasang Baru 2026</span>
                 )}
               </li>
               <li>
-                <a href="#cek-jangkauan" className="hover:text-white transition-colors">
-                  Cek Ketersediaan Jaringan ODP
-                </a>
+                {onOpenBlog ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBlog('perbedaan-telkomsel-one-dan-indihome-reguler')}
+                    className="hover:text-white transition-colors text-left cursor-pointer"
+                  >
+                    Telkomsel One vs IndiHome Reguler
+                  </button>
+                ) : (
+                  <span className="text-slate-400">Telkomsel One vs IndiHome</span>
+                )}
               </li>
               <li>
-                <a href="#cara-pasang" className="hover:text-white transition-colors">
-                  Syarat & 4 Langkah Pasang
-                </a>
+                {onOpenBlog ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBlog('review-paket-eznet-telkomsel-148k')}
+                    className="hover:text-white transition-colors text-left cursor-pointer"
+                  >
+                    Review Paket 148K Bebas Biaya PSB
+                  </button>
+                ) : (
+                  <span className="text-slate-400">Paket Hemat 148K</span>
+                )}
               </li>
               <li>
-                <a href="#faq" className="hover:text-white transition-colors">
-                  FAQ & Syarat Ketentuan
-                </a>
+                {onOpenBlog ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBlog('tips-mengatasi-wifi-lemot-di-rumah')}
+                    className="hover:text-white transition-colors text-left cursor-pointer"
+                  >
+                    5 Tips Mengatasi WiFi Lemot
+                  </button>
+                ) : (
+                  <span className="text-slate-400">Tips WiFi Lemot</span>
+                )}
               </li>
               <li>
-                <a href="#testimoni" className="hover:text-white transition-colors">
-                  Testimoni Pelanggan
-                </a>
+                {onOpenBlog ? (
+                  <button
+                    type="button"
+                    onClick={() => onOpenBlog()}
+                    className="text-red-400 font-bold hover:text-red-300 transition-colors text-left cursor-pointer inline-flex items-center gap-1"
+                  >
+                    Semua Artikel & Panduan →
+                  </button>
+                ) : (
+                  <a href="#blog-preview" className="text-red-400 font-bold hover:text-red-300">
+                    Semua Artikel & Panduan →
+                  </a>
+                )}
               </li>
             </ul>
           </div>

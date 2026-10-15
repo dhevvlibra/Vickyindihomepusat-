@@ -4,6 +4,8 @@ import { HeroSection } from './components/HeroSection';
 import { PromoBanner } from './components/PromoBanner';
 import { InteractivePackageShowcase } from './components/InteractivePackageShowcase';
 import { SpeedCalculatorPage } from './components/SpeedCalculatorPage';
+import { BlogPage } from './components/BlogPage';
+import { BlogPreviewSection } from './components/BlogPreviewSection';
 import { CoverageCheck } from './components/CoverageCheck';
 import { InstallationSteps } from './components/InstallationSteps';
 import { WhyChooseVicky } from './components/WhyChooseVicky';
@@ -21,9 +23,10 @@ import { CustomerRegistration } from './types';
 import { getSavedRegistrations } from './utils/helpers';
 
 export default function App() {
-  // Navigation view: 'home' | 'register' | 'calculator'
-  const [currentView, setCurrentView] = useState<'home' | 'register' | 'calculator'>('home');
+  // Navigation view: 'home' | 'register' | 'calculator' | 'blog'
+  const [currentView, setCurrentView] = useState<'home' | 'register' | 'calculator' | 'blog'>('home');
   const [selectedPackageId, setSelectedPackageId] = useState<string | undefined>();
+  const [activeBlogSlug, setActiveBlogSlug] = useState<string | undefined>();
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<CustomerRegistration | null>(null);
   const [isMyRegsOpen, setIsMyRegsOpen] = useState(false);
@@ -64,7 +67,14 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenBlog = (slug?: string) => {
+    setActiveBlogSlug(slug);
+    setCurrentView('blog');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleBackToHome = () => {
+    setActiveBlogSlug(undefined);
     setCurrentView('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -96,6 +106,10 @@ export default function App() {
   const handleNavigate = (targetId: string) => {
     if (targetId === 'calculator' || targetId === '#kalkulator') {
       handleOpenCalculator();
+      return;
+    }
+    if (targetId === 'blog' || targetId === '#blog') {
+      handleOpenBlog();
       return;
     }
     const cleanId = targetId.replace('#', '');
@@ -137,6 +151,7 @@ export default function App() {
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
         onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
         onOpenCalculator={handleOpenCalculator}
+        onOpenBlog={handleOpenBlog}
         currentView={currentView}
         onNavigateHome={handleBackToHome}
         onNavigate={handleNavigate}
@@ -160,8 +175,17 @@ export default function App() {
             onOpenRegister={handleOpenRegister}
           />
         </main>
+      ) : currentView === 'blog' ? (
+        /* VIEW 3: DEDICATED BLOG & SEO ARTICLE READER PAGE */
+        <main className="flex-1">
+          <BlogPage
+            initialSlug={activeBlogSlug}
+            onBackToHome={handleBackToHome}
+            onOpenRegister={handleOpenRegister}
+          />
+        </main>
       ) : (
-        /* VIEW 3: MAIN HOMEPAGE / CATALOG */
+        /* VIEW 4: MAIN HOMEPAGE / CATALOG */
         <main className="flex-1">
           {/* Hero Section with 3D Parallax router background */}
           <HeroSection
@@ -192,6 +216,9 @@ export default function App() {
           {/* Why Choose Sales Vicky */}
           <WhyChooseVicky onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)} />
 
+          {/* SEO Blog & Guides Preview Section on Homepage */}
+          <BlogPreviewSection onOpenBlog={handleOpenBlog} />
+
           {/* Customer Testimonials */}
           <TestimonialsSection />
 
@@ -204,6 +231,7 @@ export default function App() {
       <Footer 
         onOpenRegister={() => handleOpenRegister()} 
         onOpenCalculator={handleOpenCalculator}
+        onOpenBlog={handleOpenBlog}
       />
 
       {/* Floating WhatsApp Quick Contact Button */}

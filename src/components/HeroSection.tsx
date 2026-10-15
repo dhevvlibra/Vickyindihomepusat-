@@ -108,19 +108,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>Mitra Sales Resmi IndiHome by Telkomsel:</span>
               <strong className="text-white font-semibold">Mas Vicky</strong>
             </div>
-
-            {/* Promo 148K Highlight Pill */}
-            {onOpenPromoHighlight && (
-              <button
-                type="button"
-                onClick={onOpenPromoHighlight}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 border border-yellow-400/60 text-xs font-bold text-white shadow-lg shadow-red-950/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-              >
-                <Flame className="w-3.5 h-3.5 fill-yellow-300 text-yellow-300 animate-bounce" />
-                <span>Promo 148K (WiFi + 30GB • GRATIS PSB Rp 0)</span>
-                <ChevronRight className="w-3.5 h-3.5 text-yellow-300" />
-              </button>
-            )}
           </div>
 
           {/* Headline */}
