@@ -1,6 +1,6 @@
-import React from 'react';
-import { BookOpen, ArrowRight, Calendar, Clock, ChevronRight, Sparkles } from 'lucide-react';
-import { BLOG_POSTS } from '../data/blogPosts';
+import React, { useState } from 'react';
+import { BookOpen, ArrowRight, Clock, ChevronRight, Sparkles, Tag, Search } from 'lucide-react';
+import { BLOG_POSTS, KEYWORD_CATEGORY_GROUPS } from '../data/blogPosts';
 import { SALES_AGENT_INFO } from '../data/packages';
 
 interface BlogPreviewSectionProps {
@@ -8,6 +8,7 @@ interface BlogPreviewSectionProps {
 }
 
 export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBlog }) => {
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   // Take top 3 articles for homepage showcase
   const previewPosts = BLOG_POSTS.slice(0, 3);
 
@@ -28,7 +29,7 @@ export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBl
             </h2>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              Pelajari rincian tarif pasang baru promo 99K, review paket hemat Telkomsel One 148K, perbandingan kecepatan, dan tips optimasi WiFi rumah agar tidak lemot.
+              Pelajari rincian tarif pasang baru promo 99K, review paket hemat Telkomsel One 148K, paket EZnet 20 Mbps 100 ribuan, daftar harga internet only 50-300 Mbps, dan panduan registrasi online resmi.
             </p>
           </div>
 
@@ -72,7 +73,7 @@ export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBl
 
                 {/* Keyword pills */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {post.keywords.slice(0, 2).map((kw, kwIdx) => (
+                  {post.keywords.slice(0, 3).map((kw, kwIdx) => (
                     <span
                       key={kwIdx}
                       className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium"
@@ -103,30 +104,61 @@ export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBl
           ))}
         </div>
 
-        {/* SEO Keyword Cloud Footer Box */}
-        <div className="mt-10 p-5 rounded-2xl bg-white/70 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-            <span className="font-bold text-slate-800">Topik Pencarian Populer:</span>
-            <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 cursor-pointer hover:border-red-400" onClick={() => onOpenBlog('biaya-pasang-baru-indihome-2026')}>
-              Biaya Pasang IndiHome 2026
-            </span>
-            <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 cursor-pointer hover:border-red-400" onClick={() => onOpenBlog('review-paket-eznet-telkomsel-148k')}>
-              Paket Telkomsel One 148 Ribu
-            </span>
-            <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 cursor-pointer hover:border-red-400" onClick={() => onOpenBlog('perbedaan-telkomsel-one-dan-indihome-reguler')}>
-              Telkomsel One vs IndiHome
-            </span>
-            <span className="bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 cursor-pointer hover:border-red-400" onClick={() => onOpenBlog('tips-mengatasi-wifi-lemot-di-rumah')}>
-              Cara Mengatasi WiFi Lemot
-            </span>
+        {/* Rich SEO Keyword Cloud & Directory Box */}
+        <div className="mt-10 p-6 sm:p-7 rounded-3xl bg-white border border-slate-200/90 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-100">
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                <Search className="w-4 h-4 text-red-600" />
+                Indeks Kata Kunci Pencarian Populer (Google SEO)
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Pilih topik di bawah untuk membaca artikel panduan resmi & cek promo paket:
+              </p>
+            </div>
+
+            {/* Category tabs */}
+            <div className="flex flex-wrap gap-1.5">
+              {KEYWORD_CATEGORY_GROUPS.map((group, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveCategoryIndex(idx)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    activeCategoryIndex === idx
+                      ? 'bg-red-600 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {group.name}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <button
-            onClick={() => onOpenBlog()}
-            className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors inline-flex items-center gap-1 cursor-pointer"
-          >
-            Kunjungi Halaman Blog Lengkap <ChevronRight className="w-3.5 h-3.5" />
-          </button>
+          {/* Keyword tags chips */}
+          <div className="flex flex-wrap gap-2 pt-1">
+            {KEYWORD_CATEGORY_GROUPS[activeCategoryIndex].keywords.map((kw, kwIdx) => (
+              <button
+                key={kwIdx}
+                onClick={() => onOpenBlog()}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:border-red-400 hover:text-red-600 hover:bg-red-50/50 transition-all cursor-pointer"
+                title={`Cari artikel: ${kw}`}
+              >
+                <Tag className="w-3 h-3 text-slate-400" />
+                <span>{kw}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Menampilkan kata kunci pencarian terverifikasi Google seputar IndiHome & Telkomsel.</span>
+            <button
+              onClick={() => onOpenBlog()}
+              className="font-bold text-red-600 hover:text-red-700 transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
+            >
+              Buka Semua di Blog <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
       </div>

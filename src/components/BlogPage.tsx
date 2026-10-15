@@ -20,7 +20,7 @@ import {
   Flame,
   ArrowRight
 } from 'lucide-react';
-import { BLOG_POSTS } from '../data/blogPosts';
+import { BLOG_POSTS, ALL_SEO_KEYWORDS, KEYWORD_CATEGORY_GROUPS } from '../data/blogPosts';
 import { SALES_AGENT_INFO } from '../data/packages';
 import { BlogPost, BlogSection } from '../types';
 import { createWhatsAppCustomUrl } from '../utils/helpers';
@@ -40,6 +40,8 @@ export const BlogPage: React.FC<BlogPageProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [activeKeywordGroupIdx, setActiveKeywordGroupIdx] = useState<number>(0);
+  const [showAllKeywords, setShowAllKeywords] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
 
@@ -136,7 +138,12 @@ export const BlogPage: React.FC<BlogPageProps> = ({
   const filteredPosts = useMemo(() => {
     return BLOG_POSTS.filter((post) => {
       const matchCategory = selectedCategory === 'Semua' || post.category === selectedCategory;
-      const matchTag = !selectedTag || post.keywords.includes(selectedTag);
+      const matchTag =
+        !selectedTag ||
+        post.keywords.some((k) =>
+          k.toLowerCase().includes(selectedTag.toLowerCase()) ||
+          selectedTag.toLowerCase().includes(k.toLowerCase())
+        );
       const matchSearch =
         searchQuery.trim() === '' ||
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -443,18 +450,30 @@ export const BlogPage: React.FC<BlogPageProps> = ({
 
             {/* Keyword SEO Tags */}
             <div className="mt-8 pt-6 border-t border-slate-100">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2.5">
-                Topik Terkait & Keyword:
-              </span>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-red-500" />
+                  Kata Kunci SEO Terkait Artikel Ini:
+                </span>
+                <span className="text-[11px] text-slate-400">
+                  Klik tag untuk melihat artikel terkait
+                </span>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {activeArticle.keywords.map((kw, i) => (
-                  <span
+                  <button
                     key={i}
-                    className="inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                    onClick={() => {
+                      setSelectedTag(kw);
+                      setSelectedSlug(null);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-50 hover:bg-red-50 text-slate-700 hover:text-red-600 border border-slate-200 hover:border-red-300 transition-all cursor-pointer"
+                    title={`Cari artikel dengan kata kunci "${kw}"`}
                   >
-                    <Tag className="w-3 h-3 text-slate-400" />
-                    {kw}
-                  </span>
+                    <Tag className="w-3.5 h-3.5 text-slate-400" />
+                    <span>#{kw}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -598,8 +617,8 @@ export const BlogPage: React.FC<BlogPageProps> = ({
           </div>
         </div>
 
-        {/* Category Filters & Keyword Tag Cloud */}
-        <div className="space-y-4 mb-10">
+        {/* Category Filters */}
+        <div className="space-y-4 mb-8">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1">
               Kategori:
@@ -620,34 +639,105 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                 {cat}
               </button>
             ))}
+
+            {(selectedTag || searchQuery || selectedCategory !== 'Semua') && (
+              <button
+                onClick={() => {
+                  setSelectedCategory('Semua');
+                  setSelectedTag(null);
+                  setSearchQuery('');
+                }}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 transition-colors cursor-pointer ml-auto"
+              >
+                Reset Semua Filter
+              </button>
+            )}
           </div>
 
-          {/* Quick Tag Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-1">
-            <span className="text-xs font-semibold text-slate-400 flex items-center gap-1 mr-1">
-              <Tag className="w-3.5 h-3.5" />
-              Tag Populer:
-            </span>
-            {allKeywords.map((tag) => (
+          {/* Active Filter Indicator */}
+          {selectedTag && (
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-xs">
+              <Tag className="w-3.5 h-3.5 text-red-400" />
+              <span>Filter Kata Kunci: <strong>#{selectedTag}</strong></span>
               <button
-                key={tag}
-                onClick={() => {
-                  if (selectedTag === tag) {
-                    setSelectedTag(null);
-                  } else {
-                    setSelectedTag(tag);
-                    setSelectedCategory('Semua');
-                  }
-                }}
-                className={`px-3 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
-                  selectedTag === tag
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-slate-200/70 text-slate-600 hover:bg-slate-200'
-                }`}
+                onClick={() => setSelectedTag(null)}
+                className="ml-2 bg-slate-800 hover:bg-slate-700 px-1.5 py-0.5 rounded text-[10px] cursor-pointer"
               >
-                #{tag}
+                ✕ Hapus
               </button>
-            ))}
+            </div>
+          )}
+
+          {/* Direktori Kata Kunci Populer (Google SEO Index) */}
+          <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <Tag className="w-4 h-4 text-red-600" />
+                <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                  Indeks Kata Kunci SEO Terbanyak Dicari:
+                </span>
+              </div>
+
+              {/* Group selection tabs */}
+              <div className="flex flex-wrap gap-1">
+                {KEYWORD_CATEGORY_GROUPS.map((grp, gIdx) => (
+                  <button
+                    key={gIdx}
+                    onClick={() => {
+                      setActiveKeywordGroupIdx(gIdx);
+                      setShowAllKeywords(false);
+                    }}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      activeKeywordGroupIdx === gIdx && !showAllKeywords
+                        ? 'bg-slate-900 text-white'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {grp.name.split(',')[0]}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setShowAllKeywords(!showAllKeywords)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    showAllKeywords
+                      ? 'bg-red-600 text-white'
+                      : 'bg-red-50 text-red-600 hover:bg-red-100'
+                  }`}
+                >
+                  {showAllKeywords ? 'Tutup Semua' : `Lihat Semua (${ALL_SEO_KEYWORDS.length})`}
+                </button>
+              </div>
+            </div>
+
+            {/* Keyword chips for active group or all */}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {(showAllKeywords
+                ? ALL_SEO_KEYWORDS
+                : KEYWORD_CATEGORY_GROUPS[activeKeywordGroupIdx].keywords
+              ).map((kw, kwIdx) => {
+                const isActive = selectedTag === kw;
+                return (
+                  <button
+                    key={kwIdx}
+                    onClick={() => {
+                      if (selectedTag === kw) {
+                        setSelectedTag(null);
+                      } else {
+                        setSelectedTag(kw);
+                        setSelectedCategory('Semua');
+                      }
+                    }}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-red-600 text-white font-bold shadow-xs'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/60 hover:border-slate-300'
+                    }`}
+                  >
+                    <span>#{kw}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -804,8 +894,47 @@ export const BlogPage: React.FC<BlogPageProps> = ({
           )}
         </div>
 
+        {/* Full Directory of SEO Keywords for Crawlers and Users */}
+        <div className="mt-16 p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xs">
+          <div className="mb-6">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <Tag className="w-5 h-5 text-red-600" />
+              Direktori Lengkap Kata Kunci Pencarian Resmi (SEO Index)
+            </h3>
+            <p className="text-xs text-slate-500 mt-1">
+              Jelajahi seluruh topik pencarian terpopuler untuk paket IndiHome Telkomsel resmi 2026:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {KEYWORD_CATEGORY_GROUPS.map((grp, gIdx) => (
+              <div key={gIdx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+                <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-red-500" />
+                  {grp.name}
+                </h4>
+                <p className="text-[11px] text-slate-500">{grp.description}</p>
+                <div className="flex flex-wrap gap-1 pt-1">
+                  {grp.keywords.map((kw, kwIdx) => (
+                    <button
+                      key={kwIdx}
+                      onClick={() => {
+                        setSelectedTag(kw);
+                        window.scrollTo({ top: 350, behavior: 'smooth' });
+                      }}
+                      className="text-[10px] bg-white hover:bg-red-50 text-slate-600 hover:text-red-600 px-2 py-0.5 rounded border border-slate-200 hover:border-red-300 transition-colors cursor-pointer"
+                    >
+                      #{kw}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Fast Consultation Banner at the bottom of the blog */}
-        <div className="mt-16 p-8 rounded-3xl bg-white border border-slate-200 text-center shadow-xs space-y-4 max-w-3xl mx-auto">
+        <div className="mt-10 p-8 rounded-3xl bg-white border border-slate-200 text-center shadow-xs space-y-4 max-w-3xl mx-auto">
           <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto">
             <MessageCircle className="w-6 h-6" />
           </div>
