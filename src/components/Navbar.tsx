@@ -10,7 +10,7 @@ import {
   Flame
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
-import { createWhatsAppConsultUrl } from '../utils/helpers';
+import { createWhatsAppConsultUrl, trackMetaPixel } from '../utils/helpers';
 
 interface NavbarProps {
   onOpenRegister: (packageId?: string) => void;
@@ -395,7 +395,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 href={createWhatsAppConsultUrl('Tanya Paket')}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => triggerClickFeedback('chat-wa-mobile')}
+                onClick={() => {
+                  triggerClickFeedback('chat-wa-mobile');
+                  trackMetaPixel('Contact', { content_name: 'Navbar Mobile Chat WA' });
+                }}
                 className="inline-flex items-center gap-1 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-90 transition-all px-3 py-1.5 rounded-xl shadow-xs"
               >
                 <MessageCircle className="w-3.5 h-3.5" />

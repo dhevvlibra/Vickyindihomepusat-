@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
 import { STREAMING_LOGOS } from '../data/streamingLogos';
-import { createWhatsAppCustomUrl } from '../utils/helpers';
+import { createWhatsAppCustomUrl, trackMetaPixel } from '../utils/helpers';
 
 interface PromoHighlightModalProps {
   isOpen: boolean;
@@ -309,6 +309,7 @@ export const PromoHighlightModal: React.FC<PromoHighlightModalProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
+                trackMetaPixel('Contact', { content_name: 'Promo 148K WhatsApp Click' });
                 try {
                   sessionStorage.setItem('vicky_promo_148k_dismissed', 'true');
                 } catch {
