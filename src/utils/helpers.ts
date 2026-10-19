@@ -90,3 +90,21 @@ export function saveRegistration(registration: CustomerRegistration): void {
     console.error('Error saving registration locally', err);
   }
 }
+
+/**
+ * Track Meta Pixel standard and custom events (e.g., PageView, Lead, Contact)
+ */
+export function trackMetaPixel(eventName: string, params?: Record<string, any>): void {
+  try {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      if (params) {
+        (window as any).fbq('track', eventName, params);
+      } else {
+        (window as any).fbq('track', eventName);
+      }
+    }
+  } catch (err) {
+    console.debug('Meta Pixel tracking skipped or blocked', err);
+  }
+}
+

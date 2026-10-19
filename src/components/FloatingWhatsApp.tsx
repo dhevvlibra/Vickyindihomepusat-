@@ -11,7 +11,7 @@ import {
   Headphones
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
-import { createWhatsAppConsultUrl } from '../utils/helpers';
+import { createWhatsAppConsultUrl, trackMetaPixel } from '../utils/helpers';
 
 interface FloatingWhatsAppProps {
   onOpenRegister: () => void;
@@ -100,7 +100,13 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
                 href={waUrl1}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setChoiceModalOpen(false)}
+                onClick={() => {
+                  trackMetaPixel('Contact', {
+                    content_name: 'WhatsApp Sales Mas Vicky (Utama)',
+                    phone: phone1,
+                  });
+                  setChoiceModalOpen(false);
+                }}
                 className="group block p-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border-2 border-emerald-500/60 shadow-xs hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-2">
@@ -150,7 +156,13 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
                 href={waUrl2}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setChoiceModalOpen(false)}
+                onClick={() => {
+                  trackMetaPixel('Contact', {
+                    content_name: 'WhatsApp Sales Layanan 2',
+                    phone: phone2,
+                  });
+                  setChoiceModalOpen(false);
+                }}
                 className="group block p-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-300 shadow-xs hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-2">

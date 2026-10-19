@@ -22,7 +22,8 @@ import {
   formatRupiah, 
   generateRegistrationId, 
   createWhatsAppRegistrationUrl, 
-  saveRegistration 
+  saveRegistration,
+  trackMetaPixel
 } from '../utils/helpers';
 import { StreamingBenefitBadges } from './StreamingBenefitBadges';
 
@@ -116,6 +117,14 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
     const reg = buildRegistrationObject();
     saveRegistration(reg);
 
+    // Track conversion event for Meta Ads
+    trackMetaPixel('Lead', {
+      content_name: reg.packageName,
+      content_category: 'IndiHome Registration - WhatsApp',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+
     const waUrl = createWhatsAppRegistrationUrl(reg, currentPkg);
     window.open(waUrl, '_blank');
     onSuccess(reg);
@@ -128,6 +137,15 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
 
     const reg = buildRegistrationObject();
     saveRegistration(reg);
+
+    // Track conversion event for Meta Ads
+    trackMetaPixel('Lead', {
+      content_name: reg.packageName,
+      content_category: 'IndiHome Registration - Online Form',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+
     onSuccess(reg);
   };
 
