@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   CheckCircle2, 
   X, 
@@ -12,7 +12,11 @@ import {
   ExternalLink 
 } from 'lucide-react';
 import { CustomerRegistration } from '../types';
-import { formatRupiah, createWhatsAppRegistrationUrl } from '../utils/helpers';
+import { 
+  formatRupiah, 
+  createWhatsAppRegistrationUrl, 
+  trackGoogleAdsContactConversion 
+} from '../utils/helpers';
 import { SALES_AGENT_INFO, PACKAGES } from '../data/packages';
 
 interface RegistrationReceiptModalProps {
@@ -27,6 +31,18 @@ export const RegistrationReceiptModal: React.FC<RegistrationReceiptModalProps> =
   onClose,
 }) => {
   const [copied, setCopied] = useState(false);
+
+  // Trigger Google Ads conversion event when conversion page / receipt is accessed
+  useEffect(() => {
+    if (isOpen && registration) {
+      trackGoogleAdsContactConversion({
+        value: registration.pricePromo,
+        currency: 'IDR',
+        transaction_id: registration.id,
+        event_label: `Halaman Terima Kasih - ${registration.packageName}`,
+      });
+    }
+  }, [isOpen, registration]);
 
   if (!isOpen || !registration) return null;
 

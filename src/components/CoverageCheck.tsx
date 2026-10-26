@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { MapPin, MessageCircle, Sparkles, Send, ShieldCheck, Zap } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
-import { createWhatsAppCoverageUrl, trackMetaPixel } from '../utils/helpers';
+import { 
+  createWhatsAppCoverageUrl, 
+  trackMetaPixel, 
+  trackGoogleAdsContactConversion 
+} from '../utils/helpers';
 
 interface CoverageCheckProps {
   onOpenRegister?: () => void;
@@ -19,6 +23,7 @@ export const CoverageCheck: React.FC<CoverageCheckProps> = () => {
     }
     setErrorMessage('');
     trackMetaPixel('Contact', { content_name: 'Coverage Check WhatsApp' });
+    trackGoogleAdsContactConversion({ event_label: 'Coverage Check WhatsApp' });
     const waUrl = createWhatsAppCoverageUrl(trimmed);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   };

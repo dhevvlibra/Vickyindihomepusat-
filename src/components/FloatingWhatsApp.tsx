@@ -11,7 +11,12 @@ import {
   Headphones
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
-import { createWhatsAppConsultUrl, trackMetaPixel, trackGoogleAds } from '../utils/helpers';
+import { 
+  createWhatsAppConsultUrl, 
+  trackMetaPixel, 
+  trackGoogleAds, 
+  trackGoogleAdsContactConversion 
+} from '../utils/helpers';
 
 interface FloatingWhatsAppProps {
   onOpenRegister: () => void;
@@ -109,6 +114,9 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
                     event_category: 'WhatsApp',
                     event_label: 'WhatsApp Utama Mas Vicky',
                   });
+                  trackGoogleAdsContactConversion({
+                    event_label: 'WhatsApp Utama Mas Vicky',
+                  });
                   setChoiceModalOpen(false);
                 }}
                 className="group block p-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border-2 border-emerald-500/60 shadow-xs hover:shadow-md transition-all active:scale-[0.98] cursor-pointer"
@@ -167,6 +175,9 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
                   });
                   trackGoogleAds('contact', {
                     event_category: 'WhatsApp',
+                    event_label: 'WhatsApp Layanan 2',
+                  });
+                  trackGoogleAdsContactConversion({
                     event_label: 'WhatsApp Layanan 2',
                   });
                   setChoiceModalOpen(false);

@@ -108,6 +108,9 @@ export function trackMetaPixel(eventName: string, params?: Record<string, any>):
   }
 }
 
+export const GOOGLE_ADS_ID = 'AW-18516304640';
+export const GOOGLE_ADS_KONTAK_CONVERSION = 'AW-18516304640/ZtNpCPmUoKgdEIDGof1E';
+
 /**
  * Track Google Ads standard conversion or custom event via gtag
  */
@@ -124,5 +127,22 @@ export function trackGoogleAds(eventName: string, params?: Record<string, any>):
     console.debug('Google Ads tracking skipped or blocked', err);
   }
 }
+
+/**
+ * Trigger Kontak conversion event snippet in Google Ads
+ */
+export function trackGoogleAdsContactConversion(extraParams?: Record<string, any>): void {
+  try {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        send_to: GOOGLE_ADS_KONTAK_CONVERSION,
+        ...extraParams,
+      });
+    }
+  } catch (err) {
+    console.debug('Google Ads contact conversion skipped', err);
+  }
+}
+
 
 
