@@ -19,7 +19,8 @@ import {
   generateRegistrationId, 
   createWhatsAppRegistrationUrl, 
   saveRegistration,
-  trackMetaPixel
+  trackMetaPixel,
+  trackGoogleAds
 } from '../utils/helpers';
 import { StreamingBenefitBadges } from './StreamingBenefitBadges';
 
@@ -107,6 +108,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       value: reg.pricePromo,
       currency: 'IDR',
     });
+    trackGoogleAds('conversion', {
+      send_to: 'AW-18516304640',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+    trackGoogleAds('generate_lead', {
+      event_category: 'Registration Modal',
+      event_label: reg.packageName,
+      value: reg.pricePromo,
+    });
 
     const waUrl = createWhatsAppRegistrationUrl(reg, currentPkg);
     window.open(waUrl, '_blank');
@@ -126,6 +137,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       content_category: 'IndiHome Registration Modal - Online Form',
       value: reg.pricePromo,
       currency: 'IDR',
+    });
+    trackGoogleAds('conversion', {
+      send_to: 'AW-18516304640',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+    trackGoogleAds('generate_lead', {
+      event_category: 'Registration Modal',
+      event_label: reg.packageName,
+      value: reg.pricePromo,
     });
 
     onSuccess(reg);

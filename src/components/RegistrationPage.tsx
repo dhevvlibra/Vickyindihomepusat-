@@ -23,7 +23,8 @@ import {
   generateRegistrationId, 
   createWhatsAppRegistrationUrl, 
   saveRegistration,
-  trackMetaPixel
+  trackMetaPixel,
+  trackGoogleAds
 } from '../utils/helpers';
 import { StreamingBenefitBadges } from './StreamingBenefitBadges';
 
@@ -117,12 +118,22 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
     const reg = buildRegistrationObject();
     saveRegistration(reg);
 
-    // Track conversion event for Meta Ads
+    // Track conversion event for Meta Ads & Google Ads
     trackMetaPixel('Lead', {
       content_name: reg.packageName,
       content_category: 'IndiHome Registration - WhatsApp',
       value: reg.pricePromo,
       currency: 'IDR',
+    });
+    trackGoogleAds('conversion', {
+      send_to: 'AW-18516304640',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+    trackGoogleAds('generate_lead', {
+      event_category: 'Registration',
+      event_label: reg.packageName,
+      value: reg.pricePromo,
     });
 
     const waUrl = createWhatsAppRegistrationUrl(reg, currentPkg);
@@ -138,12 +149,22 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
     const reg = buildRegistrationObject();
     saveRegistration(reg);
 
-    // Track conversion event for Meta Ads
+    // Track conversion event for Meta Ads & Google Ads
     trackMetaPixel('Lead', {
       content_name: reg.packageName,
       content_category: 'IndiHome Registration - Online Form',
       value: reg.pricePromo,
       currency: 'IDR',
+    });
+    trackGoogleAds('conversion', {
+      send_to: 'AW-18516304640',
+      value: reg.pricePromo,
+      currency: 'IDR',
+    });
+    trackGoogleAds('generate_lead', {
+      event_category: 'Registration',
+      event_label: reg.packageName,
+      value: reg.pricePromo,
     });
 
     onSuccess(reg);

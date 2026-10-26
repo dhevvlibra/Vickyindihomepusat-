@@ -108,3 +108,21 @@ export function trackMetaPixel(eventName: string, params?: Record<string, any>):
   }
 }
 
+/**
+ * Track Google Ads standard conversion or custom event via gtag
+ */
+export function trackGoogleAds(eventName: string, params?: Record<string, any>): void {
+  try {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      if (params) {
+        (window as any).gtag('event', eventName, params);
+      } else {
+        (window as any).gtag('event', eventName);
+      }
+    }
+  } catch (err) {
+    console.debug('Google Ads tracking skipped or blocked', err);
+  }
+}
+
+
