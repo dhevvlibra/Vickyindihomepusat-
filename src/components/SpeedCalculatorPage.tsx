@@ -215,10 +215,10 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
                 className="w-full h-3 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-red-500 border border-slate-700"
               />
 
-              <div className="flex justify-between text-[11px] text-slate-400 font-medium">
-                <span>1 Perangkat (Personal)</span>
-                <span>7-8 Perangkat (Keluarga)</span>
-                <span>15+ Perangkat (Besar/Kantor)</span>
+              <div className="flex justify-between text-[10px] sm:text-[11px] text-slate-400 font-medium">
+                <span>1 <span className="hidden xs:inline sm:inline">Perangkat</span> (Personal)</span>
+                <span className="text-center">7-8 <span className="hidden xs:inline sm:inline">Perangkat</span> (Keluarga)</span>
+                <span className="text-right">15+ <span className="hidden xs:inline sm:inline">Perangkat</span> (Kantor)</span>
               </div>
             </div>
 
@@ -410,7 +410,7 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
 
             {/* Speed & Upspeed Badge */}
             {recommendation.pkg.upspeedMbps ? (
-              <div className="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/50 flex items-center justify-between">
+              <div className="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/50 flex flex-wrap gap-2 items-center justify-between">
                 <div>
                   <span className="text-[10px] font-extrabold text-amber-300 uppercase block">Kecepatan Promo Lonjakan:</span>
                   <div className="flex items-baseline gap-2 mt-0.5">
@@ -418,7 +418,7 @@ export const SpeedCalculatorPage: React.FC<SpeedCalculatorPageProps> = ({
                     <span className="text-xs text-slate-400 line-through">({recommendation.pkg.speedLabel})</span>
                   </div>
                 </div>
-                <span className="text-[10px] text-amber-200 font-bold px-2 py-1 rounded-md bg-amber-500/20 border border-amber-500/30">
+                <span className="text-[10px] text-amber-200 font-bold px-2 py-1 rounded-md bg-amber-500/20 border border-amber-500/30 shrink-0">
                   {recommendation.pkg.upspeedDuration}
                 </span>
               </div>

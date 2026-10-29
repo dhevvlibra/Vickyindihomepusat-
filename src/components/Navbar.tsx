@@ -137,26 +137,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs transition-all">
       {/* Top Notification Bar */}
-      <div className="bg-gradient-to-r from-red-600 via-red-600 to-rose-700 text-white text-xs py-1.5 px-4 font-medium select-none">
+      <div className="bg-gradient-to-r from-red-600 via-red-600 to-rose-700 text-white text-xs py-1.5 px-3 sm:px-4 font-medium select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
             <button
               type="button"
               onClick={() => onOpenPromoHighlight?.()}
-              className="inline-flex items-center gap-1.5 hover:opacity-95 cursor-pointer group text-left"
+              className="inline-flex items-center gap-1.5 hover:opacity-95 cursor-pointer group text-left min-w-0 flex-1"
               title="Klik untuk membuka Promo Highlight 148K"
             >
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-yellow-400 text-red-950 uppercase tracking-wide shadow-xs group-hover:scale-105 transition-transform">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-yellow-400 text-red-950 uppercase tracking-wide shadow-xs group-hover:scale-105 transition-transform shrink-0">
                 <Flame className="w-3 h-3 fill-red-950 text-red-950" />
                 Promo 148K
               </span>
-              <span className="truncate">
+              <span className="truncate block min-w-0 text-[11px] sm:text-xs">
                 WiFi + 30GB Cuma <strong className="text-yellow-300 font-extrabold underline decoration-yellow-400/60">Rp 148.000/bln</strong> • <span className="text-emerald-300 font-extrabold">GRATIS PSB (Rp 0!)</span>
               </span>
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-3 text-xs text-red-100">
+          <div className="hidden sm:flex items-center gap-3 text-xs text-red-100 shrink-0">
             <button
               type="button"
               onClick={() => onOpenPromoHighlight?.()}
@@ -174,17 +174,17 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-2">
           {/* Logo / Brand with Sales Photo */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <button
               type="button"
               onClick={() => {
                 triggerClickFeedback('sales-photo');
                 onOpenSalesPhoto?.();
               }}
-              className={`relative group cursor-pointer focus:outline-hidden transition-transform duration-200 active:scale-85 ${
+              className={`relative group cursor-pointer focus:outline-hidden transition-transform duration-200 active:scale-85 shrink-0 ${
                 clickedItem === 'sales-photo' ? 'animate-nav-click' : ''
               }`}
               title="Klik untuk melihat foto profil resmi Mas Vicky"
@@ -194,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 src={SALES_AGENT_INFO.photoUrl}
                 alt="Mas Vicky Sales Resmi IndiHome"
                 referrerPolicy="no-referrer"
-                className="w-11 h-11 rounded-2xl object-cover object-top ring-2 ring-red-600 shadow-md shadow-red-600/20 group-hover:scale-105 group-hover:ring-red-500 transition-all"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl object-cover object-top ring-2 ring-red-600 shadow-md shadow-red-600/20 group-hover:scale-105 group-hover:ring-red-500 transition-all"
               />
               <span className="absolute inset-0 rounded-2xl bg-black/35 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white">
                 <ZoomIn className="w-4 h-4 drop-shadow-md" />
@@ -205,18 +205,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={handleLogoClick}
-              className={`flex flex-col text-left group cursor-pointer focus:outline-hidden transition-all duration-200 active:scale-95 ${
+              className={`flex flex-col text-left group cursor-pointer focus:outline-hidden transition-all duration-200 active:scale-95 min-w-0 ${
                 clickedItem === 'brand-logo' ? 'animate-nav-click' : ''
               }`}
             >
               <div className="flex items-center gap-1">
-                <span className="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-red-600 transition-colors">
+                <span className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-red-600 transition-colors truncate">
                   vicky<span className="text-red-600">indihome</span>pusat
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-[11px] text-slate-500">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
-                <span>Sales Resmi IndiHome Telkom</span>
+              <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-slate-500 truncate">
+                <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 group-hover:scale-110 transition-transform shrink-0" />
+                <span className="truncate">Sales Resmi IndiHome Telkom</span>
               </div>
             </button>
           </div>
@@ -367,7 +367,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Floating dropdown overlay card */}
           <div className="absolute top-full left-0 right-0 z-50 lg:hidden bg-white/98 backdrop-blur-xl border-b border-slate-200 shadow-2xl px-4 pt-3 pb-5 space-y-3 animate-nav-dropdown max-h-[calc(100vh-110px)] overflow-y-auto">
             {/* Sales Contact Mini Card */}
-            <div className="p-3 bg-red-50/80 rounded-2xl border border-red-100 flex items-center justify-between">
+            <div className="p-3 bg-red-50/80 rounded-2xl border border-red-100 flex items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -375,10 +375,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   onOpenSalesPhoto?.();
                 }}
-                className="flex items-center gap-2.5 text-left cursor-pointer group active:scale-95 transition-transform"
+                className="flex items-center gap-2.5 text-left cursor-pointer group active:scale-95 transition-transform min-w-0 flex-1"
                 title="Klik untuk melihat foto profil resmi"
               >
-                <div className="relative">
+                <div className="relative shrink-0">
                   <img
                     src={SALES_AGENT_INFO.photoUrl}
                     alt="Mas Vicky"
@@ -387,11 +387,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                   />
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-1 ring-white"></span>
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-900 flex items-center gap-1">
-                    Mas Vicky <ZoomIn className="w-3 h-3 text-red-500" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-bold text-slate-900 flex items-center gap-1 truncate">
+                    <span>Mas Vicky</span>
+                    <ZoomIn className="w-3 h-3 text-red-500 shrink-0" />
                   </p>
-                  <p className="text-[11px] text-slate-500">Sales Resmi • Cek Foto & ID</p>
+                  <p className="text-[11px] text-slate-500 truncate">Sales Resmi • Cek Foto & ID</p>
                 </div>
               </button>
 
@@ -404,7 +405,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   trackMetaPixel('Contact', { content_name: 'Navbar Mobile Chat WA' });
                   trackGoogleAdsContactConversion({ event_label: 'Navbar Mobile Chat WA' });
                 }}
-                className="inline-flex items-center gap-1 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-90 transition-all px-3 py-1.5 rounded-xl shadow-xs"
+                className="inline-flex items-center gap-1 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-90 transition-all px-3 py-1.5 rounded-xl shadow-xs shrink-0"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Chat WA</span>

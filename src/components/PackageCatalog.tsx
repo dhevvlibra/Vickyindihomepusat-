@@ -170,24 +170,24 @@ export const PackageCatalog: React.FC<PackageCatalogProps> = ({
                   <p className="text-xs text-slate-500 line-clamp-2">{pkg.description}</p>
 
                   {/* Speed Gauge & Price */}
-                  <div className="mt-4 pt-4 border-t border-dashed border-slate-200 flex items-baseline justify-between">
+                  <div className="mt-4 pt-4 border-t border-dashed border-slate-200 flex flex-wrap items-baseline justify-between gap-2">
                     <div>
-                      <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-2xl">
-                        <Zap className="w-5 h-5 text-red-600 fill-red-600" />
+                      <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-xl sm:text-2xl">
+                        <Zap className="w-5 h-5 text-red-600 fill-red-600 shrink-0" />
                         <span>{pkg.speedLabel}</span>
                       </div>
                       <span className="text-[11px] text-slate-500 font-medium">100% Fiber Optic</span>
                     </div>
 
-                    <div className="text-right">
-                      <div className="text-2xl font-black text-red-600">
+                    <div className="text-right sm:text-right">
+                      <div className="text-xl sm:text-2xl font-black text-red-600">
                         {formatRupiah(pkg.pricePromo)}
                       </div>
-                      <div className="flex items-center justify-end gap-1.5">
+                      <div className="flex flex-wrap items-center justify-end gap-1.5">
                         <span className="text-xs text-slate-400 line-through">
                           {formatRupiah(pkg.priceNormal)}
                         </span>
-                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded">
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
                           Hemat {formatRupiah(savings)}
                         </span>
                       </div>

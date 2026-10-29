@@ -100,13 +100,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="max-w-3xl mx-auto text-center space-y-6">
           
           {/* Badges Row */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {/* Sales Partner Authority Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300 backdrop-blur-md shadow-lg shadow-black/40">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <ShieldCheck className="w-4 h-4 text-red-500" />
-              <span>Mitra Sales Resmi IndiHome by Telkomsel:</span>
-              <strong className="text-white font-semibold">Mas Vicky</strong>
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] sm:text-xs text-slate-300 backdrop-blur-md shadow-lg shadow-black/40 text-center max-w-full">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 shrink-0" />
+              <span>Mitra Sales Resmi:</span>
+              <strong className="text-white font-bold">Mas Vicky</strong>
             </div>
           </div>
 
@@ -121,25 +121,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
 
           {/* 3 Value Pillars */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-xl mx-auto pt-1 sm:pt-2">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-3 max-w-xl mx-auto pt-1 sm:pt-2">
             <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-red-500/30 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-[9px] sm:text-[11px] line-through text-slate-400 font-medium">
+              <span className="block text-[8px] sm:text-[11px] line-through text-slate-400 font-medium truncate">
                 Rp 250.000
               </span>
-              <span className="block text-red-400 font-extrabold text-xs sm:text-base -mt-0.5">
+              <span className="block text-red-400 font-extrabold text-[11px] sm:text-base -mt-0.5 truncate">
                 Rp 99.000
               </span>
-              <span className="text-[9px] sm:text-[11px] text-slate-300 font-medium block">
+              <span className="text-[8px] sm:text-[11px] text-slate-300 font-medium block truncate">
                 Biaya Pasang
               </span>
             </div>
             <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-emerald-400 font-extrabold text-xs sm:text-base">100% Fiber</span>
-              <span className="text-[9px] sm:text-[11px] text-slate-400">Optik Unlimited</span>
+              <span className="block text-emerald-400 font-extrabold text-[11px] sm:text-base truncate">100% Fiber</span>
+              <span className="text-[8px] sm:text-[11px] text-slate-400 block truncate">Optik Unlimited</span>
             </div>
             <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-slate-900/85 border border-slate-800 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-white font-extrabold text-xs sm:text-base">1x24 Jam</span>
-              <span className="text-[9px] sm:text-[11px] text-slate-400">Teknisi Tiba</span>
+              <span className="block text-white font-extrabold text-[11px] sm:text-base truncate">1x24 Jam</span>
+              <span className="text-[8px] sm:text-[11px] text-slate-400 block truncate">Teknisi Tiba</span>
             </div>
           </div>
 

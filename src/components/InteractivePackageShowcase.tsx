@@ -271,23 +271,25 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                       </div>
 
                       {/* Package Name & Speed */}
-                      <div className="flex items-start justify-between gap-2">
-                        <h4 className="text-base font-black text-slate-900 leading-tight">
-                          {pkg.name}
-                        </h4>
+                      <div className="flex flex-wrap sm:flex-nowrap items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-sm sm:text-base font-black text-slate-900 leading-tight">
+                            {pkg.name}
+                          </h4>
+                        </div>
                         {pkg.upspeedMbps ? (
                           <div className="flex flex-col items-end shrink-0">
-                            <div className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs sm:text-sm shadow-md shadow-amber-500/25 flex items-center gap-1 ring-1 ring-amber-400">
-                              <Zap className="w-3.5 h-3.5 fill-white text-white" />
+                            <div className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs sm:text-sm shadow-md shadow-amber-500/25 flex items-center gap-1 ring-1 ring-amber-400">
+                              <Zap className="w-3 sm:w-3.5 h-3 sm:h-3.5 fill-white text-white" />
                               <span>{pkg.upspeedMbps} Mbps</span>
                             </div>
-                            <span className="text-[10px] text-slate-400 font-medium mt-0.5">
+                            <span className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-0.5">
                               Dasar: <span className="line-through">{pkg.speedLabel}</span>
                             </span>
                           </div>
                         ) : (
-                          <div className="px-2 py-1 rounded-lg bg-slate-100 text-slate-900 font-black text-xs shrink-0 flex items-center gap-1">
-                            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                          <div className="px-2 py-0.5 sm:py-1 rounded-lg bg-slate-100 text-slate-900 font-black text-xs shrink-0 flex items-center gap-1">
+                            <Zap className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-amber-500 fill-amber-500" />
                             <span>{pkg.speedLabel}</span>
                           </div>
                         )}
@@ -365,26 +367,26 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
 
                       {/* Prominent Upspeed Callout Banner */}
                       {pkg.upspeedMbps && (
-                        <div className="mt-3 p-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border-2 border-amber-400/70 shadow-xs flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black shadow-xs shrink-0">
-                              <Zap className="w-4 h-4 fill-white" />
+                        <div className="mt-3 p-2 sm:p-2.5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border-2 border-amber-400/70 shadow-xs flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0 flex-1">
+                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black shadow-xs shrink-0">
+                              <Zap className="w-3.5 h-3.5 fill-white" />
                             </div>
-                            <div>
-                              <div className="flex items-center gap-1.5 leading-none">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5 leading-none flex-wrap">
                                 <span className="text-xs sm:text-sm font-black text-amber-950">
                                   ⚡ {pkg.upspeedMbps} Mbps
                                 </span>
-                                <span className="text-[10px] text-slate-400 line-through font-medium">
+                                <span className="text-[9px] sm:text-[10px] text-slate-400 line-through font-medium">
                                   ({pkg.speedLabel})
                                 </span>
                               </div>
-                              <span className="text-[10px] text-amber-800 font-bold block mt-0.5">
+                              <span className="text-[9px] sm:text-[10px] text-amber-800 font-bold block mt-0.5 truncate">
                                 Ekstra Lonjakan {pkg.upspeedDuration}
                               </span>
                             </div>
                           </div>
-                          <span className="px-2 py-0.5 rounded-full bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider shadow-xs shrink-0">
+                          <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-500 text-white text-[8px] sm:text-[9px] font-black uppercase tracking-wider shadow-xs shrink-0">
                             UPSPEED
                           </span>
                         </div>
@@ -590,32 +592,36 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
               )}
 
               {/* Metric Highlights Box: Upspeed as Hero Metric */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-950/60 via-slate-800 to-slate-800 border-2 border-amber-500/60 shadow-lg relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider">
-                    {activePackage.upspeedMbps ? 'Upspeed Aktif' : 'Fiber Speed'}
-                  </div>
-                  <span className="text-[11px] text-amber-300 font-bold block mb-0.5">
-                    {activePackage.upspeedMbps ? 'Kecepatan Lonjakan' : 'Kecepatan Internet'}
-                  </span>
-                  <div className="flex items-baseline gap-1 text-2xl sm:text-3xl font-black text-amber-400">
-                    <Zap className="w-6 h-6 text-amber-400 fill-amber-400 shrink-0" />
-                    <span>{activePackage.upspeedMbps ? `${activePackage.upspeedMbps} Mbps` : activePackage.speedLabel}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-br from-amber-950/60 via-slate-800 to-slate-800 border-2 border-amber-500/60 shadow-lg relative overflow-hidden flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-1.5 mb-1.5">
+                      <span className="text-[10px] sm:text-[11px] text-amber-300 font-bold block truncate">
+                        {activePackage.upspeedMbps ? 'Kecepatan Lonjakan' : 'Kecepatan Internet'}
+                      </span>
+                      <span className="bg-amber-500 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider shrink-0">
+                        {activePackage.upspeedMbps ? 'Upspeed Aktif' : 'Fiber Speed'}
+                      </span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5 text-2xl sm:text-3xl font-black text-amber-400">
+                      <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 fill-amber-400 shrink-0" />
+                      <span>{activePackage.upspeedMbps ? `${activePackage.upspeedMbps} Mbps` : activePackage.speedLabel}</span>
+                    </div>
                   </div>
                   {activePackage.upspeedMbps ? (
-                    <div className="mt-1 text-[10px] text-slate-300 flex items-center justify-between">
+                    <div className="mt-2 pt-2 border-t border-amber-500/20 text-[10px] text-slate-300 flex items-center justify-between gap-1 flex-wrap">
                       <span>Tarif dasar: <span className="line-through">{activePackage.speedLabel}</span></span>
-                      <span className="font-bold text-amber-300">{activePackage.upspeedDuration}</span>
+                      <span className="font-bold text-amber-300">Promo {activePackage.upspeedDuration}</span>
                     </div>
                   ) : (
-                    <span className="text-[10px] text-emerald-400 font-semibold">100% Fiber Optic Murni</span>
+                    <span className="text-[10px] text-emerald-400 font-semibold block mt-1">100% Fiber Optic Murni</span>
                   )}
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-                  <span className="text-[11px] text-slate-400 block mb-0.5">Kapasitas Perangkat</span>
-                  <div className="flex items-center gap-1.5 text-xl font-black text-white">
-                    <Users className="w-5 h-5 text-blue-400" />
+                <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] sm:text-[11px] text-slate-400 block mb-1">Kapasitas Perangkat</span>
+                  <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-black text-white my-1">
+                    <Users className="w-5 h-5 text-blue-400 shrink-0" />
                     <span>{activePackage.speed >= 150 ? '10 - 15+ HP' : activePackage.speed >= 100 ? '6 - 10 HP' : '4 - 8 HP'}</span>
                   </div>
                   <span className="text-[10px] text-slate-400">{activePackage.deviceCount}</span>

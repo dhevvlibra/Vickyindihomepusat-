@@ -29,11 +29,13 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show after 2 seconds
     const timer = setTimeout(() => {
       setIsVisible(true);
-      setBubbleOpen(true);
-    }, 2000);
+      // Only auto-open greeting bubble on tablet/desktop to avoid blocking mobile viewports
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        setBubbleOpen(true);
+      }
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -67,7 +69,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
             role="dialog"
             aria-modal="true"
             aria-label="Pilih Nomor WhatsApp Sales"
-            className="w-[320px] sm:w-[360px] bg-white rounded-3xl shadow-2xl border-2 border-emerald-500/40 p-4 sm:p-5 text-slate-800 animate-smooth-pop mb-2"
+            className="w-[calc(100vw-24px)] max-w-[340px] sm:w-[360px] bg-white rounded-3xl shadow-2xl border-2 border-emerald-500/40 p-3.5 sm:p-5 text-slate-800 animate-smooth-pop mb-2"
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-150">
@@ -231,7 +233,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ onOpenSalesP
 
         {/* Sales Greeting Bubble (Can be toggled or dismissed) */}
         {bubbleOpen && !choiceModalOpen && (
-          <div className="relative max-w-[270px] sm:max-w-xs bg-white rounded-2xl p-3 sm:p-4 shadow-2xl border border-slate-200 text-slate-800 animate-smooth-pop">
+          <div className="relative w-[calc(100vw-32px)] max-w-[270px] sm:max-w-xs bg-white rounded-2xl p-3 sm:p-4 shadow-2xl border border-slate-200 text-slate-800 animate-smooth-pop">
             <button
               type="button"
               onClick={() => setBubbleOpen(false)}

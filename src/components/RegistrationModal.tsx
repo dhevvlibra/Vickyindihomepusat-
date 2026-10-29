@@ -195,7 +195,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               <select
                 value={selectedPkgId}
                 onChange={(e) => setSelectedPkgId(e.target.value)}
-                className="w-full py-2.5 px-3 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                className="w-full max-w-full py-2.5 px-3 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-red-500 focus:border-red-500 truncate"
               >
                 <optgroup label="--- Internet + Streaming ---">
                   {PACKAGES.filter((p) => p.category === 'internet-streaming').map((pkg) => (

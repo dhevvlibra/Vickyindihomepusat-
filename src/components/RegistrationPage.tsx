@@ -268,14 +268,14 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                 </div>
 
                 {/* Change Package Dropdown */}
-                <div className="shrink-0 bg-slate-900/90 p-2 rounded-2xl border border-slate-700">
+                <div className="w-full md:w-auto shrink-0 bg-slate-900/90 p-2 rounded-2xl border border-slate-700 min-w-0">
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 px-1">
                     Ganti Pilihan Paket:
                   </label>
                   <select
                     value={selectedPkgId}
                     onChange={(e) => setSelectedPkgId(e.target.value)}
-                    className="py-2 px-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                    className="w-full max-w-full py-2 px-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-white focus:ring-2 focus:ring-red-500 focus:outline-hidden truncate"
                   >
                     <optgroup label="--- EZnet Promo Terbatas (Khusus Area Tertentu) ---">
                       {PACKAGES.filter((p) => p.category === 'eznet').map((pkg) => (
@@ -310,17 +310,17 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
               </div>
 
               {/* Price & Primary Perks Highlight Grid */}
-              <div className="p-6 sm:p-8 space-y-6">
+              <div className="p-4 sm:p-8 space-y-6">
                 
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                   
                   {/* Price Box */}
-                  <div className="md:col-span-6 bg-slate-900 rounded-2xl p-6 border border-slate-750 flex flex-col justify-between">
+                  <div className="md:col-span-6 bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-750 flex flex-col justify-between">
                     <div>
                       <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider block mb-1">
                         Tarif Berlangganan Promo
                       </span>
-                      <div className="flex items-baseline gap-2">
+                      <div className="flex items-baseline gap-2 flex-wrap">
                         <span className="text-3xl sm:text-4xl font-black text-red-500">
                           {formatRupiah(currentPkg.pricePromo)}
                         </span>
@@ -328,7 +328,7 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
                       </div>
                       
                       {/* Normal price strikethrough & PPN warning badge */}
-                      <div className="mt-2 flex items-center gap-2">
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
                         <span className="text-xs text-slate-500 line-through">
                           Harga normal {formatRupiah(currentPkg.priceNormal)}/bln
                         </span>

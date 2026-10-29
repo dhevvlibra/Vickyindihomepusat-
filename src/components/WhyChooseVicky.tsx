@@ -78,24 +78,24 @@ export const WhyChooseVicky: React.FC<WhyChooseVickyProps> = ({ onOpenSalesPhoto
                 </div>
               </div>
 
-              <div className="space-y-3 py-4 border-y border-slate-150 text-xs text-slate-600">
-                <div className="flex items-center justify-between">
+              <div className="space-y-2.5 sm:space-y-3 py-4 border-y border-slate-150 text-[11px] sm:text-xs text-slate-600">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-slate-500">Jabatan:</span>
                   <span className="font-semibold text-slate-800">{SALES_AGENT_INFO.role}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-slate-500">Domain Resmi:</span>
                   <span className="font-mono font-bold text-red-600">{SALES_AGENT_INFO.domainName}.com</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-slate-500">Jam Layanan:</span>
                   <span className="font-medium text-slate-800">{SALES_AGENT_INFO.workingHours}</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-slate-500">Wilayah Jangkauan:</span>
                   <span className="font-medium text-slate-800">Seluruh Indonesia</span>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-slate-500">Rating Kepuasan:</span>
                   <span className="font-bold text-emerald-600">⭐ 4.9 / 5.0 (2.450+ Pelanggan)</span>
                 </div>
