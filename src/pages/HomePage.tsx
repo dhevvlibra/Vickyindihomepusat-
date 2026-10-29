@@ -157,7 +157,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <Link
                 key={feat.to}
                 to={feat.to}
-                className="group p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-red-300 transition-all flex flex-col justify-between space-y-3 cursor-pointer"
+                className="group p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs hover:shadow-lg hover:border-red-300 hover:-translate-y-0.5 transition-all flex flex-col justify-between space-y-3 cursor-pointer"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">

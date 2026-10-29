@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  Check, 
-  Sparkles, 
   ArrowRight, 
   Zap, 
-  Users, 
   Tv, 
   Gamepad2, 
   Wifi, 
   Layers,
-  ChevronRight,
   Info,
   Flame,
   Smartphone,
-  CheckCircle2,
-  TrendingDown,
-  Gift,
-  ShieldCheck,
   Cable
 } from 'lucide-react';
 import { PACKAGES } from '../data/packages';
@@ -84,29 +76,8 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
     return true;
   });
 
-  // Current active package (for detail preview card)
-  const activePackage = 
-    PACKAGES.find((p) => p.id === activePackageId) || 
-    filteredPackages[0] || 
-    PACKAGES[0];
-
-  const activeSavings = activePackage.priceNormal - activePackage.pricePromo;
-
-  // Telkomsel One 30GB vs 50GB comparison helper
-  const isTelkomselOneActive = activePackage.category === 'telkomsel-one';
-  let tOneSpeed = '75';
-  if (activePackage.id.includes('300')) tOneSpeed = '300';
-  else if (activePackage.id.includes('200')) tOneSpeed = '200';
-  else if (activePackage.id.includes('150')) tOneSpeed = '150';
-  else if (activePackage.id.includes('100')) tOneSpeed = '100';
-  else if (activePackage.id.includes('75')) tOneSpeed = '75';
-  else if (activePackage.id.includes('20')) tOneSpeed = '20';
-
-  const pair30GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-30gb`);
-  const pair50GB = PACKAGES.find(p => p.id === `tone-${tOneSpeed}-50gb`);
-
   return (
-    <section id="katalog-paket" className="py-14 sm:py-20 bg-slate-50 border-y border-slate-200">
+    <section id="katalog-paket" className="py-10 sm:py-16 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -215,44 +186,33 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
           </div>
         )}
 
-        {/* INTERACTIVE STAGE: Master-Detail Architecture */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-12">
+        {/* Full-width Responsive Package Catalog */}
+        <div className="space-y-4 mb-12">
           
-          {/* Left Column: Package Cards */}
-          <div className="lg:col-span-7 space-y-3">
-            <div className="flex items-center justify-between pb-1 px-1">
-              <span className="text-xs font-extrabold text-slate-600 uppercase tracking-wider">
-                Daftar Paket ({filteredPackages.length} Pilihan)
+          <div className="w-full space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 px-1">
+              <span className="text-xs sm:text-sm font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
+                <span>Daftar Paket Internet ({filteredPackages.length} Pilihan)</span>
               </span>
-              <span className="text-xs text-slate-400 flex items-center gap-1">
-                <span>Klik kartu untuk preview detail</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+              <span className="text-xs text-slate-500 font-medium">
+                Pilih paket untuk pendaftaran cepat & slot teknisi 1x24 jam
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {filteredPackages.map((pkg) => {
-                const isSelected = activePackage.id === pkg.id;
                 const isTOne = pkg.category === 'telkomsel-one';
 
                 return (
                   <div
                     key={pkg.id}
-                    onClick={() => setActivePackageId(pkg.id)}
-                    className={`cursor-pointer rounded-2xl p-4 border-2 transition-all duration-150 relative flex flex-col justify-between ${
-                      isSelected
-                        ? 'bg-white border-red-600 shadow-xl shadow-red-600/15 ring-3 ring-red-100 scale-[1.01]'
-                        : 'bg-white border-slate-200 hover:border-red-300 hover:shadow-md'
-                    }`}
+                    onClick={() => {
+                      onSelectPackage(pkg);
+                      onOpenRegister(pkg.id);
+                    }}
+                    className="group cursor-pointer rounded-2xl p-4 sm:p-5 border border-slate-200/90 bg-white/95 backdrop-blur-sm hover:border-red-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 relative flex flex-col justify-between"
                   >
-                    {/* Selected Indicator Badge */}
-                    {isSelected && (
-                      <div className="absolute -top-3 left-4 bg-red-600 text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-white" />
-                        <span>Sedang Dilihat</span>
-                      </div>
-                    )}
-
                     <div>
                       {/* Category Label & Best Seller / Cuan Tag */}
                       <div className="flex items-center justify-between gap-1.5 mb-2 mt-1">
@@ -404,12 +364,12 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                     </div>
 
                     {/* Bottom Price & Select CTA */}
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-end justify-between">
+                    <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-end justify-between gap-2">
                       <div>
                         <span className="text-[10px] text-slate-500 font-semibold block leading-none">Tarif Promo:</span>
-                        <div className="text-lg font-black text-red-600 mt-0.5">
+                        <div className="text-xl font-black text-red-600 mt-0.5">
                           {formatRupiah(pkg.pricePromo)}
-                          <span className="text-[10px] font-medium text-slate-400">/bln</span>
+                          <span className="text-[11px] font-medium text-slate-400">/bln</span>
                         </div>
                         <span className="text-[10px] text-amber-700 font-bold block mt-0.5">
                           *belum PPN 11%
@@ -420,16 +380,12 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActivePackageId(pkg.id);
+                          onSelectPackage(pkg);
                           onOpenRegister(pkg.id);
                         }}
-                        className={`text-xs font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer ${
-                          isSelected
-                            ? 'bg-red-600 text-white hover:bg-red-700'
-                            : 'bg-slate-900 text-white hover:bg-red-600'
-                        }`}
+                        className="text-xs font-black px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shadow-md bg-red-600 hover:bg-red-700 text-white active:scale-95 cursor-pointer shrink-0"
                       >
-                        <span>Pilih & Daftar</span>
+                        <span>Daftar Sekarang</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -438,290 +394,6 @@ export const InteractivePackageShowcase: React.FC<InteractivePackageShowcaseProp
               })}
             </div>
           </div>
-
-          {/* Right Column: Detailed Package Showcase Box */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-20 rounded-3xl bg-slate-900 text-white p-6 sm:p-7 border border-slate-800 shadow-2xl space-y-5">
-              
-              {/* Top Header */}
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-black uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Preview Paket Terpilih</span>
-                </div>
-                <span className="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  Stok Port Ready
-                </span>
-              </div>
-
-              {/* Title & Speed Display */}
-              <div>
-                <span className="text-xs font-bold text-red-400 uppercase tracking-widest block mb-1">
-                  {activePackage.categoryLabel}
-                </span>
-                <h3 className="text-2xl font-black text-white tracking-tight">
-                  {activePackage.name}
-                </h3>
-                <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                  {activePackage.bestFor}
-                </p>
-              </div>
-
-              {/* SPECIAL TELKOMSEL ONE QUOTA SELECTOR & COMPARISON BOX */}
-              {isTelkomselOneActive && (
-                tOneSpeed === '20' ? (
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-850 to-slate-900 border-2 border-blue-500/40 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-black text-blue-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <Smartphone className="w-4 h-4 text-blue-400" />
-                        <span>Kuota Nomor HP Keluarga:</span>
-                      </span>
-                      <span className="text-[10px] bg-emerald-500 text-white font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                        BEBAS PSB (Rp 0)
-                      </span>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-blue-600/30 border border-blue-400 ring-2 ring-blue-400/50 shadow-md">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-xs font-bold text-slate-300 block">Kuota Bersama Keluarga 30 GB</span>
-                          <span className="text-[10px] text-blue-200 mt-0.5 block">Untuk nomor Telkomsel keluarga sebulan penuh</span>
-                        </div>
-                        <span className="text-base font-black text-white">
-                          Rp 148.000<span className="text-[10px] text-slate-400 font-normal">/bln</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span><strong>Spesial Paket 148K:</strong> Bebas Biaya Pasang Baru (PSB Rp 0 / GRATIS!). Hemat Rp 250.000.</span>
-                    </div>
-
-                    <p className="text-[11px] text-slate-300 leading-tight">
-                      💡 <em>Kuota ini bisa dibagikan langsung ke beberapa nomor Telkomsel anggota keluarga dalam 1 tagihan bersama.</em>
-                    </p>
-                  </div>
-                ) : (
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-950/80 via-slate-850 to-slate-900 border-2 border-blue-500/40 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-black text-blue-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <Smartphone className="w-4 h-4 text-blue-400" />
-                        <span>Pilihan Kuota Nomor HP Keluarga:</span>
-                      </span>
-                      <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
-                        Beda Cuma 10rb!
-                      </span>
-                    </div>
-
-                    {/* Clear Visual Comparison Buttons between 30GB and 50GB */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
-                      {/* 30 GB Option */}
-                      <button
-                        type="button"
-                        onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '30 GB')}
-                        className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
-                          activePackage.kuotaKeluarga === '30 GB'
-                            ? 'bg-blue-600/30 border-blue-400 ring-2 ring-blue-400/50 shadow-md'
-                            : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
-                        }`}
-                      >
-                        {activePackage.kuotaKeluarga === '30 GB' && (
-                          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-400" />
-                        )}
-                        <span className="text-xs font-bold text-slate-300 block">Kuota 30 GB</span>
-                        <span className="text-sm sm:text-base font-black text-white block mt-0.5">
-                          {pair30GB ? formatRupiah(pair30GB.pricePromo) : 'Rp 280.000'}
-                        </span>
-                        <span className="text-[10px] text-slate-400 font-normal">/bulan (belum PPN)</span>
-                      </button>
-
-                      {/* 50 GB Option (Recommended / Cuan) */}
-                      <button
-                        type="button"
-                        onClick={() => handleToggleTelkomselOneQuota(tOneSpeed as any, '50 GB')}
-                        className={`p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer relative ${
-                          activePackage.kuotaKeluarga === '50 GB'
-                            ? 'bg-emerald-600/30 border-emerald-400 ring-2 ring-emerald-400/50 shadow-md'
-                            : 'bg-slate-900/60 border-slate-700 text-slate-400 hover:border-slate-500'
-                        }`}
-                      >
-                        <div className="absolute -top-2 right-2 px-1.5 py-0.2 bg-amber-400 text-slate-950 font-black text-[9px] rounded-sm uppercase tracking-wide">
-                          Rekomendasi
-                        </div>
-                        <span className="text-xs font-bold text-emerald-300 block">Kuota 50 GB (+20 GB!)</span>
-                        <span className="text-sm sm:text-base font-black text-white block mt-0.5">
-                          {pair50GB ? formatRupiah(pair50GB.pricePromo) : 'Rp 290.000'}
-                        </span>
-                        <span className="text-[10px] text-emerald-300 font-bold">
-                          Selisih Cuma Rp 10.000/bln
-                        </span>
-                      </button>
-                    </div>
-
-                    <p className="text-[11px] text-slate-300 leading-tight">
-                      💡 <em>Kuota ini bisa dibagikan langsung ke beberapa nomor Telkomsel anggota keluarga dalam 1 tagihan bersama.</em>
-                    </p>
-                  </div>
-                )
-              )}
-
-              {/* EZnet Promo Terbatas Specific Area Information Panel */}
-              {activePackage.category === 'eznet' && (
-                <div className="p-4 rounded-2xl bg-amber-950/60 border-2 border-amber-500/50 space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <Cable className="w-4 h-4 text-amber-400" />
-                      <span>Keterangan EZnet (Promo Terbatas):</span>
-                    </span>
-                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full shadow-xs">
-                      KHUSUS AREA TERTENTU
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-slate-200 leading-relaxed">
-                    Paket <strong>EZnet 20 Mbps seharga Rp 103.000/bulan</strong> (belum PPN) merupakan paket internet berbasis kabel resmi Telkomsel yang tersedia dengan kuota promo terbatas untuk area/wilayah tertentu saja.
-                  </p>
-
-                  <div className="p-2.5 bg-emerald-950/50 rounded-xl border border-emerald-500/40 text-[11px] text-emerald-300 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Mas Vicky siap mengecek ketersediaan jaringan kabel di alamat rumah Anda.</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Metric Highlights Box: Upspeed as Hero Metric */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-br from-amber-950/60 via-slate-800 to-slate-800 border-2 border-amber-500/60 shadow-lg relative overflow-hidden flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between gap-1.5 mb-1.5">
-                      <span className="text-[10px] sm:text-[11px] text-amber-300 font-bold block truncate">
-                        {activePackage.upspeedMbps ? 'Kecepatan Lonjakan' : 'Kecepatan Internet'}
-                      </span>
-                      <span className="bg-amber-500 text-slate-950 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider shrink-0">
-                        {activePackage.upspeedMbps ? 'Upspeed Aktif' : 'Fiber Speed'}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-1.5 text-2xl sm:text-3xl font-black text-amber-400">
-                      <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 fill-amber-400 shrink-0" />
-                      <span>{activePackage.upspeedMbps ? `${activePackage.upspeedMbps} Mbps` : activePackage.speedLabel}</span>
-                    </div>
-                  </div>
-                  {activePackage.upspeedMbps ? (
-                    <div className="mt-2 pt-2 border-t border-amber-500/20 text-[10px] text-slate-300 flex items-center justify-between gap-1 flex-wrap">
-                      <span>Tarif dasar: <span className="line-through">{activePackage.speedLabel}</span></span>
-                      <span className="font-bold text-amber-300">Promo {activePackage.upspeedDuration}</span>
-                    </div>
-                  ) : (
-                    <span className="text-[10px] text-emerald-400 font-semibold block mt-1">100% Fiber Optic Murni</span>
-                  )}
-                </div>
-
-                <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between">
-                  <span className="text-[10px] sm:text-[11px] text-slate-400 block mb-1">Kapasitas Perangkat</span>
-                  <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-black text-white my-1">
-                    <Users className="w-5 h-5 text-blue-400 shrink-0" />
-                    <span>{activePackage.speed >= 150 ? '10 - 15+ HP' : activePackage.speed >= 100 ? '6 - 10 HP' : '4 - 8 HP'}</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">{activePackage.deviceCount}</span>
-                </div>
-              </div>
-
-              {/* Upspeed Promotion Banner */}
-              {activePackage.upspeedMbps && (
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-amber-500/20 border-2 border-amber-400/50 text-amber-200 text-xs flex items-center justify-between shadow-md">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black shrink-0 shadow-sm">
-                      <Zap className="w-4 h-4 fill-slate-950 text-slate-950" />
-                    </div>
-                    <div>
-                      <span className="font-extrabold text-white text-xs block">
-                        Ekstra Lonjakan Kecepatan {activePackage.upspeedMbps} Mbps!
-                      </span>
-                      <span className="text-[11px] text-amber-300">
-                        Internet jauh lebih kencang tanpa biaya tambahan selama {activePackage.upspeedDuration}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Price & Savings Box */}
-              <div className="p-4 rounded-2xl bg-slate-800/90 border border-slate-700 space-y-2">
-                <div className="flex items-baseline justify-between">
-                  <div>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
-                      Tarif Promo Bulanan
-                    </span>
-                    <div className="text-3xl font-black text-red-500">
-                      {formatRupiah(activePackage.pricePromo)}
-                      <span className="text-xs font-normal text-slate-400"> / bulan</span>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-xs text-slate-400 line-through block">
-                      Normal {formatRupiah(activePackage.priceNormal)}
-                    </span>
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/50 px-2 py-0.5 rounded-md inline-block">
-                      Hemat {formatRupiah(activeSavings)}/bln
-                    </span>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-slate-700/80 text-[11px] text-amber-300/90 flex items-center justify-between font-bold">
-                  <span>*Ketentuan Pajak Resmi:</span>
-                  <span>Harga Belum Termasuk PPN 11%</span>
-                </div>
-              </div>
-
-              {/* Feature Checklist */}
-              <div className="space-y-2">
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-                  Benefit & Fasilitas Paket:
-                </span>
-                <ul className="space-y-1.5 text-xs text-slate-300">
-                  {activePackage.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* OTT / Game Bonuses */}
-              {activePackage.ottBonus && activePackage.ottBonus.length > 0 && (
-                <div className="pt-3 border-t border-slate-800">
-                  <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-2.5">
-                    {activePackage.category === 'gaming' ? 'Benefit & Server Game Prioritas:' : 'Logo Layanan Streaming Termasuk:'}
-                  </span>
-                  <StreamingBenefitBadges apps={activePackage.ottBonus} size="md" variant="dark" showLabel={true} />
-                </div>
-              )}
-
-              {/* Single Clear Next Step Button: Go to Step 1 Review then Form */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    onSelectPackage(activePackage);
-                    onOpenRegister(activePackage.id);
-                  }}
-                  className="w-full py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-red-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>Lanjut Registrasi Paket Ini</span>
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                </button>
-                <p className="text-[11px] text-center text-slate-400 mt-2">
-                  Anda akan masuk ke konfirmasi rincian paket sebelum mengisi formulir pemasangan.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
         </div>
 
         {/* Optional Collapsible: Full Comparison Table */}

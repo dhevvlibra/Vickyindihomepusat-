@@ -34,7 +34,7 @@ export const CoverageCheck: React.FC<CoverageCheckProps> = () => {
   };
 
   return (
-    <section id="cek-jangkauan" className="py-16 sm:py-24 bg-slate-50 border-b border-slate-200">
+    <section id="cek-jangkauan" className="py-16 sm:py-24 bg-transparent border-b border-slate-200/60">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -54,7 +54,7 @@ export const CoverageCheck: React.FC<CoverageCheckProps> = () => {
         </div>
 
         {/* Interactive Search Card */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-xs space-y-4 sm:space-y-6">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-slate-200/90 shadow-md space-y-4 sm:space-y-6">
           <form onSubmit={handleFormSubmit} className="space-y-3 sm:space-y-4">
             <div>
               <label className="block text-xs sm:text-sm font-bold text-slate-900 mb-1.5 flex flex-wrap items-center justify-between gap-1">

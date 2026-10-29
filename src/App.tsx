@@ -7,6 +7,7 @@ import { SalesPhotoModal } from './components/SalesPhotoModal';
 import { PromoHighlightModal, PromoFloatingTrigger } from './components/PromoHighlightModal';
 import { RegistrationReceiptModal } from './components/RegistrationReceiptModal';
 import { GlobalClickEffect } from './components/GlobalClickEffect';
+import { AmbientBackground } from './components/AmbientBackground';
 
 // Dedicated Full-Page Route Components
 import { HomePage } from './pages/HomePage';
@@ -157,7 +158,10 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+    <div className="min-h-screen bg-transparent text-slate-800 flex flex-col font-sans relative">
+      {/* Dynamic Ambient High-Tech Fiber Background */}
+      <AmbientBackground />
+
       {/* Global Interactive Click Wave Ripple */}
       <GlobalClickEffect />
 

@@ -13,7 +13,7 @@ export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBl
   const previewPosts = BLOG_POSTS.slice(0, 3);
 
   return (
-    <section id="blog-preview" className="py-20 bg-slate-100/70 border-t border-slate-200/80">
+    <section id="blog-preview" className="py-20 bg-transparent border-t border-slate-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -50,7 +50,7 @@ export const BlogPreviewSection: React.FC<BlogPreviewSectionProps> = ({ onOpenBl
             <article
               key={post.id}
               onClick={() => onOpenBlog(post.slug)}
-              className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs hover:shadow-xl hover:border-red-300 transition-all cursor-pointer flex flex-col justify-between group"
+              className="bg-white/90 backdrop-blur-md rounded-3xl border border-slate-200/90 p-6 shadow-xs hover:shadow-xl hover:border-red-300 transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between gap-2">
