@@ -7,7 +7,16 @@ import {
   ChevronRight,
   Sparkles,
   ArrowRight,
-  Flame
+  Flame,
+  Home,
+  Wifi,
+  MapPin,
+  Calculator,
+  Clock,
+  Star,
+  BookOpen,
+  HelpCircle,
+  Users
 } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
 import { 
@@ -15,17 +24,13 @@ import {
   trackMetaPixel, 
   trackGoogleAdsContactConversion 
 } from '../utils/helpers';
+import { useRouter, Link } from '../router/Router';
 
 interface NavbarProps {
-  onOpenRegister: (packageId?: string) => void;
-  onOpenMyRegistrations: () => void;
+  onOpenRegister?: (packageId?: string) => void;
+  onOpenMyRegistrations?: () => void;
   onOpenSalesPhoto?: () => void;
-  onNavigateHome?: () => void;
-  onNavigate?: (targetId: string) => void;
   onOpenPromoHighlight?: () => void;
-  onOpenCalculator?: () => void;
-  onOpenBlog?: (slug?: string) => void;
-  currentView?: 'home' | 'register' | 'calculator' | 'blog';
   savedCount: number;
 }
 
@@ -33,41 +38,38 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenRegister,
   onOpenMyRegistrations,
   onOpenSalesPhoto,
-  onNavigateHome,
-  onNavigate,
   onOpenPromoHighlight,
-  onOpenCalculator,
-  onOpenBlog,
-  currentView = 'home',
   savedCount,
 }) => {
+  const { pathname, navigate } = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState<string>(
-    currentView === 'calculator' ? 'calculator' : currentView === 'blog' ? 'blog' : '#katalog-paket'
-  );
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 
-  const navLinks = [
-    { name: 'Katalog Paket', href: '#katalog-paket' },
-    { name: 'Kalkulator Speed', href: 'calculator' },
-    { name: 'Blog & Edukasi', href: 'blog' },
-    { name: 'Cek Jangkauan ODP', href: '#cek-jangkauan' },
-    { name: 'Alur Pasang', href: '#cara-pasang' },
-    { name: 'FAQ', href: '#faq' },
+  // Desktop primary navigation links
+  const desktopNavLinks = [
+    { name: 'Beranda', path: '/' },
+    { name: 'Katalog Paket', path: '/paket' },
+    { name: 'Cek Area ODP', path: '/cek-area' },
+    { name: 'Kalkulator Speed', path: '/kalkulator' },
+    { name: 'Promo 148K', path: '/promo' },
+    { name: 'Alur Pasang', path: '/alur-pasang' },
+    { name: 'Blog & Edukasi', path: '/blog' },
   ];
 
-  // Sync activeLink with currentView
-  useEffect(() => {
-    if (currentView === 'calculator') {
-      setActiveLink('calculator');
-    } else if (currentView === 'blog') {
-      setActiveLink('blog');
-    } else if (currentView === 'register') {
-      setActiveLink('');
-    } else if (activeLink === 'calculator' || activeLink === 'blog') {
-      setActiveLink('#katalog-paket');
-    }
-  }, [currentView]);
+  // Mobile drawer comprehensive menu (all dedicated feature pages)
+  const mobileNavLinks = [
+    { name: 'Beranda', path: '/', icon: Home, badge: 'Home' },
+    { name: 'Katalog Paket Internet', path: '/paket', icon: Wifi, badge: '1P/2P/3P' },
+    { name: 'Cek Jangkauan ODP', path: '/cek-area', icon: MapPin, badge: 'Cek Tiang' },
+    { name: 'Kalkulator Kecepatan', path: '/kalkulator', icon: Calculator, badge: 'Rekomendasi' },
+    { name: 'Promo Spesial & 148K', path: '/promo', icon: Flame, badge: 'Bebas PSB' },
+    { name: 'Alur & Syarat Pasang', path: '/alur-pasang', icon: Clock, badge: '1x24 Jam' },
+    { name: 'Profil Sales Vicky', path: '/tentang-vicky', icon: ShieldCheck, badge: 'Resmi' },
+    { name: 'Testimoni Pelanggan', path: '/testimoni', icon: Star, badge: '4.9 ★' },
+    { name: 'Blog Edukasi & SEO', path: '/blog', icon: BookOpen, badge: 'Panduan' },
+    { name: 'Pusat Bantuan & FAQ', path: '/faq', icon: HelpCircle, badge: 'Tanya Jawab' },
+    { name: 'Riwayat Registrasi', path: '/riwayat', icon: FileText, badge: 'Status' },
+  ];
 
   // Prevent background scrolling when mobile overlay is active
   useEffect(() => {
@@ -88,50 +90,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     }, 380);
   };
 
-  const handleNavClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault();
-    triggerClickFeedback(href);
-    setActiveLink(href);
+  const handleNavClick = (path: string) => {
+    triggerClickFeedback(path);
     setMobileMenuOpen(false);
-
-    if (href === 'calculator' || href === '#kalkulator') {
-      if (onOpenCalculator) {
-        onOpenCalculator();
-      } else if (onNavigate) {
-        onNavigate('calculator');
-      }
-      return;
-    }
-
-    if (href === 'blog' || href === '#blog') {
-      if (onOpenBlog) {
-        onOpenBlog();
-      } else if (onNavigate) {
-        onNavigate('blog');
-      }
-      return;
-    }
-
-    if (onNavigate) {
-      onNavigate(href);
-    } else {
-      const cleanId = href.replace('#', '');
-      const el = document.getElementById(cleanId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    navigate(path);
   };
 
-  const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    triggerClickFeedback('brand-logo');
-    setMobileMenuOpen(false);
-    if (onNavigateHome) {
-      onNavigateHome();
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  const isCurrentActive = (path: string) => {
+    if (path === '/') return pathname === '/';
+    return pathname.startsWith(path);
   };
 
   return (
@@ -142,9 +109,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <button
               type="button"
-              onClick={() => onOpenPromoHighlight?.()}
+              onClick={() => {
+                navigate('/promo');
+                onOpenPromoHighlight?.();
+              }}
               className="inline-flex items-center gap-1.5 hover:opacity-95 cursor-pointer group text-left min-w-0 flex-1"
-              title="Klik untuk membuka Promo Highlight 148K"
+              title="Buka Halaman Promo Spesial 148K"
             >
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-yellow-400 text-red-950 uppercase tracking-wide shadow-xs group-hover:scale-105 transition-transform shrink-0">
                 <Flame className="w-3 h-3 fill-red-950 text-red-950" />
@@ -157,14 +127,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="hidden sm:flex items-center gap-3 text-xs text-red-100 shrink-0">
-            <button
-              type="button"
-              onClick={() => onOpenPromoHighlight?.()}
+            <Link
+              to="/promo"
               className="hover:text-yellow-300 transition-colors font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>Lihat Detail Promo</span>
+              <span>Halaman Promo</span>
               <ChevronRight className="w-3 h-3" />
-            </button>
+            </Link>
             <div className="flex items-center gap-1.5 border-l border-red-500/50 pl-3">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span>Mas Vicky Online</span>
@@ -181,30 +150,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => {
-                triggerClickFeedback('sales-photo');
+                triggerClickFeedback('sales-photo-thumb');
                 onOpenSalesPhoto?.();
               }}
-              className={`relative group cursor-pointer focus:outline-hidden transition-transform duration-200 active:scale-85 shrink-0 ${
-                clickedItem === 'sales-photo' ? 'animate-nav-click' : ''
-              }`}
-              title="Klik untuk melihat foto profil resmi Mas Vicky"
-              aria-label="Lihat Foto Profil Sales Resmi"
+              className="relative group cursor-pointer focus:outline-hidden shrink-0"
+              title="Lihat profil & legalitas Mas Vicky"
+              aria-label="Lihat profil Mas Vicky"
             >
               <img
                 src={SALES_AGENT_INFO.photoUrl}
-                alt="Mas Vicky Sales Resmi IndiHome"
+                alt={SALES_AGENT_INFO.name}
                 referrerPolicy="no-referrer"
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl object-cover object-top ring-2 ring-red-600 shadow-md shadow-red-600/20 group-hover:scale-105 group-hover:ring-red-500 transition-all"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover object-top ring-2 ring-red-600 ring-offset-2 ring-offset-white group-hover:scale-105 transition-all shadow-xs"
               />
-              <span className="absolute inset-0 rounded-2xl bg-black/35 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white">
+              <span className="absolute inset-0 rounded-full bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
                 <ZoomIn className="w-4 h-4 drop-shadow-md" />
               </span>
               <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-white ring-1 ring-emerald-600/20"></span>
             </button>
 
-            <button
-              type="button"
-              onClick={handleLogoClick}
+            <Link
+              to="/"
+              onClick={() => {
+                triggerClickFeedback('brand-logo');
+                setMobileMenuOpen(false);
+              }}
               className={`flex flex-col text-left group cursor-pointer focus:outline-hidden transition-all duration-200 active:scale-95 min-w-0 ${
                 clickedItem === 'brand-logo' ? 'animate-nav-click' : ''
               }`}
@@ -218,104 +188,68 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 group-hover:scale-110 transition-transform shrink-0" />
                 <span className="truncate">Sales Resmi IndiHome Telkom</span>
               </div>
-            </button>
+            </Link>
           </div>
 
-          {/* Desktop Nav Links with Dynamic Click & Active Animation */}
-          <nav className="hidden lg:flex items-center gap-1.5 p-1 bg-slate-100/70 rounded-full border border-slate-200/60 shadow-2xs">
-            {navLinks.map((link) => {
-              const isSelected = activeLink === link.href;
-              const isClicked = clickedItem === link.href;
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center gap-1 p-1 bg-slate-100/70 rounded-full border border-slate-200/60 shadow-2xs">
+            {desktopNavLinks.map((link) => {
+              const isActive = isCurrentActive(link.path);
+              const isClicked = clickedItem === link.path;
               return (
-                <button
-                  key={link.name}
-                  type="button"
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-hidden active:scale-90 ${
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => triggerClickFeedback(link.path)}
+                  className={`relative px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer focus:outline-hidden active:scale-90 ${
                     isClicked ? 'animate-nav-click' : ''
                   } ${
-                    isSelected
+                    isActive
                       ? 'bg-white text-red-600 shadow-xs font-extrabold'
                       : 'text-slate-600 hover:text-red-600 hover:bg-white/60'
                   }`}
                 >
                   <span>{link.name}</span>
-                  {isSelected && (
+                  {isActive && (
                     <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-red-600 rounded-full animate-in fade-in zoom-in-50 duration-200" />
                   )}
-                </button>
+                </Link>
               );
             })}
           </nav>
 
-          {/* Action CTAs: Clean & focused */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            {/* Promo 148K Highlight Quick Trigger */}
-            <button
-              type="button"
-              onClick={() => {
-                triggerClickFeedback('promo-148-nav');
-                onOpenPromoHighlight?.();
-              }}
-              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 font-extrabold text-xs shadow-xs active:scale-90 transition-all cursor-pointer ${
-                clickedItem === 'promo-148-nav' ? 'animate-nav-click' : ''
+          {/* Action CTAs */}
+          <div className="hidden sm:flex items-center gap-2">
+            <Link
+              to="/riwayat"
+              className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-90 rounded-xl transition-all border border-slate-200 cursor-pointer ${
+                pathname === '/riwayat' ? 'bg-red-50 text-red-600 border-red-200 font-bold' : ''
               }`}
-              title="Buka Promo Highlight Paket 148K"
+              title="Lihat Riwayat & Status Pendaftaran"
             >
-              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500 animate-pulse" />
-              <span>Promo 148K (Bebas PSB)</span>
-            </button>
+              <FileText className="w-4 h-4 text-red-600" />
+              <span>{savedCount > 0 ? `Status (${savedCount})` : 'Cek Status'}</span>
+            </Link>
 
-            {savedCount > 0 && (
-              <button
-                type="button"
-                onClick={() => {
-                  triggerClickFeedback('status-btn');
-                  onOpenMyRegistrations();
-                }}
-                className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-90 rounded-xl transition-all border border-slate-200 cursor-pointer ${
-                  clickedItem === 'status-btn' ? 'animate-nav-click' : ''
-                }`}
-                title="Lihat Pendaftaran Saya"
-              >
-                <FileText className="w-4 h-4 text-red-600" />
-                <span>Status ({savedCount})</span>
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => {
-                triggerClickFeedback('nav-register-btn');
-                onOpenRegister();
-              }}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold text-xs shadow-md shadow-red-600/20 active:scale-92 transition-all cursor-pointer ${
-                clickedItem === 'nav-register-btn' ? 'animate-nav-click' : ''
-              }`}
+            <Link
+              to="/daftar"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold text-xs shadow-md shadow-red-600/20 active:scale-92 transition-all cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Daftar Sekarang</span>
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Animated Hamburger / Close Button */}
           <div className="flex items-center gap-2 lg:hidden">
-            {savedCount > 0 && (
-              <button
-                type="button"
-                onClick={() => {
-                  triggerClickFeedback('status-mobile');
-                  onOpenMyRegistrations();
-                }}
-                className={`p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl active:scale-85 transition-transform ${
-                  clickedItem === 'status-mobile' ? 'animate-nav-click' : ''
-                }`}
-                title="Status Pendaftaran"
-                aria-label="Status Pendaftaran"
-              >
-                <FileText className="w-4.5 h-4.5" />
-              </button>
-            )}
+            <Link
+              to="/riwayat"
+              className="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl active:scale-85 transition-transform"
+              title="Status Pendaftaran"
+              aria-label="Status Pendaftaran"
+            >
+              <FileText className="w-4.5 h-4.5" />
+            </Link>
 
             <button
               type="button"
@@ -350,28 +284,21 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* 
-        CRITICAL: Mobile Drawer Overlay
-        Positioned ABSOLUTE (top-full), so opening/closing this menu 
-        NEVER pushes the page content down! 
-      */}
+      {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <>
-          {/* Darkened backdrop overlay - click to close smoothly */}
           <div
             className="fixed inset-0 top-[96px] sm:top-[104px] bg-slate-950/45 backdrop-blur-xs z-40 lg:hidden animate-smooth-backdrop"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
 
-          {/* Floating dropdown overlay card */}
-          <div className="absolute top-full left-0 right-0 z-50 lg:hidden bg-white/98 backdrop-blur-xl border-b border-slate-200 shadow-2xl px-4 pt-3 pb-5 space-y-3 animate-nav-dropdown max-h-[calc(100vh-110px)] overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 z-50 lg:hidden bg-white/98 backdrop-blur-xl border-b border-slate-200 shadow-2xl px-4 pt-3 pb-6 space-y-3 animate-nav-dropdown max-h-[calc(100vh-110px)] overflow-y-auto">
             {/* Sales Contact Mini Card */}
             <div className="p-3 bg-red-50/80 rounded-2xl border border-red-100 flex items-center justify-between gap-2">
               <button
                 type="button"
                 onClick={() => {
-                  triggerClickFeedback('sales-photo-mobile');
                   setMobileMenuOpen(false);
                   onOpenSalesPhoto?.();
                 }}
@@ -383,7 +310,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     src={SALES_AGENT_INFO.photoUrl}
                     alt="Mas Vicky"
                     referrerPolicy="no-referrer"
-                    className="w-10 h-10 rounded-full object-cover object-top ring-2 ring-red-600 shadow-xs group-hover:scale-105 transition-transform"
+                    className="w-10 h-10 rounded-full object-cover object-top ring-2 ring-red-600 shadow-xs"
                   />
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-1 ring-white"></span>
                 </div>
@@ -392,7 +319,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <span>Mas Vicky</span>
                     <ZoomIn className="w-3 h-3 text-red-500 shrink-0" />
                   </p>
-                  <p className="text-[11px] text-slate-500 truncate">Sales Resmi • Cek Foto & ID</p>
+                  <p className="text-[11px] text-slate-500 truncate">Sales Resmi • ID Verified</p>
                 </div>
               </button>
 
@@ -401,7 +328,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
-                  triggerClickFeedback('chat-wa-mobile');
                   trackMetaPixel('Contact', { content_name: 'Navbar Mobile Chat WA' });
                   trackGoogleAdsContactConversion({ event_label: 'Navbar Mobile Chat WA' });
                 }}
@@ -412,103 +338,52 @@ export const Navbar: React.FC<NavbarProps> = ({
               </a>
             </div>
 
-            {/* Nav links with interactive tap animations */}
-            <div className="flex flex-col space-y-1 pt-1">
-              {navLinks.map((link, idx) => {
-                const isSelected = activeLink === link.href;
-                const isClicked = clickedItem === link.href;
-                return (
-                  <button
-                    key={link.name}
-                    type="button"
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    style={{ animationDelay: `${idx * 40}ms` }}
-                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer text-left active:scale-[0.97] ${
-                      isClicked ? 'animate-nav-click' : ''
-                    } ${
-                      isSelected
-                        ? 'bg-red-50 text-red-600 font-extrabold shadow-2xs border border-red-200/70'
-                        : 'text-slate-700 hover:text-red-600 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                          isSelected ? 'bg-red-600 scale-125' : 'bg-slate-300'
-                        }`}
-                      />
-                      <span>{link.name}</span>
-                    </div>
-                    <ChevronRight
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        isSelected ? 'text-red-600 translate-x-1' : 'text-slate-400'
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            {/* All dedicated feature pages menu */}
+            <div className="space-y-1">
+              <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider px-2 block">
+                Menu Halaman Fitur:
+              </span>
 
-            {/* Promo 148K Highlight Card in Mobile Drawer */}
-            <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  triggerClickFeedback('mobile-promo-148');
-                  setMobileMenuOpen(false);
-                  onOpenPromoHighlight?.();
-                }}
-                className="w-full p-3 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white flex items-center justify-between text-left shadow-md shadow-red-950/20 active:scale-95 transition-all cursor-pointer border border-red-500/50"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-yellow-400 text-red-950 flex items-center justify-center shrink-0 shadow-xs">
-                    <Flame className="w-4 h-4 fill-red-950 text-red-950 animate-bounce" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5 leading-none">
-                      <span className="text-[10px] font-black uppercase text-yellow-300 tracking-wider">
-                        PROMO HIGHLIGHT
+              <div className="grid grid-cols-1 gap-1">
+                {mobileNavLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = isCurrentActive(link.path);
+                  return (
+                    <button
+                      key={link.path}
+                      type="button"
+                      onClick={() => handleNavClick(link.path)}
+                      className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 cursor-pointer text-left active:scale-[0.98] ${
+                        isActive
+                          ? 'bg-red-50 text-red-600 font-extrabold shadow-2xs border border-red-200/70'
+                          : 'text-slate-700 hover:text-red-600 hover:bg-slate-50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-red-600' : 'text-slate-400'}`} />
+                        <span>{link.name}</span>
+                      </div>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                        isActive ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        {link.badge}
                       </span>
-                      <span className="text-[10px] text-emerald-300 font-bold">• GRATIS PSB Rp 0</span>
-                    </div>
-                    <div className="text-xs font-black text-white mt-1 leading-snug">
-                      WiFi + 30GB Cuma <span className="text-yellow-300">Rp 148.000/bln</span> (Bebas Biaya Pasang)
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-white/90" />
-              </button>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Action buttons */}
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-              {savedCount > 0 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerClickFeedback('mobile-my-regs');
-                    setMobileMenuOpen(false);
-                    onOpenMyRegistrations();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 transition-all rounded-xl cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-red-600" />
-                  <span>Status Pendaftaran Saya ({savedCount})</span>
-                </button>
-              )}
-
-              <button
-                type="button"
-                onClick={() => {
-                  triggerClickFeedback('mobile-form-register');
-                  setMobileMenuOpen(false);
-                  onOpenRegister();
-                }}
+              <Link
+                to="/daftar"
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-3 px-4 text-center text-xs font-bold text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 active:scale-95 transition-all rounded-xl shadow-md cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>Buka Formulir Pendaftaran Online</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </>

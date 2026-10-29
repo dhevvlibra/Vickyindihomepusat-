@@ -45,11 +45,17 @@ export const BlogPage: React.FC<BlogPageProps> = ({
   const [copiedLink, setCopiedLink] = useState(false);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
 
-  // Sync when initialSlug changes
+  // Sync when initialSlug or URL pathname (/blog/:slug) changes
   useEffect(() => {
     if (initialSlug) {
       setSelectedSlug(initialSlug);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog/')) {
+      const pathSlug = window.location.pathname.replace('/blog/', '').trim();
+      if (pathSlug) {
+        setSelectedSlug(pathSlug);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }, [initialSlug]);
 
@@ -159,11 +165,17 @@ export const BlogPage: React.FC<BlogPageProps> = ({
 
   const handleSelectArticle = (slug: string) => {
     setSelectedSlug(slug);
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', `/blog/${slug}`);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToCatalog = () => {
     setSelectedSlug(null);
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', '/blog');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

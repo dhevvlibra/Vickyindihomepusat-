@@ -1,14 +1,9 @@
 import React from 'react';
-import { Wifi, ShieldCheck, Clock, MapPin, Phone } from 'lucide-react';
+import { Wifi, ShieldCheck, Clock, MapPin, Phone, ArrowRight } from 'lucide-react';
 import { SALES_AGENT_INFO } from '../data/packages';
+import { Link } from '../router/Router';
 
-interface FooterProps {
-  onOpenRegister: () => void;
-  onOpenCalculator?: () => void;
-  onOpenBlog?: (slug?: string) => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator, onOpenBlog }) => {
+export const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-950 text-slate-400 text-xs pt-16 pb-24 sm:pb-16 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,14 +12,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator
           
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-bold">
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-bold shadow-md">
                 <Wifi className="w-5 h-5 stroke-[2.5]" />
               </div>
               <span className="text-xl font-extrabold text-white tracking-tight">
                 vicky<span className="text-red-500">indihome</span>pusat
               </span>
-            </div>
+            </Link>
 
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               Layanan pendaftaran pasang baru internet IndiHome by Telkomsel resmi dan terpercaya. Nikmati koneksi 100% serat optik berkecepatan tinggi dengan proses registrasi kilat dan bantuan pengawalan teknisi hingga tuntas.
@@ -33,117 +28,105 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator
             <div className="flex items-center gap-2 text-slate-300">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span className="font-semibold text-[11px]">
-                Mitra Resmi IndiHome by Telkomsel
+                Mitra Resmi IndiHome by Telkomsel Indonesia
               </span>
+            </div>
+
+            <div className="pt-2">
+              <Link
+                to="/daftar"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
+              >
+                <span>Daftar Pasang Baru Sekarang</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Halaman Fitur Utama */}
           <div className="space-y-3">
             <h4 className="text-white text-xs font-bold uppercase tracking-wider">
-              Kategori Paket
+              Halaman Fitur
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  1P Internet Only (75 - 300 Mbps)
-                </a>
+                <Link to="/paket" className="hover:text-white transition-colors">
+                  Katalog Paket Internet
+                </Link>
               </li>
               <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  Telkomsel One Dynamic (WiFi + HP)
-                </a>
+                <Link to="/cek-area" className="hover:text-white transition-colors">
+                  Cek Jangkauan Tiang ODP
+                </Link>
               </li>
               <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  Paket Gamer Pro (Low Latency)
-                </a>
+                <Link to="/kalkulator" className="hover:text-white transition-colors">
+                  Kalkulator Kecepatan WiFi
+                </Link>
               </li>
               <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  Paket Internet + Streaming Movie
-                </a>
+                <Link to="/promo" className="hover:text-white transition-colors">
+                  Promo Spesial & Paket 148K
+                </Link>
               </li>
               <li>
-                <a href="#katalog-paket" className="hover:text-white transition-colors">
-                  Paket EZnet 20 Mbps Promo Terbatas
-                </a>
+                <Link to="/alur-pasang" className="hover:text-white transition-colors">
+                  Syarat & Alur Pemasangan
+                </Link>
+              </li>
+              <li>
+                <Link to="/tentang-vicky" className="hover:text-white transition-colors">
+                  Profil & Kredensial Vicky
+                </Link>
+              </li>
+              <li>
+                <Link to="/testimoni" className="hover:text-white transition-colors">
+                  Testimoni Pelanggan
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="hover:text-white transition-colors">
+                  Pusat Bantuan & FAQ
+                </Link>
+              </li>
+              <li>
+                <Link to="/riwayat" className="hover:text-white transition-colors">
+                  Cek Status Pendaftaran
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Quick Info & Navigation */}
+          {/* Quick Info & Blog Guides */}
           <div className="space-y-3">
             <h4 className="text-white text-xs font-bold uppercase tracking-wider">
               Blog & Edukasi SEO
             </h4>
             <ul className="space-y-2">
               <li>
-                {onOpenBlog ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBlog('biaya-pasang-baru-indihome-2026')}
-                    className="hover:text-white transition-colors text-left cursor-pointer"
-                  >
-                    Biaya Pasang Baru 2026 (Promo 99K)
-                  </button>
-                ) : (
-                  <span className="text-slate-400">Biaya Pasang Baru 2026</span>
-                )}
+                <Link to="/blog/biaya-pasang-baru-indihome-2026" className="hover:text-white transition-colors block">
+                  Biaya Pasang Baru 2026 (Promo 99K)
+                </Link>
               </li>
               <li>
-                {onOpenBlog ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBlog('perbedaan-telkomsel-one-dan-indihome-reguler')}
-                    className="hover:text-white transition-colors text-left cursor-pointer"
-                  >
-                    Telkomsel One vs IndiHome Reguler
-                  </button>
-                ) : (
-                  <span className="text-slate-400">Telkomsel One vs IndiHome</span>
-                )}
+                <Link to="/blog/perbedaan-telkomsel-one-dan-indihome-reguler" className="hover:text-white transition-colors block">
+                  Telkomsel One vs IndiHome Reguler
+                </Link>
               </li>
               <li>
-                {onOpenBlog ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBlog('review-paket-eznet-telkomsel-148k')}
-                    className="hover:text-white transition-colors text-left cursor-pointer"
-                  >
-                    Review Paket 148K Bebas Biaya PSB
-                  </button>
-                ) : (
-                  <span className="text-slate-400">Paket Hemat 148K</span>
-                )}
+                <Link to="/blog/review-paket-eznet-telkomsel-148k" className="hover:text-white transition-colors block">
+                  Review Paket 148K Bebas Biaya PSB
+                </Link>
               </li>
               <li>
-                {onOpenBlog ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBlog('tips-mengatasi-wifi-lemot-di-rumah')}
-                    className="hover:text-white transition-colors text-left cursor-pointer"
-                  >
-                    5 Tips Mengatasi WiFi Lemot
-                  </button>
-                ) : (
-                  <span className="text-slate-400">Tips WiFi Lemot</span>
-                )}
+                <Link to="/blog/tips-mengatasi-wifi-lemot-di-rumah" className="hover:text-white transition-colors block">
+                  5 Tips Mengatasi WiFi Lemot
+                </Link>
               </li>
               <li>
-                {onOpenBlog ? (
-                  <button
-                    type="button"
-                    onClick={() => onOpenBlog()}
-                    className="text-red-400 font-bold hover:text-red-300 transition-colors text-left cursor-pointer inline-flex items-center gap-1"
-                  >
-                    Semua Artikel & Panduan →
-                  </button>
-                ) : (
-                  <a href="#blog-preview" className="text-red-400 font-bold hover:text-red-300">
-                    Semua Artikel & Panduan →
-                  </a>
-                )}
+                <Link to="/blog" className="text-red-400 font-bold hover:text-red-300 transition-colors inline-flex items-center gap-1">
+                  Semua Artikel & Panduan →
+                </Link>
               </li>
             </ul>
           </div>
@@ -166,9 +149,19 @@ export const Footer: React.FC<FooterProps> = ({ onOpenRegister, onOpenCalculator
                 <Phone className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                 <a
                   href={`tel:${SALES_AGENT_INFO.whatsappNumber}`}
-                  className="hover:text-white"
+                  className="hover:text-white font-mono"
                 >
                   {SALES_AGENT_INFO.whatsappDisplay}
+                </a>
+              </div>
+              <div className="pt-2">
+                <a
+                  href={`https://wa.me/${SALES_AGENT_INFO.whatsappNumber}?text=Halo%20Mas%20Vicky,%20saya%20ingin%20konsultasi%20pasang%20IndiHome`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-all"
+                >
+                  <span>Chat WhatsApp Mas Vicky</span>
                 </a>
               </div>
             </div>

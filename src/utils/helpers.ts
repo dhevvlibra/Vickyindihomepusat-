@@ -42,9 +42,19 @@ export function createWhatsAppRegistrationUrl(reg: Partial<CustomerRegistration>
   return `https://wa.me/${phone}?text=${encodeURIComponent(messageLines)}`;
 }
 
-export function createWhatsAppConsultUrl(topic: string = 'Konsultasi Pasang Baru', phone?: string): string {
+export function createWhatsAppConsultUrl(
+  topicOrOptions: string | { source?: string; note?: string } = 'Konsultasi Pasang Baru',
+  phone?: string
+): string {
   const targetPhone = phone || SALES_AGENT_INFO.whatsappNumber;
-  const message = `Halo Mas Vicky (Sales Resmi IndiHome Pusat).\n\nSaya ingin konsultasi mengenai: *${topic}*.\nMohon info rekomendasi paket terbaik & promo biaya pasang di area saya ya mas. Terima kasih!`;
+  let message = '';
+  if (typeof topicOrOptions === 'object' && topicOrOptions !== null) {
+    const note = topicOrOptions.note || 'Saya ingin konsultasi rekomendasi paket IndiHome terbaik.';
+    const source = topicOrOptions.source ? `\n(Sumber: ${topicOrOptions.source})` : '';
+    message = `Halo Mas Vicky (Sales Resmi IndiHome Pusat).\n\n${note}${source}\nMohon info rekomendasi paket & promo biaya pasang di area saya ya mas. Terima kasih!`;
+  } else {
+    message = `Halo Mas Vicky (Sales Resmi IndiHome Pusat).\n\nSaya ingin konsultasi mengenai: *${topicOrOptions}*.\nMohon info rekomendasi paket terbaik & promo biaya pasang di area saya ya mas. Terima kasih!`;
+  }
   return `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
 }
 

@@ -57,10 +57,20 @@ export const RegistrationPage: React.FC<RegistrationPageProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [agreeTerms, setAgreeTerms] = useState<boolean>(true);
 
-  // Sync when initialPackageId changes
+  // Sync when initialPackageId or URL query (?paket=...) changes
   useEffect(() => {
-    if (initialPackageId) {
-      setSelectedPkgId(initialPackageId);
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const pkgFromQuery = searchParams.get('paket') || searchParams.get('packageId');
+      if (pkgFromQuery && PACKAGES.some((p) => p.id === pkgFromQuery)) {
+        setSelectedPkgId(pkgFromQuery);
+      } else if (initialPackageId) {
+        setSelectedPkgId(initialPackageId);
+      }
+    } catch {
+      if (initialPackageId) {
+        setSelectedPkgId(initialPackageId);
+      }
     }
   }, [initialPackageId]);
 

@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { RouterProvider, useRouter } from './router/Router';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
-import { PromoBanner } from './components/PromoBanner';
-import { InteractivePackageShowcase } from './components/InteractivePackageShowcase';
-import { SpeedCalculatorPage } from './components/SpeedCalculatorPage';
-import { BlogPage } from './components/BlogPage';
-import { BlogPreviewSection } from './components/BlogPreviewSection';
-import { CoverageCheck } from './components/CoverageCheck';
-import { InstallationSteps } from './components/InstallationSteps';
-import { WhyChooseVicky } from './components/WhyChooseVicky';
-import { TestimonialsSection } from './components/TestimonialsSection';
-import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
-import { RegistrationPage } from './components/RegistrationPage';
-import { RegistrationReceiptModal } from './components/RegistrationReceiptModal';
-import { MyRegistrationsModal } from './components/MyRegistrationsModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { SalesPhotoModal } from './components/SalesPhotoModal';
-import { GlobalClickEffect } from './components/GlobalClickEffect';
 import { PromoHighlightModal, PromoFloatingTrigger } from './components/PromoHighlightModal';
+import { RegistrationReceiptModal } from './components/RegistrationReceiptModal';
+import { GlobalClickEffect } from './components/GlobalClickEffect';
+
+// Dedicated Full-Page Route Components
+import { HomePage } from './pages/HomePage';
+import { PackagesPage } from './pages/PackagesPage';
+import { CoveragePage } from './pages/CoveragePage';
+import { PromoPage } from './pages/PromoPage';
+import { InstallationPage } from './pages/InstallationPage';
+import { AboutSalesPage } from './pages/AboutSalesPage';
+import { TestimonialsPage } from './pages/TestimonialsPage';
+import { FaqPage } from './pages/FaqPage';
+import { HistoryPage } from './pages/HistoryPage';
+import { SpeedCalculatorPage } from './components/SpeedCalculatorPage';
+import { BlogPage } from './components/BlogPage';
+import { RegistrationPage } from './components/RegistrationPage';
+
 import { CustomerRegistration } from './types';
 import { getSavedRegistrations } from './utils/helpers';
 
-export default function App() {
-  // Navigation view: 'home' | 'register' | 'calculator' | 'blog'
-  const [currentView, setCurrentView] = useState<'home' | 'register' | 'calculator' | 'blog'>('home');
-  const [selectedPackageId, setSelectedPackageId] = useState<string | undefined>();
-  const [activeBlogSlug, setActiveBlogSlug] = useState<string | undefined>();
+function MainApp() {
+  const { pathname, params, navigate } = useRouter();
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const [activeReceipt, setActiveReceipt] = useState<CustomerRegistration | null>(null);
-  const [isMyRegsOpen, setIsMyRegsOpen] = useState(false);
   const [isSalesPhotoOpen, setIsSalesPhotoOpen] = useState(false);
   const [isPromoHighlightOpen, setIsPromoHighlightOpen] = useState(false);
   const [savedRegistrations, setSavedRegistrations] = useState<CustomerRegistration[]>([]);
@@ -37,47 +36,22 @@ export default function App() {
   useEffect(() => {
     setSavedRegistrations(getSavedRegistrations());
 
-    // Auto show 148K promo highlight modal when visitor enters the website
+    // Auto show 148K promo highlight modal when visitor first enters the site
     try {
       const isDismissed = sessionStorage.getItem('vicky_promo_148k_dismissed');
       if (!isDismissed) {
         const timer = setTimeout(() => {
           setIsPromoHighlightOpen(true);
-        }, 750);
+        }, 800);
         return () => clearTimeout(timer);
       }
     } catch {
       const timer = setTimeout(() => {
         setIsPromoHighlightOpen(true);
-      }, 750);
+      }, 800);
       return () => clearTimeout(timer);
     }
   }, []);
-
-  // When user clicks 'Pilih Paket' or 'Daftar'
-  // Navigate directly to the dedicated registration page (starts with package confirmation)
-  const handleOpenRegister = (packageId?: string) => {
-    setSelectedPackageId(packageId);
-    setCurrentView('register');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleOpenCalculator = () => {
-    setCurrentView('calculator');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleOpenBlog = (slug?: string) => {
-    setActiveBlogSlug(slug);
-    setCurrentView('blog');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackToHome = () => {
-    setActiveBlogSlug(undefined);
-    setCurrentView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const handleRegistrationSuccess = (newReg: CustomerRegistration) => {
     setActiveReceipt(newReg);
@@ -85,193 +59,145 @@ export default function App() {
     setSavedRegistrations(getSavedRegistrations());
   };
 
-  const handleClearRegistrations = () => {
-    localStorage.removeItem('vicky_indihome_registrations');
-    setSavedRegistrations([]);
-    setIsMyRegsOpen(false);
-  };
-
-  const handleSelectPackageFromHero = (_packageId: string) => {
-    if (currentView !== 'home') {
-      setCurrentView('home');
-    }
-    setTimeout(() => {
-      const el = document.getElementById('katalog-paket');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 50);
-  };
-
-  const handleNavigate = (targetId: string) => {
-    if (targetId === 'calculator' || targetId === '#kalkulator') {
-      handleOpenCalculator();
-      return;
-    }
-    if (targetId === 'blog' || targetId === '#blog') {
-      handleOpenBlog();
-      return;
-    }
-    const cleanId = targetId.replace('#', '');
-    if (currentView !== 'home') {
-      setCurrentView('home');
-      setTimeout(() => {
-        const el = document.getElementById(cleanId);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 70);
-    } else {
-      const el = document.getElementById(cleanId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
   const handleClaimPromo = (pkgId: string) => {
     setIsPromoHighlightOpen(false);
-    handleOpenRegister(pkgId);
+    navigate(`/daftar?paket=${pkgId}`);
   };
 
   const handleViewAllPackagesFromPromo = () => {
     setIsPromoHighlightOpen(false);
-    handleNavigate('#katalog-paket');
+    navigate('/paket');
+  };
+
+  // Render the appropriate dedicated page based on current route pathname
+  const renderCurrentPage = () => {
+    if (pathname === '/') {
+      return (
+        <HomePage
+          onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
+          onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
+        />
+      );
+    }
+
+    if (pathname.startsWith('/paket')) {
+      return <PackagesPage />;
+    }
+
+    if (pathname.startsWith('/cek-area')) {
+      return <CoveragePage />;
+    }
+
+    if (pathname.startsWith('/kalkulator')) {
+      return (
+        <SpeedCalculatorPage
+          onBackToHome={() => navigate('/')}
+          onOpenRegister={(pkgId) => navigate(pkgId ? `/daftar?paket=${pkgId}` : '/daftar')}
+        />
+      );
+    }
+
+    if (pathname.startsWith('/promo')) {
+      return <PromoPage />;
+    }
+
+    if (pathname.startsWith('/alur-pasang')) {
+      return <InstallationPage />;
+    }
+
+    if (pathname.startsWith('/tentang-vicky')) {
+      return <AboutSalesPage onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)} />;
+    }
+
+    if (pathname.startsWith('/testimoni')) {
+      return <TestimonialsPage />;
+    }
+
+    if (pathname.startsWith('/faq')) {
+      return <FaqPage />;
+    }
+
+    if (pathname.startsWith('/riwayat')) {
+      return (
+        <HistoryPage
+          onSelectReceipt={(reg) => {
+            setActiveReceipt(reg);
+            setIsReceiptOpen(true);
+          }}
+        />
+      );
+    }
+
+    if (pathname.startsWith('/blog')) {
+      return (
+        <BlogPage
+          initialSlug={params.slug}
+          onBackToHome={() => navigate('/')}
+          onOpenRegister={(pkgId) => navigate(pkgId ? `/daftar?paket=${pkgId}` : '/daftar')}
+        />
+      );
+    }
+
+    if (pathname.startsWith('/daftar')) {
+      return (
+        <RegistrationPage
+          onBackToHome={() => navigate('/')}
+          onSuccess={handleRegistrationSuccess}
+        />
+      );
+    }
+
+    // Default fallback to HomePage
+    return (
+      <HomePage
+        onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
+        onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
+      />
+    );
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      {/* Global Interactive Click Ripple & Spring Animation */}
+      {/* Global Interactive Click Wave Ripple */}
       <GlobalClickEffect />
 
-      {/* Top Navbar */}
+      {/* Main Top Header Navbar */}
       <Navbar
-        onOpenRegister={() => handleOpenRegister(selectedPackageId)}
-        onOpenMyRegistrations={() => setIsMyRegsOpen(true)}
+        onOpenRegister={(pkgId) => navigate(pkgId ? `/daftar?paket=${pkgId}` : '/daftar')}
+        onOpenMyRegistrations={() => navigate('/riwayat')}
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
         onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
-        onOpenCalculator={handleOpenCalculator}
-        onOpenBlog={handleOpenBlog}
-        currentView={currentView}
-        onNavigateHome={handleBackToHome}
-        onNavigate={handleNavigate}
         savedCount={savedRegistrations.length}
       />
 
-      {/* VIEW 1: DEDICATED REGISTRATION & PACKAGE VERIFICATION PAGE */}
-      {currentView === 'register' ? (
-        <main className="flex-1">
-          <RegistrationPage
-            initialPackageId={selectedPackageId}
-            onBackToHome={handleBackToHome}
-            onSuccess={handleRegistrationSuccess}
-          />
-        </main>
-      ) : currentView === 'calculator' ? (
-        /* VIEW 2: DEDICATED SPEED CALCULATOR PAGE */
-        <main className="flex-1">
-          <SpeedCalculatorPage
-            onBackToHome={handleBackToHome}
-            onOpenRegister={handleOpenRegister}
-          />
-        </main>
-      ) : currentView === 'blog' ? (
-        /* VIEW 3: DEDICATED BLOG & SEO ARTICLE READER PAGE */
-        <main className="flex-1">
-          <BlogPage
-            initialSlug={activeBlogSlug}
-            onBackToHome={handleBackToHome}
-            onOpenRegister={handleOpenRegister}
-          />
-        </main>
-      ) : (
-        /* VIEW 4: MAIN HOMEPAGE / CATALOG */
-        <main className="flex-1">
-          {/* Hero Section with 3D Parallax router background */}
-          <HeroSection
-            onSelectPackage={handleSelectPackageFromHero}
-            onOpenRegister={handleOpenRegister}
-            onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
-            onOpenCalculator={handleOpenCalculator}
-          />
+      {/* Main Content: Dedicated Page */}
+      <main className="flex-1">
+        {renderCurrentPage()}
+      </main>
 
-          {/* Promo Flash Banner */}
-          <PromoBanner 
-            onOpenRegister={() => handleOpenRegister()} 
-            onOpenPromoHighlight={() => setIsPromoHighlightOpen(true)}
-          />
+      {/* Global Footer */}
+      <Footer />
 
-          {/* Master-Detail Interactive Package Showcase */}
-          <InteractivePackageShowcase
-            onSelectPackage={(pkg) => handleOpenRegister(pkg.id)}
-            onOpenRegister={handleOpenRegister}
-          />
-
-          {/* Coverage & ODP Checker */}
-          <CoverageCheck onOpenRegister={() => handleOpenRegister()} />
-
-          {/* 4 Steps to Install & Requirements */}
-          <InstallationSteps onOpenRegister={() => handleOpenRegister()} />
-
-          {/* Why Choose Sales Vicky */}
-          <WhyChooseVicky onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)} />
-
-          {/* SEO Blog & Guides Preview Section on Homepage */}
-          <BlogPreviewSection onOpenBlog={handleOpenBlog} />
-
-          {/* Customer Testimonials */}
-          <TestimonialsSection />
-
-          {/* FAQ Section */}
-          <FaqSection />
-        </main>
-      )}
-
-      {/* Footer */}
-      <Footer 
-        onOpenRegister={() => handleOpenRegister()} 
-        onOpenCalculator={handleOpenCalculator}
-        onOpenBlog={handleOpenBlog}
-      />
-
-      {/* Floating WhatsApp Quick Contact Button */}
-      <FloatingWhatsApp 
-        onOpenRegister={() => handleOpenRegister()} 
+      {/* Floating WhatsApp Quick Action Button */}
+      <FloatingWhatsApp
+        onOpenRegister={() => navigate('/daftar')}
         onOpenSalesPhoto={() => setIsSalesPhotoOpen(true)}
       />
 
-      {/* Sales Photo Lightbox Modal */}
+      {/* Official Sales Photo & ID Lightbox Modal */}
       <SalesPhotoModal
         isOpen={isSalesPhotoOpen}
         onClose={() => setIsSalesPhotoOpen(false)}
       />
 
-      {/* Registration Success Receipt Modal */}
+      {/* Digital Registration Receipt Modal */}
       <RegistrationReceiptModal
         isOpen={isReceiptOpen}
-        onClose={() => {
-          setIsReceiptOpen(false);
-          // Return to home upon closing receipt if currently in register view
-          if (currentView === 'register') {
-            setCurrentView('home');
-          }
-        }}
+        onClose={() => setIsReceiptOpen(false)}
         registration={activeReceipt}
       />
 
-      {/* My Registrations Modal */}
-      <MyRegistrationsModal
-        isOpen={isMyRegsOpen}
-        onClose={() => setIsMyRegsOpen(false)}
-        registrations={savedRegistrations}
-        onClear={handleClearRegistrations}
-        onSelectReceipt={(reg) => {
-          setActiveReceipt(reg);
-          setIsReceiptOpen(true);
-        }}
-      />
-
-      {/* Automatic & Interactive Promo Highlight Pop-up (Paket 148K) */}
+      {/* Automatic Promo Highlight Pop-up (148K Telkomsel One) */}
       <PromoHighlightModal
         isOpen={isPromoHighlightOpen}
         onClose={() => setIsPromoHighlightOpen(false)}
@@ -279,10 +205,18 @@ export default function App() {
         onViewAllPackages={handleViewAllPackagesFromPromo}
       />
 
-      {/* Floating Promo 148K Trigger Pill on bottom-left (active when popup closed and on home view) */}
-      {!isPromoHighlightOpen && currentView === 'home' && (
+      {/* Floating Promo Trigger (active on root or when popup closed) */}
+      {!isPromoHighlightOpen && (
         <PromoFloatingTrigger onOpen={() => setIsPromoHighlightOpen(true)} />
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <RouterProvider>
+      <MainApp />
+    </RouterProvider>
   );
 }
